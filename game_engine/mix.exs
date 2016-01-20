@@ -32,6 +32,7 @@ defmodule GameEngine.Mixfile do
      {:phoenix_html, "~> 2.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:white_bread, "~> 2.2.0", only: :dev}]
   end
 end
