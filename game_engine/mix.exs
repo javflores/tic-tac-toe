@@ -9,6 +9,7 @@ defmodule GameEngine.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     aliases: aliases,
      deps: deps]
   end
 
@@ -23,6 +24,10 @@ defmodule GameEngine.Mixfile do
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
   defp elixirc_paths(_),     do: ["lib", "web"]
+
+  defp aliases do
+    [acceptance: "white_bread.run"]
+  end
 
   # Specifies your project dependencies.
   #
