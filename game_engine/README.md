@@ -1,19 +1,22 @@
-# GameEngine
+# Tic-Tac-Toe Game Engine
 
-To start your Phoenix app:
+Welcome to the Tic-Tac-Toe Game Engine
 
-  * Install dependencies with `mix deps.get`
-  * Install Node.js dependencies with `npm install`
-  * Start Phoenix endpoint with `mix phoenix.server`
+## Setup:
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+  * Install Elixir  from the [Elixir downloads page](http://elixir-lang.org/install.html)
+  * Clone this repository
+  * Navigate to the folder
+  * Run `mix deps.get` in a command line to install dependencies.
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+## To start the Game Engine:
 
-## Learn more
+  * Run `mix phoenix.server`. The engine should be accessible now in [`localhost:4000`](http://localhost:4000).
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: http://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+## To run Unit tests:
+
+  * Run `mix test`
+
+## To run Acceptance tests:
+
+  * `mix acceptance`

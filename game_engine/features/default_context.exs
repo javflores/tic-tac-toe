@@ -12,20 +12,33 @@ defmodule GameEngine.PlayGameFeature do
   @endpoint GameEngine.Endpoint
 
   given_ ~r/^I select a Computer vs Computer game$/, fn state ->
-    {:ok, state |> Dict.put(:type, "computer_computer")}
+    {:ok, state |> Dict.put(:type, GameEngine.GameType.computer_computer)}
   end
 
-  when_ ~r/^I request to initiate the game/, fn state ->
+  when_ ~r/^I request to initiate the game/, fn state ->    
     game_type = state |> Dict.get(:type)
-    response = post(conn(), "/start", [type: game_type])
+    params = Poison.encode!(%{Type: game_type})
+
+    response = conn()
+    |> content_type_json
+    |> post("/initiate", params)
+    
     {:ok, state |> Dict.put(:response, response)}
   end
 
   then_ "I get a new initiated game", fn state ->
+    game_type = state |> Dict.get(:type)
     response = state |> Dict.get(:response)
-    decode_body = json_response(response, 200)
-    game_status = decode_body["status"]
-    assert game_status == "init"
+    decoded_response = json_response(response, 200)
+
+    assert decoded_response["Status"] == "init"
+    assert decoded_response["Type"] == game_type
+    refute decoded_response["GameId"] == ""
+
     {:ok, state}
+  end
+
+  defp content_type_json(conn) do
+    put_req_header(conn(), "content-type", "application/json")
   end
 end

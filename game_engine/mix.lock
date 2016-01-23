@@ -6,6 +6,6 @@
   "phoenix_html": {:hex, :phoenix_html, "2.3.1"},
   "phoenix_live_reload": {:hex, :phoenix_live_reload, "1.0.3"},
   "plug": {:hex, :plug, "1.1.0"},
-  "poison": {:hex, :poison, "2.0.0"},
+  "poison": {:hex, :poison, "1.5.2"},
   "ranch": {:hex, :ranch, "1.2.1"},
   "white_bread": {:hex, :white_bread, "2.2.0"}}
