@@ -11,4 +11,4 @@
   "poison": {:hex, :poison, "1.5.2"},
   "ranch": {:hex, :ranch, "1.2.1"},
   "uuid": {:hex, :uuid, "1.1.2"},
-  "white_bread": {:hex, :white_bread, "2.2.0"}}
+  "white_bread": {:hex, :white_bread, "2.3.0"}}

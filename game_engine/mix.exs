@@ -26,7 +26,7 @@ defmodule GameEngine.Mixfile do
   defp elixirc_paths(_),     do: ["lib", "web"]
 
   defp aliases do
-    [acceptance: "white_bread.run"]
+    [acceptance: ["white_bread.run --context features/computers_play_game_context.exs"]]
   end
 
   # Specifies your project dependencies.
@@ -40,7 +40,7 @@ defmodule GameEngine.Mixfile do
      {:poison, "~> 1.5"},
      {:uuid, "~> 1.1" },
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:white_bread, "~> 2.2.0", only: :dev},
+     {:white_bread, "~> 2.3.0", only: :dev},
      {:mock, "~> 0.1.1", only: :test}]
   end
 end

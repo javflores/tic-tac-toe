@@ -1,11 +1,4 @@
-defmodule GameEngine.DefaultContext do
-  use WhiteBread.Context
-
-  subcontext GameEngine.PlayGameFeature
-
-end
-
-defmodule GameEngine.PlayGameFeature do
+defmodule GameEngine.Features.ComputersPlayGameContext do
   use WhiteBread.Context
   use Phoenix.ConnTest
 
@@ -63,7 +56,7 @@ defmodule GameEngine.PlayGameFeature do
     {:ok, state |> Dict.put(:response, response)}
   end
 
-  then_ ~r/^I get a new started game Computer vs Computer game$/, fn state ->
+  then_ ~r/^I get a new started game$/, fn state ->
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
 
