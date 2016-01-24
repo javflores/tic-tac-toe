@@ -17,7 +17,7 @@ defmodule GameEngine.PlayGameFeature do
 
   when_ ~r/^I request to initiate the game/, fn state ->    
     game_type = state |> Dict.get(:type)
-    params = Poison.encode!(%{Type: game_type})
+    params = Poison.encode!(%{type: game_type})
 
     response = conn()
     |> content_type_json
@@ -31,14 +31,14 @@ defmodule GameEngine.PlayGameFeature do
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
 
-    assert decoded_response["Status"] == "init"
-    assert decoded_response["Type"] == game_type
-    refute decoded_response["GameId"] == ""
+    assert decoded_response["status"] == "init"
+    assert decoded_response["type"] == game_type
+    assert decoded_response["game"] == %{"board" => %{}, "o" => nil, "x" => nil}
 
     {:ok, state}
   end
 
   defp content_type_json(conn) do
-    put_req_header(conn(), "content-type", "application/json")
+    put_req_header(conn, "content-type", "application/json")
   end
 end
