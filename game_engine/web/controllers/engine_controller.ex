@@ -16,7 +16,7 @@ defmodule GameEngine.EngineController do
 		case GameEngine.Engine.start(:engine, game_id) do
 			{:ok, game} ->
 				conn
-				|> json(format_game(:start, game_id, game))
+				|> json(handle_response(:start, game_id, game))
 
 			{:error, message} ->
 				conn
@@ -25,18 +25,18 @@ defmodule GameEngine.EngineController do
 		end
 	end
 
-	defp handle_response(status, type, setup) do
+	defp handle_response(:init, type, setup) do
 		%{game_id: setup.game_id,
-		  status: status,
+		  status: :init,
 		  type: type,
 		  board: setup.board,
 		  o: setup.o,
 		  x: setup.x}
 	end
 
-	defp format_game(status, game_id, game) do
+	defp handle_response(:start, game_id, game) do
 		%{game_id: game_id,
-		  status: status,
+		  status: :start,
 		  board: Tuple.to_list(game.board.positions),
 		  o: game.o,
 		  x: game.x}
