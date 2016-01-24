@@ -6,7 +6,7 @@ defmodule GameEngine do
 
     children = [
       supervisor(GameEngine.Endpoint, []),
-      worker(GameEngine.Engine, [[name: :engine]]),
+      worker(GameEngine.Engine, [[name: :engine]])
     ]
 
     opts = [strategy: :one_for_one, name: GameEngine.Supervisor]

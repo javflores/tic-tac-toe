@@ -15,18 +15,18 @@ defmodule GameEngine.PlayGameFeature do
     {:ok, state |> Dict.put(:type, GameEngine.GameType.computer_computer)}
   end
 
-  when_ ~r/^I request to initiate the game/, fn state ->    
+  when_ ~r/^I request to initialize the game/, fn state ->    
     game_type = state |> Dict.get(:type)
     params = Poison.encode!(%{type: game_type})
 
     response = conn()
     |> content_type_json
-    |> post("/initiate", params)
+    |> post("/initialize", params)
     
     {:ok, state |> Dict.put(:response, response)}
   end
 
-  then_ "I get a new initiated game", fn state ->
+  then_ "I get a new initialized game", fn state ->
     game_type = state |> Dict.get(:type)
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
