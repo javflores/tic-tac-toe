@@ -35,10 +35,11 @@ defmodule GameEngine.Mixfile do
   defp deps do
     [{:phoenix, "~> 1.1.3"},
      {:phoenix_html, "~> 2.3"},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:poison, "~> 1.5"},
+     {:uuid, "~> 1.1" },
+     {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:white_bread, "~> 2.2.0", only: :dev},
      {:mock, "~> 0.1.1", only: :test}]
   end
