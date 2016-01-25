@@ -50,11 +50,44 @@ defmodule GameEngine.EngineControllerTest do
 	end
 
 	test "get error upon game start when engines sends an error" do
-		with_mock GameEngine.Engine, [:passthrough], [start: fn(_engine, _game_id) -> {:error, "Invalid game_id provided"} end] do
-			response = GameEngine.EngineController.start(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d"})
+		expected_error = "Invalid game_id provided"
+		with_mock GameEngine.Engine, [:passthrough], [start: fn(_engine, _game_id) -> {:error, expected_error} end] do
+			response = GameEngine.EngineController.start(conn, %{"game_id" => "1234"})
 
 			decoded_response = json_response(response, 400)
-			assert decoded_response == "Invalid game_id provided"
+			assert decoded_response == expected_error
+		end
+	end
+
+	test "get move played by computer" do
+		expected_player = :r2d2
+		expected_position = 5
+		with_mock GameEngine.Engine, [:passthrough], [move: fn(_engine, _game_id) -> {:ok, %{move: %{player: expected_player, position: expected_position}, status: :something,  board: %GameEngine.Board{}}} end] do
+			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d"})
+
+			move = json_response(response, 200)["move"]
+			assert move["player"] == Atom.to_string(expected_player)
+			assert move["position"] == expected_position
+		end
+	end
+
+	test "game is in progress after move" do
+		expected_status = :in_progress
+		with_mock GameEngine.Engine, [:passthrough], [move: fn(_engine, _game_id) -> {:ok, %{status: expected_status, move: %{}, board: %GameEngine.Board{}}} end] do
+			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d"})
+
+			decoded_response = json_response(response, 200)
+			assert decoded_response["status"] == Atom.to_string(expected_status)
+		end
+	end
+
+	test "get board after player moves" do
+		board = {nil, nil, nil, nil, nil, :x, nil, nil, nil}
+		with_mock GameEngine.Engine, [:passthrough], [move: fn(_engine, _game_id) -> {:ok, %{board: %GameEngine.Board{positions: board}, status: :something, move: %{}}} end] do
+			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d"})
+
+			decoded_response = json_response(response, 200)
+			assert decoded_response["board"] == [nil, nil, nil, nil, nil, "x", nil, nil, nil]
 		end
 	end
 end

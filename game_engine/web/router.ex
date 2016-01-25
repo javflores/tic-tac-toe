@@ -11,6 +11,8 @@ defmodule GameEngine.Router do
     post "/initialize", EngineController, :initialize
 
     post "/start/:game_id", EngineController, :start
+
+    post "/move/:game_id", EngineController, :move
   end
   
 end

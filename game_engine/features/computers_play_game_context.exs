@@ -76,8 +76,10 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
   then_ ~r/^I get the computers move$/, fn state ->
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
+    move = decoded_response["move"]
 
-    assert String.contains?(decoded_response["move"], "Player r2d2 move:")
+    assert move[:player] == "r2d2"
+    refute move[:position] == ""
 
     {:ok, state}
   end

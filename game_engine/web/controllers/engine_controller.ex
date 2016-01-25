@@ -25,20 +25,36 @@ defmodule GameEngine.EngineController do
 		end
 	end
 
-	defp handle_response(:init, type, setup) do
-		%{game_id: setup.game_id,
-		  status: :init,
-		  type: type,
-		  board: setup.board,
-		  o: setup.o,
-		  x: setup.x}
+	def move(conn, params) do
+		game_id = params["game_id"]
+
+		{:ok, result} = GameEngine.Engine.move(:engine, game_id)
+
+		conn
+		|> json(handle_response(:move, game_id, result))
 	end
 
-	defp handle_response(:start, game_id, game) do
+	defp handle_response(:init, type, %{game_id: game_id, board: board, o: o, x: x}) do
+		%{game_id: game_id,
+		  status: :init,
+		  type: type,
+		  board: board,
+		  o: o,
+		  x: x}
+	end
+
+	defp handle_response(:start, game_id, %{board: board, o: o, x: x}) do
 		%{game_id: game_id,
 		  status: :start,
-		  board: Tuple.to_list(game.board.positions),
-		  o: game.o,
-		  x: game.x}
+		  board: Tuple.to_list(board.positions),
+		  o: o,
+		  x: x}
+	end
+
+	defp handle_response(:move, game_id, %{status: status, move: move, board: board}) do
+		%{game_id: game_id,
+		  status: status,
+		  move: move,
+		  board: Tuple.to_list(board.positions)}
 	end
 end

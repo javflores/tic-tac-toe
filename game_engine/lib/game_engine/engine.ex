@@ -13,6 +13,10 @@ defmodule GameEngine.Engine do
 		GenServer.call(server, {:start, game_id})
 	end
 
+	def move(server, game_id) do
+		GenServer.call(server, {:move, game_id})
+	end
+
 	def init([]) do
 		state = %{}
 		{:ok, state}
