@@ -41,12 +41,16 @@ defmodule GameEngine.Engine do
 			state[:game_id] != game_id -> 
 				{:reply, {:error, "Invalid game_id provided"}, state}
 
-			state[:o] != first_player && state[:x] != first_player ->
+			!first_player_part_of_game?(state, first_player) ->
 				{:reply, {:error, "Invalid first player provided, not part of the game"}, state}
 		
 			true ->
 				%{state | board: %GameEngine.Board{}, next_player: first_player}
 				{:reply, {:ok, %{board: %GameEngine.Board{}, next_player: first_player}}, state}
 		end
+	end
+
+	defp first_player_part_of_game?(state, first_player) do
+		state[:o] == first_player || state[:x] == first_player
 	end
 end
