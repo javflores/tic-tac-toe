@@ -37,12 +37,16 @@ defmodule GameEngine.Engine do
 	end
 
 	def handle_call({:start, game_id, first_player}, _from, state) do
-		if state[:game_id] != game_id do
-			{:reply, {:error, "Invalid game_id provided"}, state}
-		else
-			%{state | board: %GameEngine.Board{}, next_player: first_player}
+		cond do
+			state[:game_id] != game_id -> 
+				{:reply, {:error, "Invalid game_id provided"}, state}
 
-			{:reply, {:ok, %{board: %GameEngine.Board{}, next_player: first_player}}, state}
+			state[:o] != first_player && state[:x] != first_player ->
+				{:reply, {:error, "Invalid first player provided, not part of the game"}, state}
+		
+			true ->
+				%{state | board: %GameEngine.Board{}, next_player: first_player}
+				{:reply, {:ok, %{board: %GameEngine.Board{}, next_player: first_player}}, state}
 		end
 	end
 end

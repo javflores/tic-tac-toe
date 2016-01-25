@@ -50,4 +50,13 @@ defmodule GameEngine.EngineTest do
 
 		assert game[:next_player] == first_player
 	end
+
+	test "receive error when the provided first player is not part of the game", %{engine: engine} do
+		{:ok, new_game} = GameEngine.Engine.initialize(engine, GameEngine.GameType.computer_computer, "R2-D2", "C-3PO")
+		
+		player_not_part_of_game = "Intruder"
+		{:error, error} = GameEngine.Engine.start(engine, new_game[:game_id], player_not_part_of_game)
+
+		assert error == "Invalid first player provided, not part of the game"
+	end
 end
