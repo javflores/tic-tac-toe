@@ -3,13 +3,13 @@ Feature: Computer plays with computer
 	So that I can get some fun
 
 	Scenario: Initialize game
-		Given I select a Computer vs Computer game
+		Given I select a Computer vs Computer game providing player names
 		When I request to initialize the game
 		Then I get a new initialized game
 
 	Scenario: Start game
 		Given I have initialized a new Computer vs Computer game
-		When I choose to start the game
+		When I choose to start the game with the first player
 		Then I get a new started game
 
 	Scenario: Computer move

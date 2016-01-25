@@ -4,13 +4,19 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
 
   @endpoint GameEngine.Endpoint
 
-  given_ ~r/^I select a Computer vs Computer game$/, fn state ->
-    {:ok, state |> Dict.put(:type, GameEngine.GameType.computer_computer)}
+  given_ ~r/^I select a Computer vs Computer game providing player names$/, fn state ->
+    state 
+    |> Dict.put(:type, GameEngine.GameType.computer_computer)
+    |> Dict.put(:x, "R2-D2")
+    |> Dict.put(:o, "C-3PO")
+    {:ok, state}
   end
 
   when_ ~r/^I request to initialize the game/, fn state ->    
     game_type = state |> Dict.get(:type)
-    params = Poison.encode!(%{type: game_type})
+    o_player = state |> Dict.get(:o)
+    x_player = state |> Dict.get(:x)
+    params = Poison.encode!(%{type: game_type, o: o_player, x: x_player})
 
     response = conn()
     |> content_type_json
@@ -27,8 +33,8 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
     assert decoded_response["status"] == "init"
     assert decoded_response["type"] == game_type
     assert decoded_response["board"] == %{}
-    assert decoded_response["o"] == nil
-    assert decoded_response["x"] == nil
+    assert decoded_response["o"] == "R2-D2"
+    assert decoded_response["x"] == "C-3PO"
 
     {:ok, state}
   end
@@ -39,10 +45,10 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
     {:ok, state |> Dict.put(:game_id, game_id)}
   end
 
-  when_ ~r/^I choose to start the game$/, fn state ->
+  when_ ~r/^I choose to start the game with the first player$/, fn state ->
     game_id = state |> Dict.get(:game_id)
 
-    response = request_to_start_game(game_id)
+    response = request_to_start_game(game_id, "C-3PO")
 
     {:ok, state |> Dict.put(:response, response)}
   end
@@ -52,16 +58,15 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
     decoded_response = json_response(response, 200)
 
     assert decoded_response["status"] == "start"
-    refute decoded_response["x"] == nil
-    refute decoded_response["o"] == nil
     assert decoded_response["board"] == [nil, nil, nil, nil, nil, nil, nil, nil, nil]
+    assert decoded_response["next_player"] == "C-3PO"
 
     {:ok, state}
   end
 
   given_ ~r/^I have started a new Computer vs Computer game$/, fn state ->
     game_id = request_initialized_game
-    response = request_to_start_game(game_id)
+    response = request_to_start_game(game_id, "C-3PO")
 
     {:ok, state |> Dict.put(:game_id, game_id)}
   end
@@ -78,8 +83,9 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
     decoded_response = json_response(response, 200)
     move = decoded_response["move"]
 
-    assert move[:player] == "r2d2"
+    assert move[:player] == "C-3PO"
     refute move[:position] == ""
+    assert move[:next_player] == "R2-D2"
 
     {:ok, state}
   end
@@ -103,7 +109,7 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
   end
 
   defp request_initialized_game do
-    params = Poison.encode!(%{type: GameEngine.GameType.computer_computer})
+    params = Poison.encode!(%{type: GameEngine.GameType.computer_computer, x: "C-3PO", o: "R2-D2"})
 
     response = conn()
     |> content_type_json
@@ -113,10 +119,12 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
     decoded_response["game_id"]
   end
 
-  defp request_to_start_game(game_id) do
+  defp request_to_start_game(game_id, first_player) do
+    params = Poison.encode!(%{first_player: first_player})
+        
     conn()
     |> content_type_json
-    |> post("/start/#{game_id}")
+    |> post("/start/#{game_id}", params)
   end
 
   defp move(game_id) do

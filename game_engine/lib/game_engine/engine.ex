@@ -5,12 +5,12 @@ defmodule GameEngine.Engine do
 		GenServer.start_link(__MODULE__, [], opts)
 	end
 
-	def initialize(server, type) do
-		GenServer.call(server, {:initialize, type})
+	def initialize(server, type, o, x) do
+		GenServer.call(server, {:initialize, type, o, x})
 	end
 
-	def start(server, game_id) do
-		GenServer.call(server, {:start, game_id})
+	def start(server, game_id, first_player) do
+		GenServer.call(server, {:start, game_id, first_player})
 	end
 
 	def move(server, game_id) do
@@ -22,12 +22,12 @@ defmodule GameEngine.Engine do
 		{:ok, state}
 	end
 
-	def handle_call({:initialize, type}, _from, state) do
+	def handle_call({:initialize, type, o, x}, _from, state) do
 		game_id = GameEngine.GameIdGenerator.new
-		new_game = %{game_id: game_id, board: %{}, x: nil, o: nil}
+		new_game = %{game_id: game_id, board: %{}, o: o, x: x}
 
 		state = %{game_id: new_game[:game_id], 
-				  status: :init, 
+				  status: :init,
 				  type: type, 
 				  board: new_game[:board],
 				  x: new_game[:x], 
@@ -36,24 +36,13 @@ defmodule GameEngine.Engine do
 		{:reply, {:ok, new_game}, state}
 	end
 
-	def handle_call({:start, game_id}, _from, state) do
+	def handle_call({:start, game_id, first_player}, _from, state) do
 		if state[:game_id] != game_id do
 			{:reply, {:error, "Invalid game_id provided"}, state}
 		else
-			players = get_players(game_type_atom(state[:type]))
+			%{state | board: %GameEngine.Board{}, next_player: first_player}
 
-			%{state | board: %GameEngine.Board{}, o: players[:o], x: players[:x]}
-
-			{:reply, {:ok, %{board: %GameEngine.Board{}, o: players[:o], x: players[:x]} }, state}
+			{:reply, {:ok, %{board: %GameEngine.Board{}, next_player: first_player}}, state}
 		end
 	end
-
-	defp get_players(:computer_computer) do
-		%{o: :r2d2, x: :c3po}
-	end
-
-	defp game_type_atom(type) do
-		String.to_atom(type)
-	end
-
 end

@@ -3,8 +3,10 @@ defmodule GameEngine.EngineController do
 
 	def initialize(conn, params) do
 		type = params["type"]
+		o = params["o"]
+		x = params["x"]
 
-		{:ok, setup} = GameEngine.Engine.initialize(:engine, type)
+		{:ok, setup} = GameEngine.Engine.initialize(:engine, type, o, x)
 		
 		conn
 		|> json(handle_response(:init, type, setup))
@@ -12,8 +14,9 @@ defmodule GameEngine.EngineController do
 
 	def start(conn, params) do
 		game_id = params["game_id"]
+		first_player = params["first_player"]
 
-		case GameEngine.Engine.start(:engine, game_id) do
+		case GameEngine.Engine.start(:engine, game_id, first_player) do
 			{:ok, game} ->
 				conn
 				|> json(handle_response(:start, game_id, game))
@@ -43,18 +46,19 @@ defmodule GameEngine.EngineController do
 		  x: x}
 	end
 
-	defp handle_response(:start, game_id, %{board: board, o: o, x: x}) do
+	defp handle_response(:start, game_id, %{board: board, next_player: next_player}) do
 		%{game_id: game_id,
 		  status: :start,
 		  board: Tuple.to_list(board.positions),
-		  o: o,
-		  x: x}
+		  next_player: next_player}
 	end
 
-	defp handle_response(:move, game_id, %{status: status, move: move, board: board}) do
+	defp handle_response(:move, game_id, %{status: status, position: position, board: board, player: player, next_player: next_player}) do
 		%{game_id: game_id,
 		  status: status,
-		  move: move,
-		  board: Tuple.to_list(board.positions)}
+		  position: position,
+		  player: player,
+		  board: Tuple.to_list(board.positions),
+		  next_player: next_player}
 	end
 end
