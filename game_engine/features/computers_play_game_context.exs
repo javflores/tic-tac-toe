@@ -6,7 +6,7 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
 
   given_ ~r/^I select a Computer vs Computer game providing player names$/, fn state ->
     state 
-    |> Dict.put(:type, GameEngine.GameType.computer_computer)
+    |> Dict.put(:type, "computer_computer")
     |> Dict.put(:x, "R2-D2")
     |> Dict.put(:o, "C-3PO")
     {:ok, state}
@@ -109,7 +109,7 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
   end
 
   defp request_initialized_game do
-    params = Poison.encode!(%{type: GameEngine.GameType.computer_computer, x: "C-3PO", o: "R2-D2"})
+    params = Poison.encode!(%{type: "computer_computer", x: "C-3PO", o: "R2-D2"})
 
     response = conn()
     |> content_type_json
@@ -121,7 +121,7 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
 
   defp request_to_start_game(game_id, first_player) do
     params = Poison.encode!(%{first_player: first_player})
-        
+
     conn()
     |> content_type_json
     |> post("/start/#{game_id}", params)

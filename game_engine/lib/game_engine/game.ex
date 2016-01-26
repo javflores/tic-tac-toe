@@ -26,6 +26,10 @@ defmodule GameEngine.Game do
 		game_id = GameEngine.GameIdGenerator.new
 		new_game = %{game_id: game_id, board: %{}, o: o, x: x}
 
+		GameEngine.Player.initialize(:player_o, o, type)
+		GameEngine.Player.initialize(:player_x, x, type)
+		
+
 		state = %{game_id: new_game[:game_id], 
 				  status: :init,
 				  type: type, 

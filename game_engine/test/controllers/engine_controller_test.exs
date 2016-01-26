@@ -9,7 +9,7 @@ defmodule GameEngine.EngineControllerTest do
 	end
 
 	test "get initialized computer-versus-computer game" do
-		response = GameEngine.EngineController.initialize(conn, %{"type" => GameEngine.GameType.computer_computer, "o" => "C-3PO", "x" => "R2-D2"})
+		response = GameEngine.EngineController.initialize(conn, %{"type" => "computer_computer", "o" => "C-3PO", "x" => "R2-D2"})
 
 		decoded_response = json_response(response, 200)
 		assert decoded_response["status"] == "init"
@@ -18,9 +18,8 @@ defmodule GameEngine.EngineControllerTest do
 	end
 
 	test "get empty when game is initialized" do
-		game_type = GameEngine.GameType.computer_computer
 		with_mock GameEngine.Game, [:passthrough], [initialize: fn(_game, _type, _o, _x) -> {:ok, %{game_id: 123, board: %{}, x: "C-3PO", o: "R2-D2"}} end] do
-			response = GameEngine.EngineController.initialize(conn, %{"type" => game_type, "o" => "C-3PO", "x" => "R2-D2"})
+			response = GameEngine.EngineController.initialize(conn, %{"type" => "computer_computer", "o" => "C-3PO", "x" => "R2-D2"})
 
 			decoded_response = json_response(response, 200)
 			assert decoded_response["board"] == %{}
@@ -30,7 +29,7 @@ defmodule GameEngine.EngineControllerTest do
 	test "returns new game with id when initializing" do
 		game_id = "38c5c34f-6d33-4618-bb5f-9a9f1890ff8d"
 		with_mock GameEngine.Game, [:passthrough], [initialize: fn(_game, _type, _o, _x) -> {:ok, %{game_id: game_id, board: %{}, x: "C-3PO", o: "R2-D2"}} end] do
-			response = GameEngine.EngineController.initialize(conn, %{"type" => GameEngine.GameType.computer_computer, "o" => "C-3PO", "x" => "R2-D2"})
+			response = GameEngine.EngineController.initialize(conn, %{"type" => "computer_computer", "o" => "C-3PO", "x" => "R2-D2"})
 
 			decoded_response = json_response(response, 200)
 			assert decoded_response["game_id"] == game_id

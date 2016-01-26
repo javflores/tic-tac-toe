@@ -6,7 +6,7 @@ defmodule GameEngine.EngineController do
 		o = params["o"]
 		x = params["x"]
 
-		{:ok, setup} = GameEngine.Game.initialize(:game, type, o, x)
+		{:ok, setup} = GameEngine.Game.initialize(:game, String.to_atom(type), o, x)
 		
 		conn
 		|> json(handle_response(:init, type, setup))
