@@ -1,4 +1,4 @@
-defmodule GameEngine.Engine do
+defmodule GameEngine.Game do
 	use GenServer
 
 	def start_link(opts \\ []) do
@@ -30,7 +30,7 @@ defmodule GameEngine.Engine do
 				  status: :init,
 				  type: type, 
 				  board: new_game[:board],
-				  x: new_game[:x], 
+				  x: new_game[:x],
 				  o: new_game[:o]}
 
 		{:reply, {:ok, new_game}, state}

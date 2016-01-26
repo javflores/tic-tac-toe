@@ -6,7 +6,7 @@ defmodule GameEngine.EngineController do
 		o = params["o"]
 		x = params["x"]
 
-		{:ok, setup} = GameEngine.Engine.initialize(:engine, type, o, x)
+		{:ok, setup} = GameEngine.Game.initialize(:game, type, o, x)
 		
 		conn
 		|> json(handle_response(:init, type, setup))
@@ -16,7 +16,7 @@ defmodule GameEngine.EngineController do
 		game_id = params["game_id"]
 		first_player = params["first_player"]
 
-		case GameEngine.Engine.start(:engine, game_id, first_player) do
+		case GameEngine.Game.start(:game, game_id, first_player) do
 			{:ok, game} ->
 				conn
 				|> json(handle_response(:start, game_id, game))
@@ -31,7 +31,7 @@ defmodule GameEngine.EngineController do
 	def move(conn, params) do
 		game_id = params["game_id"]
 
-		{:ok, result} = GameEngine.Engine.move(:engine, game_id)
+		{:ok, result} = GameEngine.Game.move(:game, game_id)
 
 		conn
 		|> json(handle_response(:move, game_id, result))
