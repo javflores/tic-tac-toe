@@ -31,10 +31,14 @@ defmodule GameEngine.EngineController do
 	def move(conn, params) do
 		game_id = params["game_id"]
 
-		{:ok, result} = GameEngine.Game.move(:game, game_id)
-
-		conn
-		|> json(handle_response(:move, game_id, result))
+		case GameEngine.Game.move(:game, game_id) do
+			{:winner, result} ->
+				conn
+				|> json(handle_response(:winner, game_id, result))
+			{_, result} ->
+				conn
+				|> json(handle_response(:move, game_id, result))
+		end		
 	end
 
 	defp handle_response(:init, type, %{game_id: game_id, board: board, o: o, x: x}) do
@@ -56,6 +60,15 @@ defmodule GameEngine.EngineController do
 	defp handle_response(:move, game_id, %{status: status, board: board, player: player, next_player: next_player}) do
 		%{game_id: game_id,
 		  status: status,
+		  player: player,
+		  board: Tuple.to_list(board.positions),
+		  next_player: next_player}
+	end
+
+	defp handle_response(:winner, game_id, %{status: status, winner: winner, board: board, player: player, next_player: next_player}) do
+		%{game_id: game_id,
+		  status: status,
+		  winner: winner,
 		  player: player,
 		  board: Tuple.to_list(board.positions),
 		  next_player: next_player}

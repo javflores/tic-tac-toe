@@ -7,8 +7,8 @@ defmodule GameEngine.PlayersSupervisor do
 
   	def init(:ok) do
     	children = [
-      		worker(GameEngine.Player, [[name: :player_o]], id: :o),
-      		worker(GameEngine.Player, [[name: :player_x]], id: :x)
+      		worker(GameEngine.Player, [[name: :o]], id: :o),
+      		worker(GameEngine.Player, [[name: :x]], id: :x)
     	]
 
     	supervise(children, strategy: :one_for_one)

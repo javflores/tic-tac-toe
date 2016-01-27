@@ -25,8 +25,8 @@ defmodule GameEngine.Game do
 	def handle_call({:initialize, type, o, x}, _from, state) do
 		game_id = GameEngine.GameIdGenerator.new
 		
-		GameEngine.Player.initialize(:player_o, o, type)
-		GameEngine.Player.initialize(:player_x, x, type)
+		GameEngine.Player.initialize(:o, o, type)
+		GameEngine.Player.initialize(:x, x, type)
 		
 
 		state = %{game_id: game_id, 
@@ -57,18 +57,26 @@ defmodule GameEngine.Game do
 	end
 
 	def handle_call({:move, game_id}, _from, state) do
-		case state[:next_player] do
-			:o -> 
-				{:ok, board_after_move} = GameEngine.Player.move(:player_o, state[:board])
-				
-				{new_state, response} = process_move(:o, board_after_move, state)
-				
-				{:reply, {:ok, response}, new_state}
-			:x -> 
-				{:ok, board_after_move} = GameEngine.Player.move(:player_x, state[:board])
+		{:ok, board_after_move} = GameEngine.Player.move(state[:next_player], state[:board])
 
-				{new_state, response} = process_move(:x, board_after_move, state)
-				
+		{new_state, response} = process_move(state[:next_player], board_after_move, state)
+
+		possible_winner = GameEngine.Board.resolve_winner(board_after_move)
+		cond do
+			winner?(possible_winner) ->
+				{_, winner} = possible_winner
+				new_state = %{new_state | status: :winner}
+				response = Map.put(response, :status, :winner)
+				response = Map.put(response, :winner, get_player_name(winner, new_state[:o], new_state[:x]))
+				{:reply, {:winner, response}, new_state}
+
+			GameEngine.Board.full?(board_after_move) ->
+				new_state = %{new_state | status: :draw}
+				response = Map.put(response, :status, :draw)
+				{:reply, {:ok, response}, new_state}
+			true ->
+				new_state = %{new_state | status: :in_progress}
+				response = Map.put(response, :status, :in_progress)
 				{:reply, {:ok, response}, new_state}
 		end
 	end
@@ -92,6 +100,9 @@ defmodule GameEngine.Game do
 
 		{new_state, %{player: player, next_player: next_player, board: board_after_move}}
 	end
+
+	defp winner?({:winner, _winner}), do: true
+	defp winner?({:no_winner}), do: false
 
 	defp get_next_player(o, x, first_player) when first_player == o, do: :o
 	defp get_next_player(o, x, first_player) when first_player == x, do: :x

@@ -76,7 +76,7 @@ defmodule GameEngine.GameTest do
 
 			GameEngine.Game.move(game, game_id)
 
-			assert called GameEngine.Player.move(:player_o, %GameEngine.Board{})
+			assert called GameEngine.Player.move(:o, %GameEngine.Board{})
 		end
 	end
 
@@ -110,6 +110,57 @@ defmodule GameEngine.GameTest do
 			{:ok, move} = GameEngine.Game.move(game, game_id)
 
 			assert move[:board] == board_after_move
+		end
+	end
+
+	test "check for winner upon player moves", %{game: game} do
+		with_mock GameEngine.Board, [:passthrough], [resolve_winner: fn(_board) -> {:no_winner} end] do
+			game_id = start_new_game(game, "R2-D2", "C-3PO", "R2-D2")
+			{:ok, move} = GameEngine.Game.move(game, game_id)
+
+			assert called GameEngine.Board.resolve_winner(:_)
+		end
+	end
+
+	test "game status is winner if a player wins", %{game: game} do
+		with_mock GameEngine.Board, [:passthrough], [resolve_winner: fn(_board) -> {:winner, :o} end] do
+			game_id = start_new_game(game, "R2-D2", "C-3PO", "R2-D2")
+			{:winner, move} = GameEngine.Game.move(game, game_id)
+
+			assert move[:status] == :winner
+		end
+	end
+
+	test "we have a winner", %{game: game} do
+		with_mock GameEngine.Board, [:passthrough], [resolve_winner: fn(_board) -> {:winner, :o} end] do
+			game_id = start_new_game(game, "R2-D2", "C-3PO", "R2-D2")
+			{:winner, move} = GameEngine.Game.move(game, game_id)
+
+			assert move[:winner] == "R2-D2"
+		end
+	end
+
+	test "game is a draw if the board is full", %{game: game} do
+        with_mock GameEngine.Board, [:passthrough], 
+        	[resolve_winner: fn(_board) -> {:no_winner} end,
+        	 full?: fn(_board) -> true end] do
+
+			game_id = start_new_game(game, "R2-D2", "C-3PO", "R2-D2")
+			{:ok, move} = GameEngine.Game.move(game, game_id)
+
+			assert move[:status] == :draw
+		end
+	end
+
+	test "game is in progress if no draw nor a winner", %{game: game} do
+		with_mock GameEngine.Board, [:passthrough], 
+        	[resolve_winner: fn(_board) -> {:no_winner} end,
+        	 full?: fn(_board) -> false end] do
+
+			game_id = start_new_game(game, "R2-D2", "C-3PO", "R2-D2")
+			{:ok, move} = GameEngine.Game.move(game, game_id)
+
+			assert move[:status] == :in_progress
 		end
 	end
 

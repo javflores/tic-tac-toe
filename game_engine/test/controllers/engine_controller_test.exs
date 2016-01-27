@@ -100,4 +100,29 @@ defmodule GameEngine.EngineControllerTest do
 			assert decoded_response["next_player"] == expected_next_player
 		end
 	end
+
+	test "returns winner if there is one" do
+		winner = "R2-D2"
+		with_mock GameEngine.Game, [:passthrough], 
+			[move: fn(_game, _game_id) -> {:winner, %{status: :winner, winner: winner, next_player: "", player: "", board: %GameEngine.Board{}}} end] do
+			
+			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d"})
+
+			decoded_response = json_response(response, 200)
+			assert decoded_response["status"] == "winner"
+			assert decoded_response["winner"] == winner
+		end
+	end
+
+	test "returns draw" do
+		expected_status = :draw
+		with_mock GameEngine.Game, [:passthrough], 
+			[move: fn(_game, _game_id) -> {:ok, %{status: expected_status, player: "", next_player: "", board: %GameEngine.Board{}}} end] do
+
+			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d"})
+
+			decoded_response = json_response(response, 200)
+			assert decoded_response["status"] == Atom.to_string(expected_status)
+		end
+	end
 end
