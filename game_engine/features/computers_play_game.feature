@@ -16,5 +16,4 @@ Feature: Computer plays with computer
 		Given I have started a new Computer vs Computer game
 		When I choose to get a computer to move
 		Then I get the computers move
-		And I get the new positions in the board
 		And the game is in progress

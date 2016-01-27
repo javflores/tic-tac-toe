@@ -65,24 +65,10 @@ defmodule GameEngine.EngineControllerTest do
 		end
 	end
 
-	test "get move played by computer" do
-		expected_player = "C-3PO"
-		expected_position = 5
-		with_mock GameEngine.Game, [:passthrough], [move: fn(_game, _game_id) -> 
-			{:ok, %{player: expected_player, position: expected_position, next_player: "", board: %GameEngine.Board{}, status: ""}} end] do
-
-			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d"})
-
-			decoded_response = json_response(response, 200)
-			assert decoded_response["player"] == expected_player
-			assert decoded_response["position"] == expected_position
-		end
-	end
-
-	test "get status return by game" do
+	test "get status returned by game" do
 		expected_status = :in_progress
-		with_mock GameEngine.Game, [:passthrough], [move: fn(_game, _game_id) -> 
-			{:ok, %{status: expected_status, player: "", next_player: "", board: %GameEngine.Board{}, position: 1}} end] do
+		with_mock GameEngine.Game, [:passthrough], 
+			[move: fn(_game, _game_id) -> {:ok, %{status: expected_status, player: "", next_player: "", board: %GameEngine.Board{}}} end] do
 
 			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d"})
 
@@ -93,8 +79,8 @@ defmodule GameEngine.EngineControllerTest do
 
 	test "get board after player moves" do
 		board = {nil, nil, nil, nil, nil, :x, nil, nil, nil}
-		with_mock GameEngine.Game, [:passthrough], [move: fn(_game, _game_id) -> 
-			{:ok, %{board: %GameEngine.Board{positions: board}, status: "", position: 1, player: "", next_player: ""}} end] do
+		with_mock GameEngine.Game, [:passthrough], 
+			[move: fn(_game, _game_id) -> {:ok, %{board: %GameEngine.Board{positions: board}, status: "", player: "", next_player: ""}} end] do
 			
 			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d"})
 
@@ -105,8 +91,8 @@ defmodule GameEngine.EngineControllerTest do
 
 	test "get next player after player moves" do
 		expected_next_player = "R2-D2"
-		with_mock GameEngine.Game, [:passthrough], [move: fn(_game, _game_id) -> 
-			{:ok, %{next_player: expected_next_player, player: "", board: %GameEngine.Board{}, status: "", position: 1}} end] do
+		with_mock GameEngine.Game, [:passthrough], 
+			[move: fn(_game, _game_id) -> {:ok, %{next_player: expected_next_player, player: "", board: %GameEngine.Board{}, status: ""}} end] do
 			
 			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d"})
 

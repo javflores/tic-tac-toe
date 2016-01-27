@@ -81,19 +81,9 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
   then_ ~r/^I get the computers move$/, fn state ->
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
-    move = decoded_response["move"]
 
-    assert move[:player] == "C-3PO"
-    refute move[:position] == ""
-    assert move[:next_player] == "R2-D2"
-
-    {:ok, state}
-  end
-
-  then_ ~r/^I get the new positions in the board$/, fn state ->
-    response = state |> Dict.get(:response)
-    decoded_response = json_response(response, 200)
-    
+    assert decoded_response["player"] == "C-3PO"
+    assert decoded_response["next_player"] == "R2-D2"
     refute decoded_response["board"] == [nil, nil, nil, nil, nil, nil, nil, nil, nil]
 
     {:ok, state}

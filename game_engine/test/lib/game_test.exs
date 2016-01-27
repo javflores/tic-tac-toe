@@ -35,11 +35,11 @@ defmodule GameEngine.GameTest do
 	end
 
 	test "pass on information to player when initializing", %{game: game} do
-		with_mock GameEngine.Player, [initialize: fn(_player, _name, _game_type) -> {:nope} end] do
+		with_mock GameEngine.Player, [initialize: fn(_player, _name, _game_type) -> {:ok} end] do
 			GameEngine.Game.initialize(game, :computer_computer, "R2-D2", "C-3PO")
 
-			assert called GameEngine.Player.initialize(:player_o, "R2-D2", :computer_computer)
-			assert called GameEngine.Player.initialize(:player_x, "C-3PO", :computer_computer)
+			assert called GameEngine.Player.initialize(:_, "R2-D2", :computer_computer)
+			assert called GameEngine.Player.initialize(:_, "C-3PO", :computer_computer)
 		end
 	end
 
@@ -57,7 +57,7 @@ defmodule GameEngine.GameTest do
 		first_player = "R2-D2"
 		{:ok, game} = GameEngine.Game.start(game, new_game[:game_id], first_player)
 
-		assert game[:next_player] == first_player
+		assert game[:next_player] == :o
 	end
 
 	test "receive error when the provided first player is not part of the game", %{game: game} do
@@ -67,5 +67,56 @@ defmodule GameEngine.GameTest do
 		{:error, error} = GameEngine.Game.start(game, new_game[:game_id], player_not_part_of_game)
 
 		assert error == "Invalid first player provided, not part of the game"
+	end
+
+	test "next player is told to perform a move with positions in the board", %{game: game} do
+		with_mock GameEngine.Player, [:passthrough], [move: fn(_player, _board) -> {:ok, %GameEngine.Board{}} end] do
+			next_player = "R2-D2"
+			game_id = start_new_game(game, "R2-D2", "C-3PO", next_player)
+
+			GameEngine.Game.move(game, game_id)
+
+			assert called GameEngine.Player.move(:player_o, %GameEngine.Board{})
+		end
+	end
+
+	test "game returns which player moved", %{game: game} do
+		with_mock GameEngine.Player, [:passthrough], [move: fn(_player, _board) -> {:ok, %GameEngine.Board{}} end] do
+			first_player_to_move = "R2-D2"
+			game_id = start_new_game(game, "R2-D2", "C-3PO", first_player_to_move)
+
+			{:ok, move} = GameEngine.Game.move(game, game_id)
+
+			assert move[:player] == first_player_to_move
+		end
+	end
+
+	test "game returns which player is next", %{game: game} do
+		with_mock GameEngine.Player, [:passthrough], [move: fn(_player, _board) -> {:ok, %GameEngine.Board{}} end] do
+			next_player_to_move = "C-3PO"
+			game_id = start_new_game(game, "R2-D2", next_player_to_move, "R2-D2")
+
+			{:ok, move} = GameEngine.Game.move(game, game_id)
+
+			assert move[:next_player] == next_player_to_move
+		end
+	end
+
+	test "game returns the board after player moves", %{game: game} do
+		board_after_move = %GameEngine.Board{positions: {:o, nil, nil, nil, nil, nil, nil, nil, nil}}		
+		with_mock GameEngine.Player, [:passthrough], [move: fn(_player, _board) -> {:ok, board_after_move} end] do
+			game_id = start_new_game(game, "R2-D2", "C-3PO", "R2-D2")
+
+			{:ok, move} = GameEngine.Game.move(game, game_id)
+
+			assert move[:board] == board_after_move
+		end
+	end
+
+	defp start_new_game(game, o, x, first_player) do
+		{:ok, new_game} = GameEngine.Game.initialize(game, :computer_computer, o, x)
+		GameEngine.Game.start(game, new_game[:game_id], first_player)
+
+		new_game[:game_id]
 	end
 end

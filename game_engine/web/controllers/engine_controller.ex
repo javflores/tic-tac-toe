@@ -53,10 +53,9 @@ defmodule GameEngine.EngineController do
 		  next_player: next_player}
 	end
 
-	defp handle_response(:move, game_id, %{status: status, position: position, board: board, player: player, next_player: next_player}) do
+	defp handle_response(:move, game_id, %{status: status, board: board, player: player, next_player: next_player}) do
 		%{game_id: game_id,
 		  status: status,
-		  position: position,
 		  player: player,
 		  board: Tuple.to_list(board.positions),
 		  next_player: next_player}
