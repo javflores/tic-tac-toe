@@ -102,10 +102,28 @@ defmodule GameEngine.BoardTest do
 	end
 
 	test "returns no winner" do
-		back_diagonal_win = {nil, nil, nil,
-						     nil, nil, nil,
-						     nil, nil, nil}
+		no_win = {nil, nil, nil,
+				  nil, nil, nil,
+				  nil, nil, nil}
 
-		assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: back_diagonal_win}) == {:no_winner}
+		assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: no_win}) == {:no_winner}
+	end
+
+	test "board is full" do
+		full_board = {:o, :o, :x,
+					  :x, :x, :o,
+					  :o, :x, :x}
+
+		is_full = GameEngine.Board.full?(%GameEngine.Board{positions: full_board})
+		assert is_full == true
+	end
+
+	test "board has spare positions" do
+		board_with_spare_positions = {:o, :o, :x,
+					  				  :x, nil, :o,
+					  				  :o, :x, :x}
+
+		is_full = GameEngine.Board.full?(%GameEngine.Board{positions: board_with_spare_positions})
+		assert is_full == false
 	end
 end

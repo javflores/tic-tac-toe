@@ -42,8 +42,11 @@ defmodule GameEngine.Board do
 		{:no_winner}
 	end
 
-	def full?(board) do
-		false
+	def full?(%GameEngine.Board{positions: positions}) do
+		Tuple.to_list(positions)
+		|> Enum.all?(fn(position) -> position_occupied?(position) end)
 	end
+
+	defp position_occupied?(position), do: position != nil
 	
 end
