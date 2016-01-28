@@ -57,7 +57,7 @@ defmodule GameEngine.GameTest do
 		first_player = "R2-D2"
 		{:ok, game} = GameEngine.Game.start(game, new_game[:game_id], first_player)
 
-		assert game[:next_player] == :o
+		assert game[:next_player] == first_player
 	end
 
 	test "receive error when the provided first player is not part of the game", %{game: game} do

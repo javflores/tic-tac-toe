@@ -52,7 +52,8 @@ defmodule GameEngine.Game do
 
 				state = %{state | board: %GameEngine.Board{}, status: :start}
 				state =  Map.put(state, :next_player, next_player)
-				{:reply, {:ok, %{board: %GameEngine.Board{}, next_player: next_player}}, state}
+				
+				{:reply, {:ok, %{board: %GameEngine.Board{}, next_player: first_player}}, state}
 		end
 	end
 

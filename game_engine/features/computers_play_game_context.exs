@@ -5,10 +5,10 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
   @endpoint GameEngine.Endpoint
 
   given_ ~r/^I select a Computer vs Computer game providing player names$/, fn state ->
-    state 
+    state = state
     |> Dict.put(:type, "computer_computer")
-    |> Dict.put(:x, "R2-D2")
-    |> Dict.put(:o, "C-3PO")
+    |> Dict.put(:o, "R2-D2")
+    |> Dict.put(:x, "C-3PO")
     {:ok, state}
   end
 
@@ -16,6 +16,7 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
     game_type = state |> Dict.get(:type)
     o_player = state |> Dict.get(:o)
     x_player = state |> Dict.get(:x)
+
     params = Poison.encode!(%{type: game_type, o: o_player, x: x_player})
 
     response = conn()
@@ -56,6 +57,8 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
   then_ ~r/^I get a new started game$/, fn state ->
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
+
+    IO.inspect decoded_response
 
     assert decoded_response["status"] == "start"
     assert decoded_response["board"] == [nil, nil, nil, nil, nil, nil, nil, nil, nil]
