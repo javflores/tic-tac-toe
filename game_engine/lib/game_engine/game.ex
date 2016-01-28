@@ -25,8 +25,8 @@ defmodule GameEngine.Game do
 	def handle_call({:initialize, type, o, x}, _from, state) do
 		game_id = GameEngine.GameIdGenerator.new
 		
-		GameEngine.Player.initialize(:o, o, type)
-		GameEngine.Player.initialize(:x, x, type)
+		GameEngine.Player.initialize(:o, o, :o, type)
+		GameEngine.Player.initialize(:x, x, :x, type)
 		
 
 		state = %{game_id: game_id, 

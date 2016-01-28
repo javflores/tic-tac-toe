@@ -106,7 +106,9 @@ defmodule GameEngine.BoardTest do
 				  nil, nil, nil,
 				  nil, nil, nil}
 
-		assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: no_win}) == {:no_winner}
+		winner = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: no_win})
+
+		assert winner == {:no_winner}
 	end
 
 	test "board is full" do
@@ -115,6 +117,7 @@ defmodule GameEngine.BoardTest do
 					  :o, :x, :x}
 
 		is_full = GameEngine.Board.full?(%GameEngine.Board{positions: full_board})
+
 		assert is_full == true
 	end
 
@@ -124,6 +127,24 @@ defmodule GameEngine.BoardTest do
 					  				  :o, :x, :x}
 
 		is_full = GameEngine.Board.full?(%GameEngine.Board{positions: board_with_spare_positions})
+
 		assert is_full == false
+	end
+
+	test "get a mark by given position" do
+		positions = {:o, nil, nil,
+					 nil, nil, nil,
+					 nil, nil, nil}
+
+		mark = GameEngine.Board.get_by_position(%GameEngine.Board{positions: positions}, %{row: 0, column: 0})
+
+		assert mark == :o
+	end
+
+	test "put a mark in given position" do
+		position = %{row: 0, column: 0}
+		board = GameEngine.Board.put_mark(%GameEngine.Board{}, position, :o)
+
+		assert GameEngine.Board.get_by_position(board, position) == :o
 	end
 end

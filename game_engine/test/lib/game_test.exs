@@ -35,11 +35,11 @@ defmodule GameEngine.GameTest do
 	end
 
 	test "pass on information to player when initializing", %{game: game} do
-		with_mock GameEngine.Player, [initialize: fn(_player, _name, _game_type) -> {:ok} end] do
+		with_mock GameEngine.Player, [initialize: fn(_player, _name, _mark, _game_type) -> {:ok} end] do
 			GameEngine.Game.initialize(game, :computer_computer, "R2-D2", "C-3PO")
 
-			assert called GameEngine.Player.initialize(:_, "R2-D2", :computer_computer)
-			assert called GameEngine.Player.initialize(:_, "C-3PO", :computer_computer)
+			assert called GameEngine.Player.initialize(:_, "R2-D2", :o, :computer_computer)
+			assert called GameEngine.Player.initialize(:_, "C-3PO", :x, :computer_computer)
 		end
 	end
 

@@ -43,10 +43,26 @@ defmodule GameEngine.Board do
 	end
 
 	def full?(%GameEngine.Board{positions: positions}) do
-		Tuple.to_list(positions)
+		positions
+		|> Tuple.to_list
 		|> Enum.all?(fn(position) -> position_occupied?(position) end)
 	end
 
+	def get_by_position(%GameEngine.Board{positions: positions}, %{row: row, column: column}) do
+		positions
+		|> Tuple.to_list
+		|> Enum.at(get_index(row, column))
+	end
+
+	def put_mark(%GameEngine.Board{positions: positions}, %{row: row, column: column}, mark) do
+		new_positions = positions
+		|> put_elem(get_index(row, column), mark)
+
+		%GameEngine.Board{positions: new_positions}
+	end
+
 	defp position_occupied?(position), do: position != nil
+
+	defp get_index(row, column), do: row * 3 + column
 	
 end
