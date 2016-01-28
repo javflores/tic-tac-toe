@@ -13,4 +13,16 @@ defmodule GameEngine.SimpleStrategyTest do
 			assert called GameEngine.Board.available_positions(board)
 		end
 	end
+
+	test "provides available positions to random generator" do
+		with_mock GameEngine.RandomPositions, [get: fn(_free_positions) -> %{row: 0, column: 1} end] do
+			board_with_two_available_positions = {nil, :x, :o,
+					 						  	  :x, :o, :o,
+					                              :x, :o, nil}
+
+			GameEngine.SimpleStrategy.calculate_move(%GameEngine.Board{positions: board_with_two_available_positions})
+			
+			assert called GameEngine.RandomPositions.get([%{row: 0, column: 0}, %{row: 2, column: 2}])
+		end
+	end
 end
