@@ -147,4 +147,24 @@ defmodule GameEngine.BoardTest do
 
 		assert GameEngine.Board.get_by_position(board, position) == :o
 	end
+
+	test "find two available positions in the board" do
+		board_with_two_available_positions = {nil, nil, :o,
+					 						  :x, :o, :o,
+					                          :x, :o, :x}
+
+		available_positions = GameEngine.Board.available_positions(%GameEngine.Board{positions: board_with_two_available_positions})
+
+		assert available_positions == [%{row: 0, column: 0}, %{row: 0, column: 1}]
+	end
+
+	test "find four available positions in the board" do
+		board_with_four_available_positions = {nil, nil, :o,
+					 						  :x, :o, nil,
+					                          nil, :o, :x}
+
+		available_positions = GameEngine.Board.available_positions(%GameEngine.Board{positions: board_with_four_available_positions})
+
+		assert available_positions == [%{row: 0, column: 0}, %{row: 0, column: 1}, %{row: 1, column: 2}, %{row: 2, column: 0}]
+	end
 end

@@ -61,8 +61,24 @@ defmodule GameEngine.Board do
 		%GameEngine.Board{positions: new_positions}
 	end
 
-	defp position_occupied?(position), do: position != nil
+	def available_positions(%GameEngine.Board{positions: positions}) do
+		for position <- decompound_positions(positions),
+		{mark, index} = position,
+		!position_occupied?(mark) do
+			row_column(index)
+		end
+	end
+
+	defp position_occupied?(mark), do: mark != nil
 
 	defp get_index(row, column), do: row * 3 + column
+
+	defp decompound_positions(positions) do
+		positions |> Tuple.to_list |> Enum.with_index
+	end
+
+	defp row_column(index) do
+		%{row: div(index, 3), column: rem(index, 3)}
+	end
 	
 end
