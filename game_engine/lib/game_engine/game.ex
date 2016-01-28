@@ -5,8 +5,8 @@ defmodule GameEngine.Game do
 		GenServer.start_link(__MODULE__, [], opts)
 	end
 
-	def initialize(server, type, o, x) do
-		GenServer.call(server, {:initialize, type, o, x})
+	def initialize(server, players) do
+		GenServer.call(server, {:initialize, players})
 	end
 
 	def start(server, game_id, first_player) do
@@ -22,19 +22,21 @@ defmodule GameEngine.Game do
 		{:ok, state}
 	end
 
-	def handle_call({:initialize, type, o, x}, _from, state) do
+	def handle_call({:initialize, %{o: %{name: o_name, type: o_type}, x: %{name: x_name, type: x_type}}}, _from, state) do
 		game_id = GameEngine.GameIdGenerator.new
+
+		type_of_game = get_type_of_game(o_type, x_type)
 		
-		GameEngine.Player.initialize(:o, o, :o, type)
-		GameEngine.Player.initialize(:x, x, :x, type)
+		GameEngine.Player.initialize(:o, o_name, :o, type_of_game)
+		GameEngine.Player.initialize(:x, x_name, :x, type_of_game)
 		
 
 		state = %{game_id: game_id, 
 				  status: :init,
-				  type: type, 
+				  type: type_of_game, 
 				  board: %{},
-				  o: o,
-				  x: x}
+				  o: o_name,
+				  x: x_name}
 
 		{:reply, {:ok, state}, state}
 	end
@@ -81,6 +83,8 @@ defmodule GameEngine.Game do
 				{:reply, {:ok, response}, new_state}
 		end
 	end
+
+	defp get_type_of_game(:computer, :computer),  do: :computer_computer
 
 	defp first_player_part_of_game?(state, first_player) do
 		state[:o] == first_player || state[:x] == first_player

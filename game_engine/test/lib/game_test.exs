@@ -9,7 +9,7 @@ defmodule GameEngine.GameTest do
 	end
 
 	test "returns a new game when initializing", %{game: game} do
-		{:ok, new_game} = GameEngine.Game.initialize(game, :computer_computer, "R2-D2", "C-3PO")
+		{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
 
 		assert new_game[:board] == %{}
 		assert new_game[:o] == "R2-D2"
@@ -19,14 +19,20 @@ defmodule GameEngine.GameTest do
 	test "new initialized game contains an id", %{game: game} do
 		game_id = "38c5c34f-6d33-4618-bb5f-9a9f1890ff8d"
 		with_mock GameEngine.GameIdGenerator, [new: fn() -> game_id end] do
-			{:ok, new_game} = GameEngine.Game.initialize(game, :computer_computer, "R2-D2", "C-3PO")
+			{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
 
 			assert new_game[:game_id] == game_id
 		end
 	end
 
+	test "returns computer_computer type of game if two players are computers", %{game: game} do
+		{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
+
+		assert new_game[:type] == :computer_computer
+	end
+
 	test "receive error if game to start is not the initialized game", %{game: game} do
-		GameEngine.Game.initialize(game, :computer_computer, "R2-D2", "C-3PO")
+		GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
 		different_game_id = 12;
 
 		{:error, error} = GameEngine.Game.start(game, different_game_id, "R2-D2")
@@ -36,7 +42,7 @@ defmodule GameEngine.GameTest do
 
 	test "pass on information to player when initializing", %{game: game} do
 		with_mock GameEngine.Player, [initialize: fn(_player, _name, _mark, _game_type) -> {:ok} end] do
-			GameEngine.Game.initialize(game, :computer_computer, "R2-D2", "C-3PO")
+			GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
 
 			assert called GameEngine.Player.initialize(:_, "R2-D2", :o, :computer_computer)
 			assert called GameEngine.Player.initialize(:_, "C-3PO", :x, :computer_computer)
@@ -44,7 +50,7 @@ defmodule GameEngine.GameTest do
 	end
 
 	test "get an empty board when starting game", %{game: game} do
-		{:ok, new_game} = GameEngine.Game.initialize(game, :computer_computer, "R2-D2", "C-3PO")
+		{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
 		
 		{:ok, game} = GameEngine.Game.start(game, new_game[:game_id], "R2-D2")
 
@@ -52,7 +58,7 @@ defmodule GameEngine.GameTest do
 	end
 
 	test "assign first player when game starts", %{game: game} do
-		{:ok, new_game} = GameEngine.Game.initialize(game, :computer_computer, "R2-D2", "C-3PO")
+		{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
 		
 		first_player = "R2-D2"
 		{:ok, game} = GameEngine.Game.start(game, new_game[:game_id], first_player)
@@ -61,7 +67,7 @@ defmodule GameEngine.GameTest do
 	end
 
 	test "receive error when the provided first player is not part of the game", %{game: game} do
-		{:ok, new_game} = GameEngine.Game.initialize(game, :computer_computer, "R2-D2", "C-3PO")
+		{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
 		
 		player_not_part_of_game = "Intruder"
 		{:error, error} = GameEngine.Game.start(game, new_game[:game_id], player_not_part_of_game)
@@ -165,7 +171,7 @@ defmodule GameEngine.GameTest do
 	end
 
 	defp start_new_game(game, o, x, first_player) do
-		{:ok, new_game} = GameEngine.Game.initialize(game, :computer_computer, o, x)
+		{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: o, type: :computer}, x: %{name: x, type: :computer}})
 		GameEngine.Game.start(game, new_game[:game_id], first_player)
 
 		new_game[:game_id]

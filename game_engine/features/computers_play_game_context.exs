@@ -4,20 +4,22 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
 
   @endpoint GameEngine.Endpoint
 
-  given_ ~r/^I select a Computer vs Computer game providing player names$/, fn state ->
+  given_ ~r/^I select two computer players$/, fn state ->
     state = state
-    |> Dict.put(:type, "computer_computer")
-    |> Dict.put(:o, "R2-D2")
-    |> Dict.put(:x, "C-3PO")
+    |> Dict.put(:o_type, "computer")
+    |> Dict.put(:o_name, "R2-D2")
+    |> Dict.put(:x_name, "C-3PO")
+    |> Dict.put(:x_type, "computer")
     {:ok, state}
   end
 
   when_ ~r/^I request to initialize the game/, fn state ->    
-    game_type = state |> Dict.get(:type)
-    o_player = state |> Dict.get(:o)
-    x_player = state |> Dict.get(:x)
+    o_name = state |> Dict.get(:o_name)
+    o_type = state |> Dict.get(:o_type)
+    x_name = state |> Dict.get(:x_name)
+    x_type = state |> Dict.get(:x_type)
 
-    params = Poison.encode!(%{type: game_type, o: o_player, x: x_player})
+    params = Poison.encode!(%{o_name: o_name, o_type: o_type, x_name: x_name, x_type: x_type})
 
     response = conn()
     |> content_type_json
@@ -27,12 +29,11 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
   end
 
   then_ "I get a new initialized game", fn state ->
-    game_type = state |> Dict.get(:type)
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
 
     assert decoded_response["status"] == "init"
-    assert decoded_response["type"] == game_type
+    assert decoded_response["type"] == "computer_computer"
     assert decoded_response["board"] == %{}
     assert decoded_response["o"] == "R2-D2"
     assert decoded_response["x"] == "C-3PO"
@@ -57,8 +58,6 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
   then_ ~r/^I get a new started game$/, fn state ->
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
-
-    IO.inspect decoded_response
 
     assert decoded_response["status"] == "start"
     assert decoded_response["board"] == [nil, nil, nil, nil, nil, nil, nil, nil, nil]
@@ -102,7 +101,7 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
   end
 
   defp request_initialized_game do
-    params = Poison.encode!(%{type: "computer_computer", x: "C-3PO", o: "R2-D2"})
+    params = Poison.encode!(%{o_type: "computer", o_name: "R2-D2", x_name: "C-3PO", x_type: "computer"})
 
     response = conn()
     |> content_type_json

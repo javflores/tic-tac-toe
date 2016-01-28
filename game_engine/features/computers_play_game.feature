@@ -3,7 +3,7 @@ Feature: Computer plays with computer
 	So that I can get some fun
 
 	Scenario: Initialize game
-		Given I select a Computer vs Computer game providing player names
+		Given I select two computer players
 		When I request to initialize the game
 		Then I get a new initialized game
 

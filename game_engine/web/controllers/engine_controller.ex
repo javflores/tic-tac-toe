@@ -2,14 +2,10 @@ defmodule GameEngine.EngineController do
 	use GameEngine.Web, :controller
 
 	def initialize(conn, params) do
-		type = params["type"]
-		o = params["o"]
-		x = params["x"]
-
-		{:ok, setup} = GameEngine.Game.initialize(:game, String.to_atom(type), o, x)
+		{:ok, setup} = GameEngine.Game.initialize(:game, get_players(params))
 		
 		conn
-		|> json(handle_response(:init, type, setup))
+		|> json(handle_response(:init, setup))
 	end
 
 	def start(conn, params) do
@@ -38,10 +34,10 @@ defmodule GameEngine.EngineController do
 			{_, result} ->
 				conn
 				|> json(handle_response(:move, game_id, result))
-		end		
+		end
 	end
 
-	defp handle_response(:init, type, %{game_id: game_id, board: board, o: o, x: x}) do
+	defp handle_response(:init, %{game_id: game_id, board: board, o: o, x: x, type: type}) do
 		%{game_id: game_id,
 		  status: :init,
 		  type: type,
@@ -72,5 +68,14 @@ defmodule GameEngine.EngineController do
 		  player: player,
 		  board: Tuple.to_list(board.positions),
 		  next_player: next_player}
+	end
+
+	defp get_players(params) do
+		o_name = params["o_name"]
+		o_type = params["o_type"]
+		x_name = params["x_name"]
+		x_type = params["x_type"]
+		
+		%{o: %{name: o_name, type: String.to_atom(o_type)}, x: %{name: x_name, type: String.to_atom(x_type)}}
 	end
 end
