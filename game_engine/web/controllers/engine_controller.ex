@@ -24,10 +24,8 @@ defmodule GameEngine.EngineController do
 		end
 	end
 
-	def move(conn, params) do
-		game_id = params["game_id"]
-
-		case GameEngine.Game.move(:game, game_id) do
+	def move(conn, %{"game_id" => game_id, "move" => move}) do
+		case GameEngine.Game.move(:game, game_id, String.to_integer(move)) do
 			{:winner, result} ->
 				conn
 				|> json(handle_response(:winner, game_id, result))
@@ -36,6 +34,17 @@ defmodule GameEngine.EngineController do
 				|> json(handle_response(:move, game_id, result))
 		end
 	end
+
+	def move(conn, %{"game_id" => game_id}) do
+		case GameEngine.Game.move(:game, game_id) do
+			{:winner, result} ->
+				conn
+				|> json(handle_response(:winner, game_id, result))
+			{_, result} ->
+				conn
+				|> json(handle_response(:move, game_id, result))
+		end
+	end	
 
 	defp handle_response(:init, %{game_id: game_id, board: board, o: o, x: x, type: type}) do
 		%{game_id: game_id,

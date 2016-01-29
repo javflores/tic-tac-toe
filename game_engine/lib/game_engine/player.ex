@@ -13,6 +13,10 @@ defmodule GameEngine.Player do
 		GenServer.call(server, {:move, board})
 	end
 
+	def move(server, board, move) do
+		GenServer.call(server, {:move, board, move})
+	end
+
 	def init([]) do
 		state = %{}
 		{:ok, state}
@@ -43,6 +47,14 @@ defmodule GameEngine.Player do
 		position = play(strategy, board)
 
 		board = GameEngine.Board.put_mark(board, position, mark)
+
+		{:reply, {:ok, board}, state}
+	end
+
+	def handle_call({:move, board, move}, _from, state) do
+		mark = state[:mark]
+
+		board = GameEngine.Board.put_mark(board, move, mark)
 
 		{:reply, {:ok, board}, state}
 	end

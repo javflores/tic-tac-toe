@@ -3,11 +3,6 @@ defmodule GameEngine.EngineControllerTest do
 	use Phoenix.ConnTest
 	import Mock
 
-	setup do
-		{:ok, engine} = GameEngine.Game.start_link
-		{:ok, engine: engine}
-	end
-
 	test "get initialized computer-versus-computer game" do
 		response = GameEngine.EngineController.initialize(conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer"})
 
@@ -37,7 +32,7 @@ defmodule GameEngine.EngineControllerTest do
 		end
 	end
 
-	test "get started game based" do
+	test "get started game" do
 		with_mock GameEngine.Game, [:passthrough], [start: fn(_game, _game_id, _first_player) -> {:ok, %{board: %GameEngine.Board{}, next_player: "C-3PO"}} end] do
 			response = GameEngine.EngineController.start(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d", "first_player" => "C-3PO"})
 
@@ -66,7 +61,7 @@ defmodule GameEngine.EngineControllerTest do
 		end
 	end
 
-	test "get status returned by game" do
+	test "get status returned by game upon player moves" do
 		expected_status = :in_progress
 		with_mock GameEngine.Game, [:passthrough], 
 			[move: fn(_game, _game_id) -> {:ok, %{status: expected_status, player: "", next_player: "", board: %GameEngine.Board{}}} end] do
@@ -124,6 +119,19 @@ defmodule GameEngine.EngineControllerTest do
 
 			decoded_response = json_response(response, 200)
 			assert decoded_response["status"] == Atom.to_string(expected_status)
+		end
+	end
+
+	test "human player moves" do
+		with_mock GameEngine.Game, [:passthrough], 
+			[move: fn(_game, _game_id, _move) -> 
+				{:ok, %{board: %GameEngine.Board{positions: {nil, nil, nil, nil, nil, :x, nil, nil, nil}}, status: "", player: "", next_player: ""}} end] do
+			
+			human_move = 5
+			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d", "move" => "5"})
+
+			decoded_response = json_response(response, 200)
+			assert decoded_response["board"] == [nil, nil, nil, nil, nil, "x", nil, nil, nil]
 		end
 	end
 end

@@ -55,4 +55,12 @@ defmodule GameEngine.PlayerTest do
 			assert GameEngine.Board.get_by_position(board, %{row: 1, column: 2}) == :o
 		end
 	end
+
+	test "human player places received move in the board", %{player: player} do
+		GameEngine.Player.initialize(player, "Juanito", :human, :o, :human_computer)
+
+		{:ok, board} = GameEngine.Player.move(player, %GameEngine.Board{}, %{row: 0, column: 0})
+
+		assert GameEngine.Board.get_by_position(board, %{row: 0, column: 0}) == :o
+	end
 end

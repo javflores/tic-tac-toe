@@ -178,10 +178,25 @@ defmodule GameEngine.GameTest do
 		end
 	end
 
-	defp start_new_game(game, o, x, first_player) do
-		{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: o, type: :computer}, x: %{name: x, type: :computer}})
+	test "passing human move to player", %{game: game} do
+		with_mock GameEngine.Player, [:passthrough], [move: fn(_player, _board, _move) -> {:ok, %GameEngine.Board{}} end] do
+			game_id = start_new_game(game, "Johny", :human, "C-3PO", :computer, "Johny")
+
+			first_position_move = 0
+			{:ok, move} = GameEngine.Game.move(game, game_id, first_position_move)
+
+			assert called GameEngine.Player.move(:o, %GameEngine.Board{}, first_position_move)
+		end
+	end
+
+	defp start_new_game(game, o, o_type, x, x_type, first_player) do
+		{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: o, type: o_type}, x: %{name: x, type: x_type}})
 		GameEngine.Game.start(game, new_game[:game_id], first_player)
 
 		new_game[:game_id]
+	end
+
+	defp start_new_game(game, o, x, first_player) do
+		start_new_game(game, o, :computer, x, :computer, first_player)
 	end
 end

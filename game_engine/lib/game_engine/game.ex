@@ -17,6 +17,10 @@ defmodule GameEngine.Game do
 		GenServer.call(server, {:move, game_id})
 	end
 
+	def move(server, game_id, move) do
+		GenServer.call(server, {:move, game_id, move})
+	end
+
 	def init([]) do
 		state = %{}
 		{:ok, state}
@@ -62,6 +66,24 @@ defmodule GameEngine.Game do
 	def handle_call({:move, game_id}, _from, state) do
 		{:ok, board_after_move} = GameEngine.Player.move(state[:next_player], state[:board])
 
+		handle_move(state, board_after_move)
+	end
+
+	def handle_call({:move, game_id, move}, _from, state) do
+		{:ok, board_after_move} = GameEngine.Player.move(state[:next_player], state[:board], move)
+
+		handle_move(state, board_after_move)
+	end
+
+	defp get_type_of_game(:computer, :computer),  do: :computer_computer
+
+	defp get_type_of_game(:human, :computer),  do: :human_computer
+
+	defp first_player_part_of_game?(state, first_player) do
+		state[:o] == first_player || state[:x] == first_player
+	end
+
+	defp handle_move(state, board_after_move) do
 		{new_state, response} = process_move(state[:next_player], board_after_move, state)
 
 		possible_winner = GameEngine.Board.resolve_winner(board_after_move)
@@ -82,14 +104,6 @@ defmodule GameEngine.Game do
 				response = Map.put(response, :status, :in_progress)
 				{:reply, {:ok, response}, new_state}
 		end
-	end
-
-	defp get_type_of_game(:computer, :computer),  do: :computer_computer
-
-	defp get_type_of_game(:human, :computer),  do: :human_computer
-
-	defp first_player_part_of_game?(state, first_player) do
-		state[:o] == first_player || state[:x] == first_player
 	end
 
 	defp process_move(:o, board_after_move, current_state) do
