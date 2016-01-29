@@ -69,6 +69,38 @@ defmodule GameEngine.Board do
 		end
 	end
 
+	def get_rows(%GameEngine.Board{positions: positions}) do
+		positions
+		|> Tuple.to_list
+		|> Enum.chunk(3)
+	end
+
+	def get_columns(%GameEngine.Board{positions: positions}) do
+		{first_column, tail} = group_first_column(positions)
+
+		{second_column, third_column} = group_second_third(tail)
+
+		chunk_columns(first_column, second_column, third_column)
+	end
+
+	defp group_first_column(positions) do
+		positions
+		|> Tuple.to_list
+		|> Enum.with_index
+		|> Enum.partition(fn({mark, index}) -> rem(index, 3) == 0 end)
+	end
+
+	defp group_second_third(second_third) do
+		second_third
+		|> Enum.partition(fn({mark, index}) -> rem(index, 3) == 1 end)
+	end
+
+	defp chunk_columns(first_column, second_column, third_column) do
+		first_column ++ second_column ++ third_column
+		|> Enum.map(fn({mark, index}) -> mark end)
+		|> Enum.chunk(3)
+	end
+
 	defp position_occupied?(mark), do: mark != nil
 
 	defp get_index(row, column), do: row * 3 + column

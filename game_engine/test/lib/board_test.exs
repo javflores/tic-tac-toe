@@ -167,4 +167,24 @@ defmodule GameEngine.BoardTest do
 
 		assert available_positions == [%{row: 0, column: 0}, %{row: 0, column: 1}, %{row: 1, column: 2}, %{row: 2, column: 0}]
 	end
+
+	test "group rows" do
+		positions = {nil, nil, nil,
+					 :x, :x, :x,
+					 :o, :o, :o}
+
+		grouped_rows = GameEngine.Board.get_rows(%GameEngine.Board{positions: positions})
+
+		assert grouped_rows == [[nil, nil, nil], [:x, :x, :x], [:o, :o, :o]]
+	end
+
+	test "group columns" do
+		positions = {nil, :x, :o,
+					 nil, :x, :o,
+					 nil, :x, :o}
+
+		grouped_columns = GameEngine.Board.get_columns(%GameEngine.Board{positions: positions})
+
+		assert grouped_columns == [[nil, nil, nil], [:x, :x, :x], [:o, :o, :o]]
+	end
 end

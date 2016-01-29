@@ -1,10 +1,10 @@
 defmodule GameEngine.KickAssStrategy do
 	def calculate_move(%GameEngine.Board{positions: positions}, player) do
 		cond do
-			horizontal_win = horizontal_win(chunk_rows(positions), player) -> 
+			horizontal_win = horizontal_win(GameEngine.Board.get_rows(%GameEngine.Board{positions: positions}), player) -> 
 				horizontal_win
 
-			vertical_win = vertical_win(chunk_columns(positions), player) -> 
+			vertical_win = vertical_win(GameEngine.Board.get_columns(%GameEngine.Board{positions: positions}), player) -> 
 				vertical_win
 
 			diagonal_win = diagonal_win(positions, player) ->
@@ -68,25 +68,5 @@ defmodule GameEngine.KickAssStrategy do
 
 	defp diagonal_win({_, _, mark, 
 					  _, mark, _, 
-					  nil, _, _}, player) when player == mark, do: %{row: 2, column: 0}
-	
-	defp chunk_rows(positions) do
-		positions
-		|> Tuple.to_list
-		|> Enum.chunk(3)
-	end
-
-	defp chunk_columns(positions) do
-		{first_column, rest} = positions
-		|> Tuple.to_list
-		|> Enum.with_index
-		|> Enum.partition(fn({mark, index}) -> rem(index, 3) == 0 end)
-
-		{second_column, third_column} = rest
-		|> Enum.partition(fn({mark, index}) -> rem(index, 3) == 1 end)
-
-		first_column ++ second_column ++ third_column
-		|> Enum.map(fn({mark, index}) -> mark end)
-		|> Enum.chunk(3)
-	end
+					  nil, _, _}, player) when player == mark, do: %{row: 2, column: 0}	
 end
