@@ -12,7 +12,7 @@ Feature: Computer plays with computer
 		When I choose to start the game with the first player
 		Then I get a new started game
 
-	Scenario: Computer move
+	Scenario: Computer moves
 		Given I have started a new Computer vs Computer game
 		When I choose to get a computer to move
 		Then I get the computers move

@@ -5,8 +5,8 @@ defmodule GameEngine.Player do
 		GenServer.start_link(__MODULE__, [], opts)
 	end
 
-	def initialize(server, name, mark, game_type) do
-		GenServer.call(server, {:initialize, name, mark, game_type})
+	def initialize(server, name, type, mark, game_type) do
+		GenServer.call(server, {:initialize, name, type, mark, game_type})
 	end
 
 	def move(server, board) do
@@ -18,8 +18,20 @@ defmodule GameEngine.Player do
 		{:ok, state}
 	end
 
-	def handle_call({:initialize, name, mark, :computer_computer}, _from, state) do
-		state = %{name: name, mark: mark, strategy: :simple}
+	def handle_call({:initialize, name, type, mark, :computer_computer}, _from, state) do
+		state = %{name: name, type: type, mark: mark, strategy: :simple}
+
+		{:reply, {:ok, state}, state}
+	end
+
+	def handle_call({:initialize, name, :computer, mark, :human_computer}, _from, state) do
+		state = %{name: name, type: :computer, mark: mark, strategy: :kickass}
+
+		{:reply, {:ok, state}, state}
+	end
+
+	def handle_call({:initialize, name, :human, mark, _game_type}, _from, state) do
+		state = %{name: name, type: :human, mark: mark, strategy: :human}
 
 		{:reply, {:ok, state}, state}
 	end

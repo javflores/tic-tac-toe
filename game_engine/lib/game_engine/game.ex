@@ -27,8 +27,8 @@ defmodule GameEngine.Game do
 
 		type_of_game = get_type_of_game(o_type, x_type)
 		
-		GameEngine.Player.initialize(:o, o_name, :o, type_of_game)
-		GameEngine.Player.initialize(:x, x_name, :x, type_of_game)
+		GameEngine.Player.initialize(:o, o_name, o_type, :o, type_of_game)
+		GameEngine.Player.initialize(:x, x_name, x_type, :x, type_of_game)
 		
 
 		state = %{game_id: game_id, 
@@ -85,6 +85,8 @@ defmodule GameEngine.Game do
 	end
 
 	defp get_type_of_game(:computer, :computer),  do: :computer_computer
+
+	defp get_type_of_game(:human, :computer),  do: :human_computer
 
 	defp first_player_part_of_game?(state, first_player) do
 		state[:o] == first_player || state[:x] == first_player

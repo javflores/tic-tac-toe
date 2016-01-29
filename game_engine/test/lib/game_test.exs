@@ -31,6 +31,14 @@ defmodule GameEngine.GameTest do
 		assert new_game[:type] == :computer_computer
 	end
 
+	test "game can be human versus computer", %{game: game} do
+		with_mock GameEngine.Player, [initialize: fn(_player, _name, _type, _mark, _game_type) -> {:ok} end] do
+			{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: "Johny", type: :human}, x: %{name: "C-3PO", type: :computer}})
+
+			assert new_game[:type] == :human_computer
+		end
+	end
+
 	test "receive error if game to start is not the initialized game", %{game: game} do
 		GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
 		different_game_id = 12;
@@ -41,11 +49,11 @@ defmodule GameEngine.GameTest do
 	end
 
 	test "pass on information to player when initializing", %{game: game} do
-		with_mock GameEngine.Player, [initialize: fn(_player, _name, _mark, _game_type) -> {:ok} end] do
+		with_mock GameEngine.Player, [initialize: fn(_player, _name, _type, _mark, _game_type) -> {:ok} end] do
 			GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
 
-			assert called GameEngine.Player.initialize(:_, "R2-D2", :o, :computer_computer)
-			assert called GameEngine.Player.initialize(:_, "C-3PO", :x, :computer_computer)
+			assert called GameEngine.Player.initialize(:_, "R2-D2", :computer, :o, :computer_computer)
+			assert called GameEngine.Player.initialize(:_, "C-3PO", :computer, :x,:computer_computer)
 		end
 	end
 
