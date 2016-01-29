@@ -24,8 +24,9 @@ defmodule GameEngine.EngineController do
 		end
 	end
 
-	def move(conn, %{"game_id" => game_id, "move" => move}) do
-		case GameEngine.Game.move(:game, game_id, String.to_integer(move)) do
+	def move(conn, %{"game_id" => game_id, "move" => %{"row" => row, "column" => column}}) do
+		move = %{row: String.to_integer(row), column: String.to_integer(column)}
+		case GameEngine.Game.move(:game, game_id, move) do
 			{:winner, result} ->
 				conn
 				|> json(handle_response(:winner, game_id, result))

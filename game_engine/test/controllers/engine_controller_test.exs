@@ -128,10 +128,10 @@ defmodule GameEngine.EngineControllerTest do
 				{:ok, %{board: %GameEngine.Board{positions: {nil, nil, nil, nil, nil, :x, nil, nil, nil}}, status: "", player: "", next_player: ""}} end] do
 			
 			human_move = 5
-			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d", "move" => "5"})
+			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d", "move" => %{"column" => "1", "row" => "0"}})
 
-			decoded_response = json_response(response, 200)
-			assert decoded_response["board"] == [nil, nil, nil, nil, nil, "x", nil, nil, nil]
+			human_move = %{row: 0, column: 1}
+			assert called GameEngine.Game.move(:_, :_, human_move)
 		end
 	end
 end

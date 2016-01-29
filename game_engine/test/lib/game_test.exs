@@ -39,6 +39,14 @@ defmodule GameEngine.GameTest do
 		end
 	end
 
+	test "providing computer and human player makes a human versus computer game", %{game: game} do
+		with_mock GameEngine.Player, [initialize: fn(_player, _name, _type, _mark, _game_type) -> {:ok} end] do
+			{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: "C-3PO", type: :computer}, x: %{name: "Johny", type: :human}})
+
+			assert new_game[:type] == :human_computer
+		end
+	end
+
 	test "receive error if game to start is not the initialized game", %{game: game} do
 		GameEngine.Game.initialize(game, %{o: %{name: "R2-D2", type: :computer}, x: %{name: "C-3PO", type: :computer}})
 		different_game_id = 12;
@@ -182,10 +190,10 @@ defmodule GameEngine.GameTest do
 		with_mock GameEngine.Player, [:passthrough], [move: fn(_player, _board, _move) -> {:ok, %GameEngine.Board{}} end] do
 			game_id = start_new_game(game, "Johny", :human, "C-3PO", :computer, "Johny")
 
-			first_position_move = 0
-			{:ok, move} = GameEngine.Game.move(game, game_id, first_position_move)
+			human_move = %{row: 0, column: 0}
+			{:ok, move} = GameEngine.Game.move(game, game_id, human_move)
 
-			assert called GameEngine.Player.move(:o, %GameEngine.Board{}, first_position_move)
+			assert called GameEngine.Player.move(:o, %GameEngine.Board{}, human_move)
 		end
 	end
 

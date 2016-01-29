@@ -11,7 +11,7 @@ defmodule GameEngine.Features.HumanVersusComputerGameContext do
 
     when_ ~r/^I provide the human player's move$/, fn state ->
         game_id = state |> Dict.get(:game_id)
-        params = Poison.encode!(%{move: 1})
+        params = Poison.encode!(%{move: %{row: 0, column: 0}})
 
         response = conn()        
         |> content_type_json
