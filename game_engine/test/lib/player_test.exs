@@ -46,7 +46,7 @@ defmodule GameEngine.PlayerTest do
 
 	test "computer player plays simple against another computer", %{player: player} do
 		simple_move = %{row: 1, column: 2}
-		with_mock GameEngine.SimpleStrategy, [calculate_move: fn(_board) -> played_position end] do
+		with_mock GameEngine.SimpleStrategy, [calculate_move: fn(_board) -> simple_move end] do
 
 			GameEngine.Player.initialize(player, "R2-D2", :computer, :o, :computer_computer)
 
@@ -66,7 +66,7 @@ defmodule GameEngine.PlayerTest do
 
 	test "computer plays a kickass move against a human", %{player: player} do
 		kickass_move = %{row: 1, column: 1}
-		with_mock GameEngine.KickAssStrategy, [calculate_move: fn(_board) -> kickass_move end] do
+		with_mock GameEngine.KickAssStrategy, [calculate_move: fn(_board, _player) -> kickass_move end] do
 
 			GameEngine.Player.initialize(player, "R2-D2", :computer, :o, :human_computer)
 
