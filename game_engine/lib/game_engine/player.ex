@@ -60,4 +60,6 @@ defmodule GameEngine.Player do
 	end
 
 	defp play(:simple, board), do: GameEngine.SimpleStrategy.calculate_move(board)
+
+	defp play(:kickass, board), do: GameEngine.KickAssStrategy.calculate_move(board)
 end
