@@ -1,12 +1,14 @@
 defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 	use ExUnit.Case
 
+	alias GameEngine.PlayStrategies.KickAssStrategy, as: KickAssStrategy
+
 	test "winning horizontally horizontally taking first row and last column" do
 		first_row_win = {:o, :o, nil,
 						 nil, nil, nil,
 						 :x, :x, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_row_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_row_win}, :o)
 			
 		assert move == %{row: 0, column: 2}
 	end
@@ -16,7 +18,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 nil, nil, nil,
 						 :x, :x, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_row_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_row_win}, :o)
 			
 		assert move == %{row: 0, column: 1}
 	end
@@ -26,7 +28,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 nil, :x, nil,
 						 :x, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_row_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_row_win}, :o)
 			
 		assert move == %{row: 0, column: 0}
 	end
@@ -36,7 +38,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 :o, :o, nil,
 						 nil, :x, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_row_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_row_win}, :o)
 			
 		assert move == %{row: 1, column: 2}
 	end
@@ -46,7 +48,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 :o, nil, :o,
 						 nil, :x, :x}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_row_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_row_win}, :o)
 			
 		assert move == %{row: 1, column: 1}
 	end
@@ -56,7 +58,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						  nil, :o, :o,						 
 						 nil, :x, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_row_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_row_win}, :o)
 			
 		assert move == %{row: 1, column: 0}
 	end
@@ -66,7 +68,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 nil, :x, nil,
 						 :o, :o, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_row_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_row_win}, :o)
 			
 		assert move == %{row: 2, column: 2}
 	end
@@ -76,7 +78,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 nil, :x, :x,
 						 :o, nil, :o}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_row_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_row_win}, :o)
 			
 		assert move == %{row: 2, column: 1}
 	end
@@ -86,7 +88,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 nil, nil, nil,
 						 nil, :o, :o}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_row_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_row_win}, :o)
 			
 		assert move == %{row: 2, column: 0}
 	end
@@ -97,7 +99,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 	:o, nil, nil,
 						 	:o, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_column_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_column_win}, :o)
 			
 		assert move == %{row: 0, column: 0}
 	end
@@ -107,7 +109,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 	nil, nil, nil,
 						    :o, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_column_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_column_win}, :o)
 			
 		assert move == %{row: 1, column: 0}
 	end
@@ -117,7 +119,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						    :o, nil, nil,
 						    nil, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_column_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: first_column_win}, :o)
 			
 		assert move == %{row: 2, column: 0}
 	end
@@ -127,7 +129,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 	 nil, :o, nil,
 						     nil, :o, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_column_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_column_win}, :o)
 			
 		assert move == %{row: 0, column: 1}
 	end
@@ -137,7 +139,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						     nil, nil, :o,
 						     nil, :o, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_column_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_column_win}, :o)
 			
 		assert move == %{row: 1, column: 1}
 	end
@@ -147,7 +149,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						     nil, :o, nil,						 
 						     nil, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_column_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: second_column_win}, :o)
 			
 		assert move == %{row: 2, column: 1}
 	end
@@ -157,7 +159,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 	nil, nil, :o,
 						 	nil, nil, :o}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_column_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_column_win}, :o)
 			
 		assert move == %{row: 0, column: 2}
 	end
@@ -167,7 +169,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 	nil, nil, nil,
 						  	nil, nil, :o}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_column_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_column_win}, :o)
 			
 		assert move == %{row: 1, column: 2}
 	end
@@ -177,7 +179,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						 	nil, nil, :o,
 						 	nil, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_column_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: third_column_win}, :o)
 			
 		assert move == %{row: 2, column: 2}
 	end
@@ -187,7 +189,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						nil, :o, nil,
 						:x, nil, :o}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
 			
 		assert move == %{row: 0, column: 0}
 	end
@@ -197,7 +199,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						nil, nil, nil,
 						:x, nil, :o}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
 			
 		assert move == %{row: 1, column: 1}
 	end
@@ -207,7 +209,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						nil, :o, nil,
 						:x, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
 			
 		assert move == %{row: 2, column: 2}
 	end
@@ -217,7 +219,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						nil, :o, nil,
 						:o, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
 			
 		assert move == %{row: 0, column: 2}
 	end
@@ -227,7 +229,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						nil, nil, nil,
 						:o, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
 			
 		assert move == %{row: 1, column: 1}
 	end
@@ -237,7 +239,7 @@ defmodule GameEngine.KickAssStrategyWinnerMovesTest do
 						nil, :o, nil,
 						nil, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_win}, :o)
 			
 		assert move == %{row: 2, column: 0}
 	end

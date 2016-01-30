@@ -1,9 +1,10 @@
 defmodule GameEngine.KickAssStrategyBlockingMovesTest do
 	use ExUnit.Case
+	alias GameEngine.PlayStrategies.KickAssStrategy, as: KickAssStrategy
 
 	test "o is able to identify that x is the opponent" do
 		player = :o
-		oponent = GameEngine.KickAssStrategy.spot_opponent(player)
+		oponent = KickAssStrategy.spot_opponent(player)
 
 		expected_opponent = :x
 		assert oponent == expected_opponent
@@ -11,7 +12,7 @@ defmodule GameEngine.KickAssStrategyBlockingMovesTest do
 
 	test "x is able to identify that o is the opponent" do
 		player = :x
-		oponent = GameEngine.KickAssStrategy.spot_opponent(player)
+		oponent = KickAssStrategy.spot_opponent(player)
 
 		expected_opponent = :o
 		assert oponent == expected_opponent
@@ -22,7 +23,7 @@ defmodule GameEngine.KickAssStrategyBlockingMovesTest do
 							   nil, :o, nil,
 						       nil, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: horizontal_blocking}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: horizontal_blocking}, :o)
 			
 		assert move == %{row: 0, column: 1}
 	end
@@ -32,7 +33,7 @@ defmodule GameEngine.KickAssStrategyBlockingMovesTest do
 							 nil, nil, nil,
 						     nil, :x, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: vertical_blocking}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: vertical_blocking}, :o)
 			
 		assert move == %{row: 1, column: 1}
 	end
@@ -42,7 +43,7 @@ defmodule GameEngine.KickAssStrategyBlockingMovesTest do
 							 nil, nil, nil,
 						     :x, nil, nil}
 
-		move = GameEngine.KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_blocking}, :o)
+		move = KickAssStrategy.calculate_move(%GameEngine.Board{positions: diagonal_blocking}, :o)
 			
 		assert move == %{row: 1, column: 1}
 	end

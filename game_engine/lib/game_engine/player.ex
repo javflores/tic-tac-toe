@@ -59,7 +59,7 @@ defmodule GameEngine.Player do
 		{:reply, {:ok, board}, state}
 	end
 
-	defp play(:simple, board, _mark), do: GameEngine.SimpleStrategy.calculate_move(board)
+	defp play(:simple, board, _mark), do: GameEngine.PlayStrategies.SimpleStrategy.calculate_move(board)
 
-	defp play(:kickass, board, mark), do: GameEngine.KickAssStrategy.calculate_move(board, mark)
+	defp play(:kickass, board, mark), do: GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, mark)
 end
