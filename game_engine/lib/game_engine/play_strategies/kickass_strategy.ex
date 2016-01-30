@@ -10,10 +10,13 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 
 			block = GameEngine.PlayStrategies.KickAssWinMoves.win(board, oponent) ->
 				block
+
+			fork = GameEngine.PlayStrategies.KickAssForkMoves.fork(board, player) ->
+				fork
 		end
 	end
 
 	def spot_opponent(:o), do: :x
 	def spot_opponent(:x), do: :o
-	
+
 end
