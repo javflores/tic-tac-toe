@@ -1,16 +1,32 @@
 defmodule GameEngine.KickAssStrategy do
 	def calculate_move(%GameEngine.Board{positions: positions}, player) do
+		rows = GameEngine.Board.get_rows(%GameEngine.Board{positions: positions})
+		columns = GameEngine.Board.get_columns(%GameEngine.Board{positions: positions})
+		oponent = spot_opponent(player)
+
 		cond do
-			horizontal_win = horizontal_win(GameEngine.Board.get_rows(%GameEngine.Board{positions: positions}), player) -> 
+			horizontal_win = horizontal_win(rows, player) -> 
 				horizontal_win
 
-			vertical_win = vertical_win(GameEngine.Board.get_columns(%GameEngine.Board{positions: positions}), player) -> 
+			vertical_win = vertical_win(columns, player) -> 
 				vertical_win
 
 			diagonal_win = diagonal_win(positions, player) ->
 				diagonal_win
+
+			horizontal_block = horizontal_win(rows, oponent) ->
+				horizontal_block
+
+			vertical_block = vertical_win(columns, oponent) ->
+				vertical_block
+
+			diagonal_block = diagonal_win(positions, oponent) ->
+				diagonal_block
 		end
 	end
+
+	def spot_opponent(:o), do: :x
+	def spot_opponent(:x), do: :o
 
 	defp horizontal_win([], player), do: nil
 
@@ -68,5 +84,9 @@ defmodule GameEngine.KickAssStrategy do
 
 	defp diagonal_win({_, _, mark, 
 					  _, mark, _, 
-					  nil, _, _}, player) when player == mark, do: %{row: 2, column: 0}	
+					  nil, _, _}, player) when player == mark, do: %{row: 2, column: 0}
+
+	defp diagonal_win({_, _, _, 
+					  _, _, _, 
+					  _, _, _}, player), do: nil
 end
