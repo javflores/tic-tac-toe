@@ -83,6 +83,26 @@ defmodule GameEngine.Board do
 		chunk_columns(first_column, second_column, third_column)
 	end
 
+	def get_columns(%GameEngine.Board{positions: positions}) do
+		{first_column, tail} = group_first_column(positions)
+
+		{second_column, third_column} = group_second_third(tail)
+
+		chunk_columns(first_column, second_column, third_column)
+	end
+
+	def get_diagonals(%GameEngine.Board{positions: {c1, _, c2,
+													_, c3, _,
+													c4, _, c5}}), do: [[c1, c3, c5], [c2, c3, c4]]
+
+	def find_triples(%GameEngine.Board{positions: positions}) do
+		rows = GameEngine.Board.get_rows(%GameEngine.Board{positions: positions})
+		columns = GameEngine.Board.get_columns(%GameEngine.Board{positions: positions})
+		diagonals = GameEngine.Board.get_diagonals(%GameEngine.Board{positions: positions})
+		
+		%{rows: rows, columns: columns, diagonals: diagonals}
+	end
+
 	defp group_first_column(positions) do
 		positions
 		|> Tuple.to_list

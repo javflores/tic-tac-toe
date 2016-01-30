@@ -187,4 +187,47 @@ defmodule GameEngine.BoardTest do
 
 		assert grouped_columns == [[nil, nil, nil], [:x, :x, :x], [:o, :o, :o]]
 	end
+
+	test "group diagonals" do
+		positions = {nil, :x, :o,
+					 nil, :x, :o,
+					 nil, :x, :o}
+
+		grouped_diagonals = GameEngine.Board.get_diagonals(%GameEngine.Board{positions: positions})
+
+		assert grouped_diagonals == [[nil, :x, :o], [:o, :x, nil]]
+	end
+
+	test "find triples containing all groups of rows" do
+		positions = {:x, :x, :x,
+					 nil, nil, nil,
+					 :o, :o, :o}
+
+		triples = GameEngine.Board.find_triples(%GameEngine.Board{positions: positions})
+
+		expected_rows = [[:x, :x, :x], [nil, nil, nil], [:o, :o, :o]]			
+		assert triples[:rows] == expected_rows
+	end
+
+	test "find triples containing all groups of columns" do
+		positions = {:x, :x, :x,
+					 nil, nil, nil,
+					 :o, :o, :o}
+
+		triples = GameEngine.Board.find_triples(%GameEngine.Board{positions: positions})
+
+		expected_columns = [[:x, nil, :o], [:x, nil, :o], [:x, nil, :o]]			
+		assert triples[:columns] == expected_columns
+	end
+
+	test "find triples containing all groups of diagonals" do
+		positions = {:x, nil, :o,
+					 nil, :x, nil,
+					 :o, nil, :x}
+
+		triples = GameEngine.Board.find_triples(%GameEngine.Board{positions: positions})
+
+		expected_diagonals = [[:x, :x, :x], [:o, :x, :o]]			
+		assert triples[:diagonals] == expected_diagonals
+	end
 end
