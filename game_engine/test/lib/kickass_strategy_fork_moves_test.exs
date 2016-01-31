@@ -1,40 +1,6 @@
 defmodule GameEngine.KickAssStrategyForkMovesTest do
 	use ExUnit.Case
-	alias GameEngine.PlayStrategies.KickAssForkMoves, as: KickAssForkMoves
-
-	test "find if triple has two empty spaces where player has one mark in first position" do
-		assert KickAssForkMoves.two_empty_spaces?({[:o, nil, nil], 1}, :o) == true
-	end
-
-	test "find if triple has two empty spaces where player has one mark in middle position" do
-		assert KickAssForkMoves.two_empty_spaces?({[nil, :o, nil], 1}, :o) == true
-	end
-
-	test "find if triple has two empty spaces where player has one mark in last position" do
-		assert KickAssForkMoves.two_empty_spaces?({[nil, nil, :o], 1}, :o) == true
-	end
-
-	test "triple without empty spaces" do
-		assert KickAssForkMoves.two_empty_spaces?({[:o, nil, :x], 1}, :o) == false
-	end
-
-	test "get triples with two empty spaces and one mark by player" do
-		row = [[:o, nil, nil], [nil, nil, :o], [:o, nil, :x]]
-		triples_found = KickAssForkMoves.two_empty_spaces(row, :o)
-
-		assert triples_found == [{[:o, nil, nil], 0}, {[nil, nil, :o], 1}]
-	end
-
-	test "find triples with two empty spaces in whole board as preparation to find a fork" do
-		positions = {:x, :o, :x,
-					 nil, nil, nil,
-					 nil, nil, :o}
-
-		two_empty_spaces_triples = KickAssForkMoves.two_empty_spaces_triples_in_board(%GameEngine.Board{positions: positions}, :x)
-
-		expected_triples = %{rows: [], columns: [{[:x, nil, nil], 0}], diagonals: [{[:x, nil, nil], 1}]}			
-		assert two_empty_spaces_triples == expected_triples
-	end
+	alias GameEngine.PlayStrategies.KickAssForkMoves, as: KickAssForkMoves	
 
 	test "find coordinates of empty spaces in a row with last position taken by player" do
 		empty_spaces = KickAssForkMoves.empty_spaces_in_rows({[nil, nil, :o], 1})

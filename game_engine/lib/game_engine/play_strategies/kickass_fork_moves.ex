@@ -1,26 +1,10 @@
 defmodule GameEngine.PlayStrategies.KickAssForkMoves do
 	def fork(board, player) do
 		board 
-		|> two_empty_spaces_triples_in_board(player)
+		|> GameEngine.Board.two_empty_spaces_triples_in_board(player)
 		|> duplicated_empty_spaces
 		|> List.first
-	end
-
-	def two_empty_spaces_triples_in_board(%GameEngine.Board{positions: positions}, player) do
-		%{rows: rows, columns: columns, diagonals: diagonals} = GameEngine.Board.find_triples(%GameEngine.Board{positions: positions})
-		%{rows: two_empty_spaces(rows, player), columns: two_empty_spaces(columns, player), diagonals: two_empty_spaces(diagonals, player)}
-	end
-
-	def two_empty_spaces(triples, player) do
-		triples
-		|> Enum.with_index
-		|> Enum.filter(&two_empty_spaces?(&1, player))
-	end
-
-	def two_empty_spaces?({[mark, nil, nil], _}, player), do: mark == player
-	def two_empty_spaces?({[nil, mark, nil], _}, player), do: mark == player
-	def two_empty_spaces?({[nil, nil, mark], _}, player), do: mark == player
-	def two_empty_spaces?({[_, _, _], _}, _), do: false
+	end	
 
 	defp duplicated_empty_spaces(%{rows: rows, columns: columns, diagonals: diagonals}) do
 		all_empty_spaces = empty_spaces_in_rows(rows) ++ empty_spaces_in_columns(columns) ++ empty_spaces_in_diagonals(diagonals)

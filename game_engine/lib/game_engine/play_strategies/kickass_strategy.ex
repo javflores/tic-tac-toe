@@ -13,6 +13,12 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 
 			fork = GameEngine.PlayStrategies.KickAssForkMoves.fork(board, player) ->
 				fork
+
+			block_fork = GameEngine.PlayStrategies.KickAssForkMoves.fork(board, oponent) ->
+				block_fork
+
+			force_defending = GameEngine.PlayStrategies.KickAssForceDefendingMoves.force_defending(board, player) ->
+				force_defending
 		end
 	end
 
