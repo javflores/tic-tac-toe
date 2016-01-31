@@ -39,6 +39,14 @@ defmodule GameEngine.GameTest do
 		end
 	end
 
+	test "game can be human versus human", %{game: game} do
+		with_mock GameEngine.Player, [initialize: fn(_player, _name, _type, _mark, _game_type) -> {:ok} end] do
+			{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: "Johny", type: :human}, x: %{name: "Richard", type: :human}})
+
+			assert new_game[:type] == :human_human
+		end
+	end
+
 	test "providing computer and human player makes a human versus computer game", %{game: game} do
 		with_mock GameEngine.Player, [initialize: fn(_player, _name, _type, _mark, _game_type) -> {:ok} end] do
 			{:ok, new_game} = GameEngine.Game.initialize(game, %{o: %{name: "C-3PO", type: :computer}, x: %{name: "Johny", type: :human}})

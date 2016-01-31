@@ -42,7 +42,7 @@ defmodule GameEngine.Features.DefaultContext do
   end
 
   given_ ~r/^I have initialized a new Computer vs Computer game$/, fn state ->
-    game_id = request_initialized_game
+    game_id = request_initialized_game_computer_computer
 
     {:ok, state |> Dict.put(:game_id, game_id)}
   end
@@ -67,7 +67,7 @@ defmodule GameEngine.Features.DefaultContext do
   end
 
   given_ ~r/^I have started a new Computer vs Computer game$/, fn state ->
-    game_id = request_initialized_game
+    game_id = request_initialized_game_computer_computer
     response = request_to_start_game(game_id, "C-3PO")
 
     {:ok, state |> Dict.put(:game_id, game_id)}
@@ -101,7 +101,7 @@ defmodule GameEngine.Features.DefaultContext do
   end
 
   given_ ~r/^I have started a human versus computer game$/, fn state ->
-      game_id = request_initialized_game("Johny", "C-3PO")
+      game_id = request_initialized_game_human_computer("Johny", "C-3PO")
         
       request_to_start_game(game_id, "Johny")
 
@@ -141,8 +141,61 @@ defmodule GameEngine.Features.DefaultContext do
     {:ok, state}
   end
 
-  defp request_initialized_game do
-    params = Poison.encode!(%{o_type: "computer", o_name: "R2-D2", x_name: "C-3PO", x_type: "computer"})
+  given_ ~r/^I have started a human versus human game$/, fn state ->
+      game_id = request_initialized_game_human_human("Johny", "Richard")
+        
+      request_to_start_game(game_id, "Johny")
+
+      {:ok, state |> Dict.put(:game_id, game_id)}
+  end
+
+  when_ ~r/^I provide second human move$/, fn state ->
+      game_id = state |> Dict.get(:game_id)
+      params = Poison.encode!(%{move: %{row: 1, column: 1}})
+
+      response = conn()        
+      |> content_type_json
+      |> post("/move/#{game_id}", params)
+
+      {:ok, state |> Dict.put(:response, response)}
+  end
+
+  then_ ~r/^I get the first human player move$/, fn state ->
+    response = state |> Dict.get(:response)
+    decoded_response = json_response(response, 200)
+
+    assert decoded_response["player"] == "Johny"
+    assert decoded_response["next_player"] == "Richard"
+    assert decoded_response["board"] == ["o", nil, nil, nil, nil, nil, nil, nil, nil]
+
+    {:ok, state}
+  end
+
+  then_ ~r/^I get the second human move$/, fn state ->
+    response = state |> Dict.get(:response)
+    decoded_response = json_response(response, 200)
+
+    assert decoded_response["player"] == "Richard"
+    assert decoded_response["next_player"] == "Johny"
+    assert decoded_response["board"] == ["o", nil, nil, nil, "x", nil, nil, nil, nil]
+
+    {:ok, state}
+  end
+
+  defp request_initialized_game_human_human(o_human, x_human) do
+    request_initialized_game(o_human, "human", x_human, "human")
+  end
+
+  def request_initialized_game_computer_computer do
+    request_initialized_game("R2-D2", "computer", "C-3PO", "computer")
+  end
+
+  defp request_initialized_game_human_computer(human_name, computer_name) do
+    request_initialized_game(human_name, "human", "C-3PO", "computer")
+  end
+
+  defp request_initialized_game(o_name, o_type, x_name, x_type) do
+    params = Poison.encode!(%{o_type: o_type, o_name: o_name, x_name: x_name, x_type: x_type})
 
     response = conn()
     |> content_type_json
@@ -167,16 +220,5 @@ defmodule GameEngine.Features.DefaultContext do
 
   defp content_type_json(conn) do
     put_req_header(conn, "content-type", "application/json")
-  end
-
-  defp request_initialized_game(human_name, computer_name) do
-    params = Poison.encode!(%{o_type: "human", o_name: human_name, x_name: computer_name, x_type: "computer"})
-
-    response = conn()
-    |> content_type_json
-    |> post("/initialize", params)
-
-    decoded_response = json_response(response, 200)
-    decoded_response["game_id"]
   end
 end

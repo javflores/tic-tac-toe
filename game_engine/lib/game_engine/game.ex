@@ -81,6 +81,8 @@ defmodule GameEngine.Game do
 
 	defp get_type_of_game(:computer, :human),  do: :human_computer
 
+	defp get_type_of_game(:human, :human),  do: :human_human
+
 	defp first_player_part_of_game?(state, first_player) do
 		state[:o] == first_player || state[:x] == first_player
 	end

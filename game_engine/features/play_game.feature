@@ -28,3 +28,14 @@ Feature: Human versus computer game
 		Then I get the human player move
 		When I choose to get a computer to move
 		Then I get the computer opponent move
+
+Feature: Human versus human game
+	As a game engine user, I can play TicTacTo against a human
+	So that I have more chances to win since we belong to the same species
+
+	Scenario: Human moves after human
+		Given I have started a human versus human game
+		When I provide the human player move
+		Then I get the first human player move
+		When I provide second human move
+		Then I get the second human move
