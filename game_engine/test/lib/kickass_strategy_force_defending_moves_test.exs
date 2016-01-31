@@ -145,7 +145,6 @@ defmodule GameEngine.KickAssStrategyForceDefendingMovesTest do
 	end
 
 	test "play empty corner belonging to triple with two empty spaces and one mark by player" do
-
 		positions = {nil, @opponent, nil,
 					 nil, @player, nil,
 					 nil, nil, nil}

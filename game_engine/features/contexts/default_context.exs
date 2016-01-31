@@ -1,4 +1,4 @@
-defmodule GameEngine.Features.ComputersPlayGameContext do
+defmodule GameEngine.Features.DefaultContext do
   use WhiteBread.Context
   use Phoenix.ConnTest
 
@@ -100,6 +100,36 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
     {:ok, state}
   end
 
+  given_ ~r/^I have started a human versus computer game$/, fn state ->
+      game_id = request_initialized_game("Johny", "C-3PO")
+        
+      request_to_start_game(game_id, "Johny")
+
+      {:ok, state |> Dict.put(:game_id, game_id)}
+  end
+
+  when_ ~r/^I provide the human player move$/, fn state ->
+      game_id = state |> Dict.get(:game_id)
+      params = Poison.encode!(%{move: %{row: 0, column: 0}})
+
+      response = conn()        
+      |> content_type_json
+      |> post("/move/#{game_id}", params)
+
+      {:ok, state |> Dict.put(:response, response)}
+  end
+
+  then_ ~r/^I get the human player move$/, fn state ->
+    response = state |> Dict.get(:response)
+    decoded_response = json_response(response, 200)
+
+    assert decoded_response["player"] == "Johny"
+    assert decoded_response["next_player"] == "C-3PO"
+    assert decoded_response["board"] == ["o", nil, nil, nil, nil, nil, nil, nil, nil]
+
+    {:ok, state}
+  end
+
   defp request_initialized_game do
     params = Poison.encode!(%{o_type: "computer", o_name: "R2-D2", x_name: "C-3PO", x_type: "computer"})
 
@@ -126,5 +156,16 @@ defmodule GameEngine.Features.ComputersPlayGameContext do
 
   defp content_type_json(conn) do
     put_req_header(conn, "content-type", "application/json")
+  end
+
+  defp request_initialized_game(human_name, computer_name) do
+    params = Poison.encode!(%{o_type: "human", o_name: human_name, x_name: computer_name, x_type: "computer"})
+
+    response = conn()
+    |> content_type_json
+    |> post("/initialize", params)
+
+    decoded_response = json_response(response, 200)
+    decoded_response["game_id"]
   end
 end

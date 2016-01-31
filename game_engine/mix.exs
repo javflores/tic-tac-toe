@@ -26,8 +26,7 @@ defmodule GameEngine.Mixfile do
   defp elixirc_paths(_),     do: ["lib", "web"]
 
   defp aliases do
-    [acceptance: ["white_bread.run --context features/contexts/computers_play_game_context.exs", 
-                  "white_bread.run --context features/contexts/human_versus_computer_game_context.exs"]]
+    [acceptance: ["white_bread.run"]]
   end
 
   # Specifies your project dependencies.
