@@ -127,10 +127,9 @@ defmodule GameEngine.EngineControllerTest do
 			[move: fn(_game, _game_id, _move) -> 
 				{:ok, %{board: %GameEngine.Board{positions: {nil, nil, nil, nil, nil, :x, nil, nil, nil}}, status: "", player: "", next_player: ""}} end] do
 			
-			human_move = 5
-			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d", "move" => %{"column" => "1", "row" => "0"}})
+			response = GameEngine.EngineController.move(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d", "move" => %{"column" => 1, "row" => 1}})
 
-			human_move = %{row: 0, column: 1}
+			human_move = %{row: 1, column: 1}
 			assert called GameEngine.Game.move(:_, :_, human_move)
 		end
 	end

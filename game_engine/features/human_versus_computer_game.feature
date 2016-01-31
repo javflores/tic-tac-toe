@@ -4,5 +4,5 @@ Feature: Human versus computer game
 
 	Scenario: Human moves
 		Given I have started a human versus computer game
-		When I provide the human player's move
-		Then I get the human player's move
+		When I provide the human player move
+		Then I get the human player move

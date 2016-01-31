@@ -24,8 +24,8 @@ defmodule GameEngine.EngineController do
 		end
 	end
 
-	def move(conn, %{"game_id" => game_id, "move" => move}) do
-		case GameEngine.Game.move(:game, game_id, parse_provided_move(move)) do
+	def move(conn, %{"game_id" => game_id, "move" => %{"row" => row, "column" => column}}) do
+		case GameEngine.Game.move(:game, game_id, %{row: row, column: column}) do
 			{:winner, result} ->
 				conn
 				|> json(handle_response(:winner, game_id, result))
@@ -86,9 +86,5 @@ defmodule GameEngine.EngineController do
 		x_type = params["x_type"]
 		
 		%{o: %{name: o_name, type: String.to_atom(o_type)}, x: %{name: x_name, type: String.to_atom(x_type)}}
-	end
-
-	defp parse_provided_move(%{"row" => row, "column" => column}) do
-		%{row: String.to_integer(row), column: String.to_integer(column)}
 	end
 end
