@@ -83,4 +83,14 @@ defmodule GameEngine.KickAssStrategyTest do
 			
 		assert move == %{row: 0, column: 0}
 	end
+
+	test "kickass strategy finds empty side" do
+		board = %GameEngine.Board{positions: {@opponent, @opponent, @player,
+						 					  nil, @player, @opponent,
+						 					  @opponent, @player, @opponent}}
+
+		move = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
+			
+		assert move == %{row: 1, column: 0}
+	end
 end

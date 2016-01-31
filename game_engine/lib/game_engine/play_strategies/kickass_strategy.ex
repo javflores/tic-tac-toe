@@ -30,6 +30,9 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 
 			empty_corner = PlayStrategies.KickAssAbsoluteLocationMoves.take_empty_corner(board) ->
 				empty_corner
+
+			empty_side = PlayStrategies.KickAssAbsoluteLocationMoves.take_empty_side(board) ->
+				empty_side
 		end
 	end
 
