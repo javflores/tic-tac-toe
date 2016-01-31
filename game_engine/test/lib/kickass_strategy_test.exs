@@ -50,4 +50,14 @@ defmodule GameEngine.KickAssStrategyTest do
 			
 		assert force_defending == %{row: 0, column: 0}
 	end
+
+	test "kickass strategy finds center as next move" do
+		board = %GameEngine.Board{positions: {nil, nil, nil,
+						 					  nil, nil, nil,
+						 					  nil, nil, nil}}
+
+		move = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, :o)
+			
+		assert move == %{row: 1, column: 1}
+	end
 end
