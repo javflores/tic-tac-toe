@@ -24,6 +24,9 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 
 			center = PlayStrategies.KickAssAbsoluteLocationMoves.play_center(board) ->
 				center
+
+			corner = PlayStrategies.KickAssOpponentsOppositeCornerMoves.find_corner(board, opponent) ->
+				corner
 		end
 	end
 
