@@ -19,14 +19,14 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 			block_fork = PlayStrategies.KickAssForkMoves.fork(board, opponent) ->
 				block_fork
 
-			force_defending = PlayStrategies.KickAssForceDefendingMoves.force_defending(board, player) ->
-				force_defending
+			force_fork = PlayStrategies.KickAssForceForkMoves.force_fork(board, player) ->
+				force_fork
 
 			center = PlayStrategies.KickAssAbsoluteLocationMoves.play_center(board) ->
 				center
 
-			corner = PlayStrategies.KickAssOpponentsOppositeCornerMoves.find_corner(board, opponent) ->
-				corner
+			opponent_opposite_corner = PlayStrategies.KickAssOpponentsOppositeCornerMoves.find_corner(board, opponent) ->
+				opponent_opposite_corner
 
 			empty_corner = PlayStrategies.KickAssAbsoluteLocationMoves.take_empty_corner(board) ->
 				empty_corner
