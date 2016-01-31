@@ -11,7 +11,7 @@ defmodule GameEngine.KickAssStrategyTest do
 		assert victory == %{row: 0, column: 2}
 	end
 
-	test "kickass strategy tells to block immediate victory of oponent" do
+	test "kickass strategy tells to block immediate victory of opponent" do
 		board = %GameEngine.Board{positions: {:x, :x, nil,
 						 					  nil, nil, nil,
 						 					  nil, :o, nil}}
@@ -41,7 +41,7 @@ defmodule GameEngine.KickAssStrategyTest do
 		assert block_opponents_fork == %{row: 1, column: 0}
 	end
 
-	test "kickass strategy suggests position to force oponent into defending to create a later fork" do
+	test "kickass strategy suggests position to force opponent into defending to create a later fork" do
 		board = %GameEngine.Board{positions: {nil, :x, nil,
 						 					  nil, :o, nil,
 						 					  nil, nil, nil}}

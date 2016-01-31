@@ -3,7 +3,7 @@ defmodule GameEngine.PlayStrategies.KickAssForceDefendingMoves do
 		board 
 		|> GameEngine.Board.two_empty_spaces_triples_in_board(player)
 		|> find_corners
-		|> filter_possible_oponents_forks(board, player)
+		|> filter_possible_opponents_forks(board, player)
 		|> List.first
 	end
 
@@ -46,12 +46,12 @@ defmodule GameEngine.PlayStrategies.KickAssForceDefendingMoves do
 		find_corners_in_diagonals(triple) ++ find_corners_in_diagonals(tail)
 	end
 
-	def filter_possible_oponents_forks(possible_moves, board, player) do
+	def filter_possible_opponents_forks(possible_moves, board, player) do
 		possible_moves
-		|> Enum.filter(fn(possible_move) -> !results_in_oponents_fork?(possible_move, board, player) end)
+		|> Enum.filter(fn(possible_move) -> !results_in_opponents_fork?(possible_move, board, player) end)
 	end
 
-	def results_in_oponents_fork?(possible_move, current_board, player) do
+	def results_in_opponents_fork?(possible_move, current_board, player) do
 		back_to_future_board = GameEngine.Board.put_mark(current_board, possible_move, player)
 		GameEngine.PlayStrategies.KickAssForkMoves.fork(back_to_future_board, know_your_enemy(player)) != nil
 	end

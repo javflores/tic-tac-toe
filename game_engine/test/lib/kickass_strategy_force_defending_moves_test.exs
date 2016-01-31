@@ -153,43 +153,43 @@ defmodule GameEngine.KickAssStrategyForceDefendingMovesTest do
 		assert position_to_play == expected_force_defending
 	end
 
-	test "o finds x as oponent in order to know about his possible future movements" do
+	test "o finds x as opponent in order to know about his possible future movements" do
 		assert KickAssForceDefendingMoves.know_your_enemy(:o) == :x
 	end
 
-	test "x finds o as oponent in order to know about his possible future movements" do
+	test "x finds o as opponent in order to know about his possible future movements" do
 		assert KickAssForceDefendingMoves.know_your_enemy(:x) == :o
 	end
 
-	test "finds possible oponents fork for a force-defending move" do
+	test "finds possible opponents fork for a force-defending move" do
 		board = %GameEngine.Board{positions: {:x, nil, nil,
 					 						  nil, :o, nil,
 					 						  nil, nil, :x}}
 		force_defending_move = %{row: 0, column: 2}
 
-		assert KickAssForceDefendingMoves.results_in_oponents_fork?(force_defending_move, board, :o) == true
+		assert KickAssForceDefendingMoves.results_in_opponents_fork?(force_defending_move, board, :o) == true
 	end
 
-	test "filter force-defending move leading to oponents fork" do
+	test "filter force-defending move leading to opponents fork" do
 		positions = {:x, nil, nil,
 					 nil, :o, nil,
 					 nil, nil, :x}
 		force_defending_move = %{row: 0, column: 2}
 		list_of_moves = [force_defending_move]
 
-		filtered_moves = KickAssForceDefendingMoves.filter_possible_oponents_forks(list_of_moves, %GameEngine.Board{positions: positions}, :o)
+		filtered_moves = KickAssForceDefendingMoves.filter_possible_opponents_forks(list_of_moves, %GameEngine.Board{positions: positions}, :o)
 
 		assert filtered_moves == []
 	end
 
-	test "refutes moves leading to oponent's fork in response to a force-defence move" do
+	test "refutes moves leading to opponent's fork in response to a force-defence move" do
 		positions = {:x, nil, nil,
 					 nil, :o, nil,
 					 nil, nil, :x}
 
 		position_to_play = KickAssForceDefendingMoves.force_defending(%GameEngine.Board{positions: positions}, :o)
 
-		position_leading_to_oponents_fork = %{row: 0, column: 2}		
-		refute position_to_play == position_leading_to_oponents_fork
+		position_leading_to_opponents_fork = %{row: 0, column: 2}		
+		refute position_to_play == position_leading_to_opponents_fork
 	end
 end

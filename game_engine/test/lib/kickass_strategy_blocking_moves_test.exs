@@ -4,18 +4,18 @@ defmodule GameEngine.KickAssStrategyBlockingMovesTest do
 
 	test "o is able to identify that x is the opponent" do
 		player = :o
-		oponent = KickAssStrategy.spot_opponent(player)
+		opponent = KickAssStrategy.spot_opponent(player)
 
 		expected_opponent = :x
-		assert oponent == expected_opponent
+		assert opponent == expected_opponent
 	end
 
 	test "x is able to identify that o is the opponent" do
 		player = :x
-		oponent = KickAssStrategy.spot_opponent(player)
+		opponent = KickAssStrategy.spot_opponent(player)
 
 		expected_opponent = :o
-		assert oponent == expected_opponent
+		assert opponent == expected_opponent
 	end
 
 	test "o blocks opponent by taking horizontal win for x" do
