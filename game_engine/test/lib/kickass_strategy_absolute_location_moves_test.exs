@@ -1,13 +1,13 @@
 defmodule GameEngine.KickAssStrategyAbsoluteLocationMovesTest do
 	use ExUnit.Case
-	alias GameEngine.PlayStrategies.KickAssStrategyAbsoluteLocationMoves, as: KickAssStrategyAbsoluteLocationMoves
+	alias GameEngine.PlayStrategies.KickAssAbsoluteLocationMoves, as: KickAssAbsoluteLocationMoves
 
 	test "play center if available" do
 		board = %GameEngine.Board{positions: {nil, nil, nil,
 						 					  nil, nil, nil,
 						 					  nil, nil, nil}}
 
-		move = KickAssStrategyAbsoluteLocationMoves.play_center(board)
+		move = KickAssAbsoluteLocationMoves.play_center(board)
 
 		assert move == %{row: 1, column: 1}
 	end
@@ -17,7 +17,7 @@ defmodule GameEngine.KickAssStrategyAbsoluteLocationMovesTest do
 						 					  nil, :x, nil,
 						 					  nil, nil, nil}}
 
-		move = KickAssStrategyAbsoluteLocationMoves.play_center(board)
+		move = KickAssAbsoluteLocationMoves.play_center(board)
 
 		assert move == nil
 	end

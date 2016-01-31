@@ -22,7 +22,7 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 			force_defending = PlayStrategies.KickAssForceDefendingMoves.force_defending(board, player) ->
 				force_defending
 
-			center = PlayStrategies.KickAssStrategyAbsoluteLocationMoves.play_center(board) ->
+			center = PlayStrategies.KickAssAbsoluteLocationMoves.play_center(board) ->
 				center
 		end
 	end

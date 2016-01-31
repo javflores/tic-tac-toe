@@ -1,4 +1,4 @@
-defmodule GameEngine.PlayStrategies.KickAssStrategyAbsoluteLocationMoves do
+defmodule GameEngine.PlayStrategies.KickAssAbsoluteLocationMoves do
 
 	def play_center(%GameEngine.Board{positions: {_, _, _,
 						 					  	  _, nil, _,
