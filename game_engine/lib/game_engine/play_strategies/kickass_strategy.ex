@@ -27,6 +27,9 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 
 			corner = PlayStrategies.KickAssOpponentsOppositeCornerMoves.find_corner(board, opponent) ->
 				corner
+
+			empty_corner = PlayStrategies.KickAssAbsoluteLocationMoves.take_empty_corner(board) ->
+				empty_corner
 		end
 	end
 
