@@ -130,6 +130,17 @@ defmodule GameEngine.Features.DefaultContext do
     {:ok, state}
   end
 
+  then_ ~r/^I get the computer opponent move$/, fn state ->
+    response = state |> Dict.get(:response)
+    decoded_response = json_response(response, 200)
+
+    assert decoded_response["player"] == "C-3PO"
+    assert decoded_response["next_player"] == "Johny"
+    assert decoded_response["board"] == ["o", nil, nil, nil, "x", nil, nil, nil, nil]
+
+    {:ok, state}
+  end
+
   defp request_initialized_game do
     params = Poison.encode!(%{o_type: "computer", o_name: "R2-D2", x_name: "C-3PO", x_type: "computer"})
 

@@ -21,8 +21,10 @@ Feature: Computer plays with computer
 Feature: Human versus computer game
 	As a game engine user, I can play TicTacTo against a computer
 	So that I can try to win
-	
-	Scenario: Human moves
+
+	Scenario: Computer moves after human
 		Given I have started a human versus computer game
 		When I provide the human player move
 		Then I get the human player move
+		When I choose to get a computer to move
+		Then I get the computer opponent move
