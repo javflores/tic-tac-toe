@@ -2,6 +2,8 @@
   "esnext": true,
   "globalstrict": true,
   "globals" : {
-    "document" : false
+    "document" : false,
+    "module": false,
+    "require": false
   }
 }
