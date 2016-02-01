@@ -1,0 +1,119 @@
+body {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    max-width: 62.5em;
+    background: white;
+    color: #222222;
+    padding: 0;
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    position: relative;
+    cursor: default;
+    font-size: 16px;
+}
+
+.title {
+    position: relative;
+    width: 100%;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    float: left;
+    text-align: center !important;
+    box-sizing: border-box;
+}
+
+h1{
+    font-size: 2.75em;
+}
+
+h4 {
+    font-size: 1.4375em;
+}
+
+.row{
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0;
+    margin-bottom: 0;
+    max-width: 62.5em;
+}
+
+.board-container {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    float: none !important;
+    text-align: center !important;
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    box-sizing: border-box;
+}
+
+.subheader {
+    line-height: 1.4;
+    color: #6f6f6f;
+    font-weight: 300;
+    margin-top: 0.2em;
+    margin-bottom: 0.5em;
+}
+
+.board {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    display: table;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: center !important;
+}
+
+table {
+    table-layout: auto;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.square{
+    width:100px;
+    height:100px;
+}
+
+.v{
+    border-left:5px solid rgb(220, 235, 223);
+    border-right:5px solid rgb(220, 235, 223);
+}
+
+.h{
+    border-top:5px solid rgb(220, 235, 223);
+    border-bottom:5px solid rgb(220, 235, 223);
+}
+
+.middle {
+    border: 5px solid rgb(220, 235, 223);
+}
+
+.game-control{
+    margin-bottom: 2.5em;
+    margin-top: 2.2em;
+}
+
+.control {
+    padding-left: 0.9375em;
+    padding-right: 0.9375em;
+    float: left;
+    text-align: center !important;
+    display: block;
+}
+
+.computer {
+    color: #624c47;
+}
+
+.human {
+    color: #afd9c8;
+}
