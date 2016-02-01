@@ -6,5 +6,5 @@ var gulp = require('gulp'),
     tasks = requireDir('./gulp', { recurse: true });
 
 gulp.task('default', ['lint'], function(){
-    runSequence ('unit-test', 'bundlelify');
+    runSequence ('bundlelify');
 });
