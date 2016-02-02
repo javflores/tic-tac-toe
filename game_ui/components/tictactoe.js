@@ -1,13 +1,17 @@
 'use strict';
 import React from 'react';
 import { render } from 'react-dom';
-var Heading = require('../components/heading');
+var Heading = require('../components/heading'),
+    Board = require('../components/board'),
+    Selection = require('../components/selection');
 
 const TicTacToe = React.createClass({
     render() {
         return (
             <div>
                 <Heading />
+                <Board />
+                <Selection />
             </div>
         );
     }
