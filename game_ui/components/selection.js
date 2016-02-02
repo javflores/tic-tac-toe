@@ -61,8 +61,13 @@ const Selection = React.createClass({
                                 </li>
                             </ul>
                         </div>
-
-
+                        {(this.state.firstPlayer.name !== "") ?
+                            <div className="col-lg-2 continue-selection">
+                                <a className="btn btn-primary" href="#">
+                                    <i className="fa fa-arrow-right"/>
+                                </a>
+                            </div> : <div></div>
+                        }
                     </div>
                 </div>
             </div>

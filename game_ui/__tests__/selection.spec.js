@@ -42,6 +42,16 @@ describe('Selection when rendering Tic Tac Toe', () => {
         expect(playerTypeSelect.textContent).toEqual("Computer")
     });
 
+    it('display enabled continue selection arrow if player name is provided', () => {
+        let playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
+
+        playerNameInput.value = 'Juan';
+        TestUtils.Simulate.change(playerNameInput);
+
+        let continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
+        expect(continueSelection).toBeDefined();
+    });
+
     it('should ask user to select second player', () => {
     });
 
