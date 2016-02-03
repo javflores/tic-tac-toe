@@ -1,5 +1,6 @@
 'use strict';
 jest.dontMock('../components/selection.js');
+jest.dontMock('../components/player-selection.js');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -36,7 +37,7 @@ describe('Selection when rendering Tic Tac Toe', () => {
     it('allows user to select type of player', () => {
         let computerTypeSelect = TestUtils.findRenderedDOMComponentWithClass(selection, 'computer-type');
 
-        TestUtils.Simulate.click(computerTypeSelect, {"target": {"text": "Computer"}});
+        TestUtils.Simulate.click(computerTypeSelect, {"target": {"textContent": "Computer"}});
 
         let playerTypeSelect = TestUtils.findRenderedDOMComponentWithClass(selection, 'dropdown-toggle');
         expect(playerTypeSelect.textContent).toEqual("Computer")

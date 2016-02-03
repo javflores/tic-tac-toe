@@ -2,19 +2,19 @@
 import React from 'react';
 import { render } from 'react-dom';
 
+let PlayerSelection = require('../components/player-selection');
+
 const Selection = React.createClass({
-    nameChanged(e){
-        let playerName = e.target.value;
+    nameChanged(name){
         let firstPlayer = this.state.firstPlayer;
-        firstPlayer.name = playerName;
+        firstPlayer.name = name;
 
         this.setState({
             firstPlayerName: firstPlayer
         });
     },
 
-    typeSelected(e){
-        let type = e.target.text;
+    typeSelected(type){
         let firstPlayer = this.state.firstPlayer;
         firstPlayer.type = type;
         this.setState({
@@ -41,26 +41,7 @@ const Selection = React.createClass({
                 </div>
                 <div className="row">
                     <div className="form-group">
-                        <div className="row">
-                            <div className="input-player-name">
-                                <input type="text" placeholder="Player name" className="form-control" value={this.state.firstPlayer.name}
-                                       onChange={this.nameChanged}/>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <ul className="nav navbar-nav">
-                                <li className="dropdown">
-                                    <a className="dropdown-toggle" data-toggle="dropdown">{this.state.firstPlayer.type}
-                                        <span className={(this.state.firstPlayer.type == "Human") ? "glyphicon glyphicon-user pull-right" : "glyphicon glyphicon-blackboard pull-right"}/>
-                                    </a>
-                                    <ul className="dropdown-menu">
-                                        <li><a className="human-type" onClick={this.typeSelected}>Human<span className="glyphicon glyphicon-user pull-right"/></a></li>
-                                        <li className="divider"/>
-                                        <li><a className="computer-type" onClick={this.typeSelected}>Computer<span className="glyphicon glyphicon-blackboard pull-right"/></a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
+                        <PlayerSelection player={this.state.firstPlayer} nameChanged={this.nameChanged} typeSelected={this.typeSelected}/>
                         {(this.state.firstPlayer.name !== "") ?
                             <div className="col-lg-2 continue-selection">
                                 <a className="btn btn-primary" href="#">
