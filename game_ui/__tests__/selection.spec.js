@@ -43,7 +43,7 @@ describe('Selection when rendering Tic Tac Toe', () => {
         expect(playerTypeSelect.textContent).toEqual("Computer")
     });
 
-    it('display enabled continue selection arrow if player name is provided', () => {
+    it('display continue selection button if first player name is provided', () => {
         let playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
 
         playerNameInput.value = 'Juan';
@@ -53,21 +53,32 @@ describe('Selection when rendering Tic Tac Toe', () => {
         expect(continueSelection).toBeDefined();
     });
 
-    it('should ask user to select second player', () => {
+    it('displays second player selection when user clicks continue', () => {
+        let playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
+        playerNameInput.value = "Juan";
+        TestUtils.Simulate.change(playerNameInput);
+
+        let continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
+        TestUtils.Simulate.click(continueSelection);
+
+        expect(playerNameInput.value).toEqual("");
     });
 
-    it('should ask user to select second player', () => {
+    it('display start game button if second player name is provided', () => {
+        let playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
+        playerNameInput.value = "Juan";
+        TestUtils.Simulate.change(playerNameInput);
+        let continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
+        TestUtils.Simulate.click(continueSelection);
+
+        playerNameInput.value = "John";
+        TestUtils.Simulate.change(playerNameInput);
+
+        let continueStartup = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
+        expect(continueStartup).toBeDefined();
     });
 
-    it('should trigger initialization of the game if players were selected')
+    it('should trigger initialization of the game if players were selected', () => {
+    });
 });
 
-describe('Selection when players have been selected', () => {
-
-    it('should ask user to provide first player', () => {
-
-    });
-
-    it('should trigger game start when first player is selected', () => {
-    });
-});

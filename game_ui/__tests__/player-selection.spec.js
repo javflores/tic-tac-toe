@@ -10,7 +10,9 @@ const PlayerSelection = require('../components/player-selection');
 describe('Player selection', () => {
     let player, selection;
     beforeEach(() => {
-        player = TestUtils.renderIntoDocument(<PlayerSelection player={{name: "", type:"Computer"}} nameChanged={jest.genMockFunction()} typeSelected={jest.genMockFunction()}/>);
+        player = TestUtils.renderIntoDocument(
+            <PlayerSelection playerNumber={1} player={{name: "", type:"Computer"}} nameChanged={jest.genMockFunction()} typeSelected={jest.genMockFunction()}/>
+        );
     });
 
     it('notifies selection when name is introduced', () => {
@@ -19,7 +21,7 @@ describe('Player selection', () => {
         playerNameInput.value = 'Juan';
         TestUtils.Simulate.change(playerNameInput);
 
-        expect(player.props.nameChanged).toBeCalledWith('Juan');
+        expect(player.props.nameChanged).toBeCalledWith(1, 'Juan');
     });
 
     it('notifies selection when type is selected', () => {
@@ -27,6 +29,6 @@ describe('Player selection', () => {
 
         TestUtils.Simulate.click(computerTypeSelect, {"target": {"textContent": "Computer"}});
 
-        expect(player.props.typeSelected).toBeCalledWith('Computer');
+        expect(player.props.typeSelected).toBeCalledWith(1, 'Computer');
     });
 });

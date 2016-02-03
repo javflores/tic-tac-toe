@@ -5,12 +5,12 @@ import { render } from 'react-dom';
 const PlayerSelection = React.createClass({
     nameChanged(e){
         let playerName = e.target.value;
-        this.props.nameChanged(playerName);
+        this.props.nameChanged(this.props.playerNumber, playerName);
     },
 
     typeSelected(e){
         let type = e.target.textContent;
-        this.props.typeSelected(type);
+        this.props.typeSelected(this.props.playerNumber, type);
     },
 
     render() {
