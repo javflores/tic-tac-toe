@@ -3,6 +3,7 @@ import React from 'react';
 import { render } from 'react-dom';
 
 let PlayerSelection = require('../components/player-selection');
+let PlayerSelectionControl = require('../components/player-selection-control');
 
 const Selection = React.createClass({
     nameChanged(playerNumber, name){
@@ -97,13 +98,7 @@ const Selection = React.createClass({
                                     </li>
                                 </ul>
                             </div>
-                            {(this.state.playerToStart !== "") ?
-                                <div className="col-lg-2 continue-selection">
-                                    <a className="btn btn-primary" onClick={this.continueClicked}>
-                                        <i className="fa fa-arrow-right"/>
-                                    </a>
-                                </div> : <div></div>
-                            }
+                            {(this.state.playerToStart !== "") ? <PlayerSelectionControl controlClicked={this.continueClicked} /> : <div></div>}
                         </div>
                     </div>
                 </div>
@@ -121,13 +116,7 @@ const Selection = React.createClass({
                     <div className="row">
                         <div className="form-group">
                             <PlayerSelection key={1} playerNumber={1} player={this.state.players[0]} nameChanged={this.nameChanged} typeSelected={this.typeSelected}/>
-                            {(this.state.players[0].name !== "") ?
-                                <div className="col-lg-2 continue-selection">
-                                    <a className="btn btn-primary continue" onClick={this.continueClicked}>
-                                        <i className="fa fa-arrow-right"/>
-                                    </a>
-                                </div> : <div></div>
-                            }
+                            {(this.state.players[0].name !== "") ? <PlayerSelectionControl controlClicked={this.continueClicked} /> : <div></div>}
                         </div>
                     </div>
                 </div>
@@ -145,13 +134,7 @@ const Selection = React.createClass({
                     <div className="row">
                         <div className="form-group">
                             <PlayerSelection key={2} playerNumber={2} player={this.state.players[1]} nameChanged={this.nameChanged} typeSelected={this.typeSelected}/>
-                            {(this.state.players[1].name !== "") ?
-                                <div className="col-lg-2 continue-selection">
-                                    <a className="btn btn-primary to-first-player" onClick={this.continueFirstPlayerSelection}>
-                                        <i className="fa fa-arrow-right"/>
-                                    </a>
-                                </div> : <div></div>
-                            }
+                            {(this.state.players[1].name !== "") ? <PlayerSelectionControl controlClicked={this.continueFirstPlayerSelection} /> : <div></div>}
                         </div>
                     </div>
                 </div>

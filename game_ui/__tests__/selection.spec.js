@@ -1,6 +1,7 @@
 'use strict';
 jest.dontMock('../components/selection.js');
 jest.dontMock('../components/player-selection.js');
+jest.dontMock('../components/player-selection-control.js');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -65,7 +66,7 @@ describe('When starting TicTacToe and first player has been selected', () => {
         playerNameInput.value = "Juan";
         TestUtils.Simulate.change(playerNameInput);
 
-        let continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'continue');
+        let continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
         TestUtils.Simulate.click(continueSelection);
     });
 
@@ -100,14 +101,14 @@ describe('When the two players have been provided', () => {
         playerNameInput.value = "Juan";
         TestUtils.Simulate.change(playerNameInput);
 
-        let continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'continue');
+        let continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
         TestUtils.Simulate.click(continueSelection);
 
         playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
         playerNameInput.value = "John";
         TestUtils.Simulate.change(playerNameInput);
 
-        continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'to-first-player');
+        continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
         TestUtils.Simulate.click(continueSelection);
     });
 
@@ -138,6 +139,7 @@ describe('When the two players have been provided', () => {
     });
 
     it('should trigger initialization of the game if players were selected', () => {
+
     });
 });
 
