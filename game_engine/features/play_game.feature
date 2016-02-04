@@ -2,14 +2,9 @@ Feature: Computer plays with computer
 	As a game engine user, I can see how two computers play TicTacToe
 	So that I can get some fun
 
-	Scenario: Initialize game computer versus computer
-		Given I select two computer players
-		When I request to initialize the game
-		Then I get a new initialized game
-
 	Scenario: Start game
-		Given I have initialized a new Computer vs Computer game
-		When I choose to start the game with the first player
+		Given I select two computer players
+		When I choose to start the game
 		Then I get a new started game
 
 	Scenario: Computer moves
@@ -35,7 +30,7 @@ Feature: Human versus human game
 
 	Scenario: Human moves after human
 		Given I have started a human versus human game
-		When I provide the human player move
+		When I provide first human move
 		Then I get the first human player move
 		When I provide second human move
 		Then I get the second human move

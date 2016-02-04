@@ -8,9 +8,7 @@ defmodule GameEngine.Router do
   scope "/", GameEngine do
     pipe_through :api
 
-    post "/initialize", EngineController, :initialize
-
-    post "/start/:game_id", EngineController, :start
+    post "/start", EngineController, :start
 
     post "/move/:game_id", EngineController, :move
   end

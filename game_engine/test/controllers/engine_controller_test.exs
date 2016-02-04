@@ -3,48 +3,68 @@ defmodule GameEngine.EngineControllerTest do
 	use Phoenix.ConnTest
 	import Mock
 
-	test "get initialized computer-versus-computer game" do
-		response = GameEngine.EngineController.initialize(conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer"})
-
-		decoded_response = json_response(response, 200)
-		assert decoded_response["status"] == "init"
-		assert decoded_response["x"] == "R2-D2"
-		assert decoded_response["o"] == "C-3PO"
-		assert decoded_response["type"] == "computer_computer"
-	end
-
-	test "get empty when game is initialized" do
-		with_mock GameEngine.Game, [:passthrough], [initialize: fn(_game, _players) -> {:ok, %{game_id: 123, board: %{}, x: "C-3PO", o: "R2-D2", type: :computer_computer}} end] do
-			response = GameEngine.EngineController.initialize(conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer"})
+	test "get started game" do
+		with_mock GameEngine.Game, [:passthrough], 
+		[start: fn(_game, _players) -> {:ok, %{game_id: "", board: %GameEngine.Board{}, next_player: "", x: "", o: "", type: :computer_computer}} end] do
+			response = GameEngine.EngineController.start(
+				conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer", "first_player" => "C-3PO"})
 
 			decoded_response = json_response(response, 200)
-			assert decoded_response["board"] == %{}
+			assert decoded_response["status"] == "start"
 		end
 	end
 
-	test "returns new game with id when initializing" do
+	test "returns new game with id when starting" do
 		game_id = "38c5c34f-6d33-4618-bb5f-9a9f1890ff8d"
-		with_mock GameEngine.Game, [:passthrough], [initialize: fn(_game, _players) -> {:ok, %{game_id: game_id, board: %{}, x: "C-3PO", o: "R2-D2", type: :computer_computer}} end] do
-			response = GameEngine.EngineController.initialize(conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer"})
+		with_mock GameEngine.Game, [:passthrough], 
+		[start: fn(_game, _players) -> {:ok, %{game_id: game_id, board: %GameEngine.Board{}, next_player: "", x: "", o: "", type: :computer_computer}} end] do
+			response = GameEngine.EngineController.start(
+				conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer", "first_player" => "C-3PO"})
 
 			decoded_response = json_response(response, 200)
 			assert decoded_response["game_id"] == game_id
 		end
 	end
 
-	test "get started game" do
-		with_mock GameEngine.Game, [:passthrough], [start: fn(_game, _game_id, _first_player) -> {:ok, %{board: %GameEngine.Board{}, next_player: "C-3PO"}} end] do
-			response = GameEngine.EngineController.start(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d", "first_player" => "C-3PO"})
+	test "get empty board when game started" do
+		with_mock GameEngine.Game, [:passthrough], 
+		[start: fn(_game, _players) -> {:ok, %{game_id: "", board: %GameEngine.Board{}, next_player: "C-3PO", x: "C-3PO", o: "R2-D2", type: :computer_computer}} end] do
+			response = GameEngine.EngineController.start(
+				conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer", "first_player" => "C-3PO"})
 
 			decoded_response = json_response(response, 200)
 			assert decoded_response["board"] == [nil, nil, nil, nil, nil, nil, nil, nil, nil]
-			assert decoded_response["status"] == "start"
 		end
 	end
 
-	test "specifying first player when starting a new game" do
-		with_mock GameEngine.Game, [:passthrough], [start: fn(_game, _game_id, _first_player) -> {:ok, %{board: %GameEngine.Board{}, next_player: "C-3PO"}} end] do
-			response = GameEngine.EngineController.start(conn, %{"game_id" => "aa022760-c2c2-11e5-a5c7-3ca9f4aa918d", "first_player" => "C-3PO"})
+	test "get players for started game" do
+		with_mock GameEngine.Game, [:passthrough], 
+		[start: fn(_game, _players) -> {:ok, %{game_id: "", board: %GameEngine.Board{}, next_player: "C-3PO", x: "R2-D2", o: "C-3PO", type: :computer_computer}} end] do
+			response = GameEngine.EngineController.start(
+				conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer", "first_player" => "C-3PO"})
+
+			decoded_response = json_response(response, 200)
+			assert decoded_response["o"] == "C-3PO"
+			assert decoded_response["x"] == "R2-D2"
+		end
+	end
+
+	test "get type of game" do
+		with_mock GameEngine.Game, [:passthrough], 
+		[start: fn(_game, _players) -> {:ok, %{game_id: "", board: %GameEngine.Board{}, next_player: "C-3PO", x: "C-3PO", o: "R2-D2", type: :computer_computer}} end] do
+			response = GameEngine.EngineController.start(
+				conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer", "first_player" => "C-3PO"})
+
+			decoded_response = json_response(response, 200)
+			assert decoded_response["type"] == "computer_computer"
+		end
+	end
+
+	test "next player to play is the specified first player" do
+		with_mock GameEngine.Game, [:passthrough], 
+		[start: fn(_game, _players) -> {:ok, %{game_id: "", board: %GameEngine.Board{}, next_player: "C-3PO", x: "C-3PO", o: "R2-D2", type: :computer_computer}} end] do
+			response = GameEngine.EngineController.start(
+				conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer", "first_player" => "C-3PO"})
 
 			decoded_response = json_response(response, 200)
 			assert decoded_response["next_player"] == "C-3PO"
@@ -53,8 +73,10 @@ defmodule GameEngine.EngineControllerTest do
 
 	test "get error upon game start when game returns an error" do
 		expected_error = "Invalid game_id provided"
-		with_mock GameEngine.Game, [:passthrough], [start: fn(_game, _game_id, _first_player) -> {:error, expected_error} end] do
-			response = GameEngine.EngineController.start(conn, %{"game_id" => "1234", "first_player" => "C-3PO"})
+		with_mock GameEngine.Game, [:passthrough], 
+		[start: fn(_game, _players) -> {:error, expected_error} end] do
+			response = GameEngine.EngineController.start(
+				conn, %{"o_name" => "C-3PO", "o_type" => "computer", "x_name" => "R2-D2", "x_type" => "computer", "first_player" => "C-3PO"})
 
 			decoded_response = json_response(response, 400)
 			assert decoded_response == expected_error
