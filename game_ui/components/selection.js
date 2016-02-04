@@ -17,12 +17,12 @@ const Selection = React.createClass({
     },
 
     typeSelected(playerNumber, type){
-        let typeIcon = (type == "human") ? "glyphicon-user" : "glyphicon-blackboard";
+        let typeIcon = (type === "human") ? "glyphicon-user" : "glyphicon-blackboard";
         let players = this.state.players;
         let player = players[playerNumber-1];
 
         player.type = type;
-        player.typeIcon = typeIcon;
+        player.typeIcon = "glyphicon ".concat(typeIcon, " pull-right");
         this.setState({
             players: players
         });
@@ -42,7 +42,7 @@ const Selection = React.createClass({
 
     playerToStartSelected(e){
         let playerToStartName = e.target.textContent;
-        let playerToStartIcon = e.target.childNodes[0].className;
+        let playerToStartIcon = e.target.childNodes[1].className;
         let playerToStart = this.state.playerToStart;
         playerToStart.name = playerToStartName;
         playerToStart.typeIcon = playerToStartIcon;
@@ -90,9 +90,9 @@ const Selection = React.createClass({
                                             <span className={this.state.playerToStart.typeIcon}/>
                                         </a>
                                         <ul className="dropdown-menu">
-                                            <li><a className="first-player" onClick={this.playerToStartSelected}>{this.state.players[0].name}<span className="glyphicon glyphicon-user pull-right"/></a></li>
+                                            <li><a className="first-player" onClick={this.playerToStartSelected}>{this.state.players[0].name}<span className={this.state.players[0].typeIcon}/></a></li>
                                             <li className="divider"/>
-                                            <li><a className="second-player" onClick={this.playerToStartSelected}>{this.state.players[1].name}<span className="glyphicon glyphicon-user pull-right"/></a></li>
+                                            <li><a className="second-player" onClick={this.playerToStartSelected}>{this.state.players[1].name}<span className={this.state.players[1].typeIcon}/></a></li>
                                         </ul>
                                     </li>
                                 </ul>

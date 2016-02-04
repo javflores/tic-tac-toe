@@ -120,7 +120,7 @@ describe('When the two players have been provided', () => {
         let firstPlayerOption = TestUtils.findRenderedDOMComponentWithClass(selection, 'first-player');
 
         let firstPlayer = "Juan";
-        let selectedPlayer = {"textContent": firstPlayer, "childNodes": [{className: "glyphicon glyphicon-user pull-right"}]};
+        let selectedPlayer = {"textContent": firstPlayer, "childNodes": [{}, {className: "glyphicon glyphicon-user pull-right"}]};
         TestUtils.Simulate.click(firstPlayerOption, {"target": selectedPlayer});
 
         let playerToStartSelect = TestUtils.findRenderedDOMComponentWithClass(selection, 'dropdown-toggle');
@@ -130,7 +130,7 @@ describe('When the two players have been provided', () => {
     it('sets type of player icon for selected player to start', () => {
         let firstPlayerOption = TestUtils.findRenderedDOMComponentWithClass(selection, 'first-player');
 
-        let selectedPlayer = {"textContent": "Juan", "childNodes": [{className: "glyphicon glyphicon-user pull-right"}]};
+        let selectedPlayer = {"textContent": "Juan", "childNodes": [{}, {className: "glyphicon glyphicon-user pull-right"}]};
         TestUtils.Simulate.click(firstPlayerOption, {"target": selectedPlayer});
 
         let typeOfPlayerToStartIcon = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'glyphicon glyphicon-user pull-right')[2];
