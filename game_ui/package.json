@@ -16,14 +16,14 @@
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/react-addons-test-utils",
-      "<rootDir>/node_modules/fbjs"
+      "<rootDir>/node_modules/fbjs",
+      "<rootDir>/node_modules/reflux"
     ],
     "moduleFileExtensions": [
       "js",
       "json",
       "react"
     ]
-
   },
   "dependencies": {
     "hapi": "^12.1.0",
@@ -31,6 +31,7 @@
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
     "react-router": "^2.0.0-rc5",
+    "reflux": "^0.3.0",
     "superagent": "^1.7.2",
     "yargs": "^3.32.0"
   },

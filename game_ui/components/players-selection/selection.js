@@ -4,6 +4,7 @@ import { render } from 'react-dom';
 
 let PlayerSelection = require('./player-selection');
 let PlayerSelectionControl = require('./player-selection-control');
+let GameActions = require('../game-requests/game-actions');
 
 const Selection = React.createClass({
     nameChanged(playerNumber, name){
@@ -18,7 +19,7 @@ const Selection = React.createClass({
     },
 
     typeSelected(playerNumber, type){
-        let typeIcon = (type === "human") ? "glyphicon-user" : "glyphicon-blackboard";
+        let typeIcon = (type === "Human") ? "glyphicon-user" : "glyphicon-blackboard";
         let players = this.state.players;
         let player = players[playerNumber-1];
 
@@ -50,6 +51,19 @@ const Selection = React.createClass({
 
         this.setState({
             playerToStart: playerToStart
+        });
+    },
+
+    startGame(){
+        let players = this.state.players.map((player) => {
+            return {
+                name: player.name,
+                type: player.type
+            };
+        });
+        GameActions.start({
+            players: players,
+            firstPlayer: this.state.playerToStart.name
         });
     },
 
@@ -98,7 +112,7 @@ const Selection = React.createClass({
                                     </li>
                                 </ul>
                             </div>
-                            {(this.state.playerToStart !== "") ? <PlayerSelectionControl controlClicked={this.continueClicked} /> : <div></div>}
+                            {(this.state.playerToStart !== "") ? <PlayerSelectionControl controlClicked={this.startGame} /> : <div></div>}
                         </div>
                     </div>
                 </div>

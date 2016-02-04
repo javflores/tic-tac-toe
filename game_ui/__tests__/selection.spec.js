@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
 const Selection = require('../components/players-selection/selection');
+const GameActions = require('../components/game-requests/game-actions');
 
 describe('When starting TicTacToe', () => {
     let selection;
@@ -138,8 +139,25 @@ describe('When the two players have been provided', () => {
         expect(typeOfPlayerToStartIcon).toBeDefined();
     });
 
-    it('should trigger initialization of the game if players were selected', () => {
+    it('should trigger game start if players were selected', () => {
+        let firstPlayerOption = TestUtils.findRenderedDOMComponentWithClass(selection, 'first-player');
+        let selectedPlayer = {"textContent": "Juan", "childNodes": [{}, {className: "glyphicon glyphicon-user pull-right"}]};
+        TestUtils.Simulate.click(firstPlayerOption, {"target": selectedPlayer});
 
+        let startGame = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
+        TestUtils.Simulate.click(startGame);
+
+        let expectedGameStartParameters = {
+            players: [{
+                name: "Juan",
+                type: "Human"
+            },{
+                name: "John",
+                type: "Human"
+            }],
+            firstPlayer: "Juan"
+        };
+        expect(GameActions.start).toBeCalledWith(expectedGameStartParameters);
     });
 });
 
