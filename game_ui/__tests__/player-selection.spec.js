@@ -1,11 +1,11 @@
 'use strict';
-jest.dontMock('../components/player-selection.js');
+jest.dontMock('../components/players-selection/player-selection.js');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
-const PlayerSelection = require('../components/player-selection');
+const PlayerSelection = require('../components/players-selection/player-selection');
 
 describe('Player selection', () => {
     let player, selection;

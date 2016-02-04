@@ -1,13 +1,13 @@
 'use strict';
-jest.dontMock('../components/selection.js');
-jest.dontMock('../components/player-selection.js');
-jest.dontMock('../components/player-selection-control.js');
+jest.dontMock('../components/players-selection/selection.js');
+jest.dontMock('../components/players-selection/player-selection.js');
+jest.dontMock('../components/players-selection/player-selection-control.js');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
-const Selection = require('../components/selection');
+const Selection = require('../components/players-selection/selection');
 
 describe('When starting TicTacToe', () => {
     let selection;

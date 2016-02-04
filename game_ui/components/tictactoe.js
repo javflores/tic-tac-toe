@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from 'react-dom';
 let Heading = require('../components/heading'),
     Board = require('../components/board'),
-    Selection = require('../components/selection');
+    Selection = require('../components/players-selection/selection');
 
 const TicTacToe = React.createClass({
     render() {

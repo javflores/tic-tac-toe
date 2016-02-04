@@ -2,8 +2,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-let PlayerSelection = require('../components/player-selection');
-let PlayerSelectionControl = require('../components/player-selection-control');
+let PlayerSelection = require('./player-selection');
+let PlayerSelectionControl = require('./player-selection-control');
 
 const Selection = React.createClass({
     nameChanged(playerNumber, name){
