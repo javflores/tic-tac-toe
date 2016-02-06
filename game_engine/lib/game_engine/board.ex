@@ -38,7 +38,7 @@ defmodule GameEngine.Board do
 													 _, player, _,
 													 _, _, player}}) when player in @players, do: {:winner, player}
 
-	def resolve_winner(%GameEngine.Board{positions: positions}) do
+	def resolve_winner(%GameEngine.Board{positions: _positions}) do
 		{:no_winner}
 	end
 
@@ -83,14 +83,6 @@ defmodule GameEngine.Board do
 		chunk_columns(first_column, second_column, third_column)
 	end
 
-	def get_columns(%GameEngine.Board{positions: positions}) do
-		{first_column, tail} = group_first_column(positions)
-
-		{second_column, third_column} = group_second_third(tail)
-
-		chunk_columns(first_column, second_column, third_column)
-	end
-
 	def get_diagonals(%GameEngine.Board{positions: {c1, _, c2,
 													_, c3, _,
 													c4, _, c5}}), do: [[c1, c3, c5], [c2, c3, c4]]
@@ -123,17 +115,17 @@ defmodule GameEngine.Board do
 		positions
 		|> Tuple.to_list
 		|> Enum.with_index
-		|> Enum.partition(fn({mark, index}) -> rem(index, 3) == 0 end)
+		|> Enum.partition(fn({_mark, index}) -> rem(index, 3) == 0 end)
 	end
 
 	defp group_second_third(second_third) do
 		second_third
-		|> Enum.partition(fn({mark, index}) -> rem(index, 3) == 1 end)
+		|> Enum.partition(fn({_mark, index}) -> rem(index, 3) == 1 end)
 	end
 
 	defp chunk_columns(first_column, second_column, third_column) do
 		first_column ++ second_column ++ third_column
-		|> Enum.map(fn({mark, index}) -> mark end)
+		|> Enum.map(fn({mark, _index}) -> mark end)
 		|> Enum.chunk(3)
 	end
 
