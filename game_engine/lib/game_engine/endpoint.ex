@@ -35,5 +35,7 @@ defmodule GameEngine.Endpoint do
     key: "_game_engine_key",
     signing_salt: "yVdNYKJs"
 
+  plug GameEngine.AllowCrossDomainRequestsPlug
+
   plug GameEngine.Router
 end
