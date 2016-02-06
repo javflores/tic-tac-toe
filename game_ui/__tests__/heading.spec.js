@@ -24,6 +24,6 @@ describe('Tic Tac Toe heading component', () => {
         );
 
         var secondaryText = TestUtils.findRenderedDOMComponentWithTag(heading, 'h4');
-        expect(secondaryText.textContent).toEqual("Let's get some fun!");
+        expect(secondaryText.textContent).toEqual("Let's have some fun!");
     });
 });

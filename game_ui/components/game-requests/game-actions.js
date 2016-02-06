@@ -1,5 +1,5 @@
 'use strict';
-let Reflux = require('reflux');
+import Reflux from 'reflux';
 
 const GameActions = Reflux.createActions(
     {

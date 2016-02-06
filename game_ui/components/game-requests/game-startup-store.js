@@ -1,5 +1,5 @@
 'use strict';
-let Reflux = require('reflux');
+import Reflux from 'reflux';
 let GameActions = require('./game-actions');
 let GameEngine = require('superagent');
 
@@ -20,13 +20,13 @@ const GameStore = Reflux.createStore({
 
     onStart(startGameParameters){
         let me = this;
-        const url = 'localhost:4000/start';
+        const url = 'http://localhost:4000/start';
         GameEngine.post(url)
             .send(this.parseGameStartParameters(startGameParameters))
-            .set('Accept', 'application/json')
+            .type('application/json')
+            .accept('application/json')
             .end((err, response) => {
                 if(response && response.ok) {
-                    //console.log(response.body);
                     me.trigger(response.body);
                 }
             });

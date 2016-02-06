@@ -8,34 +8,29 @@ import TestUtils from 'react-addons-test-utils';
 const TicTacToe = require('../components/tictactoe');
 const Heading = require('../components/heading');
 const Board = require('../components/board');
-const Selection = require('../components/players-selection/selection');
+const GameControl = require('../components/game-control');
 
 describe('When rendering tic tac toe index', () => {
+    let tictactoe;
+    beforeEach(() => {
+        tictactoe = TestUtils.renderIntoDocument(<TicTacToe />);
+    });
 
     it('should render the game heading', () => {
-        var tictactoe = TestUtils.renderIntoDocument(
-            <TicTacToe />
-        );
-
         var heading = TestUtils.findRenderedComponentWithType(tictactoe, Heading);
+
         expect(heading).toBeDefined();
     });
 
     it('should render the board', () => {
-        var tictactoe = TestUtils.renderIntoDocument(
-            <TicTacToe />
-        );
-
         var board = TestUtils.findRenderedComponentWithType(tictactoe, Board);
+
         expect(board).toBeDefined();
     });
 
-    it('should render game selection', () => {
-        var tictactoe = TestUtils.renderIntoDocument(
-            <TicTacToe />
-        );
+    it('should render game control', () => {
+        var gameControl = TestUtils.findRenderedComponentWithType(tictactoe, GameControl);
 
-        var gameSelection = TestUtils.findRenderedComponentWithType(tictactoe, Selection);
-        expect(gameSelection).toBeDefined();
+        expect(gameControl).toBeDefined();
     });
 });

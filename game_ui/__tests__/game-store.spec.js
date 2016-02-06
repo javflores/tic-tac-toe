@@ -1,11 +1,11 @@
 'use strict';
-jest.dontMock('../components/game-requests/game-store.js');
+jest.dontMock('../components/game-requests/game-startup-store.js');
 
 var EngineRequest = require('superagent');
-const GameStore = require('../components/game-requests/game-store');
+const GameStartupStore = require('../components/game-requests/game-startup-store');
 
 
-describe('When Game store is notified about game start', () => {
+describe('When Game startup store is notified about game start', () => {
     let gameStartParameters;
     beforeEach(() => {
         gameStartParameters = {
@@ -21,13 +21,13 @@ describe('When Game store is notified about game start', () => {
     });
 
     it('calls game engine to start game', () => {
-        GameStore.onStart(gameStartParameters);
+        GameStartupStore.onStart(gameStartParameters);
 
-        expect(EngineRequest.post).toBeCalledWith("localhost:4000/start");
+        expect(EngineRequest.post).toBeCalledWith("http://localhost:4000/start");
     });
 
     it('passes game start parameters to game engine', () => {
-        GameStore.onStart(gameStartParameters);
+        GameStartupStore.onStart(gameStartParameters);
 
         let parsedGameParameters = {
             o_name: "R2-D2",
@@ -40,9 +40,9 @@ describe('When Game store is notified about game start', () => {
     });
 
     it('notifies listeners when game has started', () => {
-        GameStore.trigger = jest.genMockFunction();
+        GameStartupStore.trigger = jest.genMockFunction();
 
-        GameStore.onStart(gameStartParameters);
+        GameStartupStore.onStart(gameStartParameters);
 
         let expectedGameEngineStart = {
             "game_id": "123456",
@@ -53,6 +53,6 @@ describe('When Game store is notified about game start', () => {
             "board": [null, null, null, null, null, null, null, null, null],
             "next_player": "R2-D2"
         };
-        expect(GameStore.trigger).toBeCalledWith(expectedGameEngineStart);
+        expect(GameStartupStore.trigger).toBeCalledWith(expectedGameEngineStart);
     });
 });

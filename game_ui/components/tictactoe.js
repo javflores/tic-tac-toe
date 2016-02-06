@@ -1,9 +1,10 @@
 'use strict';
 import React from 'react';
 import { render } from 'react-dom';
+
 let Heading = require('../components/heading'),
     Board = require('../components/board'),
-    Selection = require('../components/players-selection/selection');
+    GameControl = require('../components/game-control');
 
 const TicTacToe = React.createClass({
     render() {
@@ -11,7 +12,7 @@ const TicTacToe = React.createClass({
             <div>
                 <Heading />
                 <Board />
-                <Selection />
+                <GameControl />
             </div>
         );
     }

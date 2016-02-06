@@ -8,7 +8,7 @@ const Heading = React.createClass({
             <div className="row">
                 <div className="col-lg-12 title">
                     <h1 className="subheader">Tic Tac Toe</h1>
-                    <h4 className="subheader">Let's get some fun!</h4>
+                    <h4 className="subheader">Let's have some fun!</h4>
                 </div>
 
             </div>

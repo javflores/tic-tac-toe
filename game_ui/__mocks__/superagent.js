@@ -37,6 +37,9 @@ var GameEngineMock = {
     accept() {
         return this;
     },
+    type() {
+        return this;
+    },
     timeout() {
         return this;
     },
