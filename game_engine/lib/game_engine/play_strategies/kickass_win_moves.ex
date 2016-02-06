@@ -19,7 +19,7 @@ defmodule GameEngine.PlayStrategies.KickAssWinMoves do
 		end
 	end
 
-	defp horizontal_win([], player), do: nil
+	defp horizontal_win([], _player), do: nil
 
 	defp horizontal_win([[nil, mark, mark]], player) when player == mark, do: %{row: 2, column: 0}
 	defp horizontal_win([[mark, nil, mark]], player) when player == mark, do: %{row: 2, column: 1}
@@ -29,14 +29,14 @@ defmodule GameEngine.PlayStrategies.KickAssWinMoves do
 	defp horizontal_win([[mark, nil, mark], [_, _, _]], player) when player == mark, do: %{row: 1, column: 1}
 	defp horizontal_win([[mark, mark, nil], [_, _, _]], player) when player == mark, do: %{row: 1, column: 2}
 
-	defp horizontal_win([[nil, mark, mark]|tail], player) when player == mark, do: %{row: 0, column: 0}
-	defp horizontal_win([[mark, nil, mark]|tail], player) when player == mark, do: %{row: 0, column: 1}
-	defp horizontal_win([[mark, mark, nil]|tail], player) when player == mark, do: %{row: 0, column: 2}
+	defp horizontal_win([[nil, mark, mark]|_tail], player) when player == mark, do: %{row: 0, column: 0}
+	defp horizontal_win([[mark, nil, mark]|_tail], player) when player == mark, do: %{row: 0, column: 1}
+	defp horizontal_win([[mark, mark, nil]|_tail], player) when player == mark, do: %{row: 0, column: 2}
 
 	defp horizontal_win([[_, _, _]|tail], player) , do: horizontal_win(tail, player)
 
 
-	defp vertical_win([], player), do: nil
+	defp vertical_win([], _player), do: nil
 
 	defp vertical_win([[nil, mark, mark]], player) when player == mark, do: %{row: 0, column: 2}
 	defp vertical_win([[mark, nil, mark]], player) when player == mark, do: %{row: 1, column: 2}
@@ -46,9 +46,9 @@ defmodule GameEngine.PlayStrategies.KickAssWinMoves do
 	defp vertical_win([[mark, nil, mark], [_, _, _]], player) when player == mark, do: %{row: 1, column: 1}
 	defp vertical_win([[mark, mark, nil], [_, _, _]], player) when player == mark, do: %{row: 2, column: 1}
 
-	defp vertical_win([[nil, mark, mark]|tail], player) when player == mark, do: %{row: 0, column: 0}
-	defp vertical_win([[mark, nil, mark]|tail], player) when player == mark, do: %{row: 1, column: 0}
-	defp vertical_win([[mark, mark, nil]|tail], player) when player == mark, do: %{row: 2, column: 0}
+	defp vertical_win([[nil, mark, mark]|_tail], player) when player == mark, do: %{row: 0, column: 0}
+	defp vertical_win([[mark, nil, mark]|_tail], player) when player == mark, do: %{row: 1, column: 0}
+	defp vertical_win([[mark, mark, nil]|_tail], player) when player == mark, do: %{row: 2, column: 0}
 
 	defp vertical_win([[_, _, _]|tail], player) , do: vertical_win(tail, player)
 
@@ -79,5 +79,5 @@ defmodule GameEngine.PlayStrategies.KickAssWinMoves do
 
 	defp diagonal_win({_, _, _, 
 					  _, _, _, 
-					  _, _, _}, player), do: nil
+					  _, _, _}, _player), do: nil
 end

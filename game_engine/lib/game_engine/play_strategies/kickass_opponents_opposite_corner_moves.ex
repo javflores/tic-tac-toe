@@ -18,5 +18,5 @@ defmodule GameEngine.PlayStrategies.KickAssOpponentsOppositeCornerMoves do
 
 	def find_corner(%GameEngine.Board{positions: {_, _, _,
 						 					  	  _, _, _,
-						 					  	  _, _, _}}, opponent), do: nil
+						 					  	  _, _, _}}, _opponent), do: nil
 end

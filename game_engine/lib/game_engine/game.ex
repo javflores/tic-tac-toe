@@ -22,7 +22,7 @@ defmodule GameEngine.Game do
 		{:ok, state}
 	end
 
-	def handle_call({:start, %{o: %{name: o_name, type: o_type}, x: %{name: x_name, type: x_type}, first_player: first_player}}, _from, state) do
+	def handle_call({:start, %{o: %{name: o_name, type: o_type}, x: %{name: x_name, type: x_type}, first_player: first_player}}, _from, _state) do
 		game_id = GameEngine.GameIdGenerator.new
 
 		type_of_game = get_type_of_game(o_type, x_type)
@@ -43,13 +43,13 @@ defmodule GameEngine.Game do
 		{:reply, {:ok, %{state | next_player: get_player_name(next_player, o_name, x_name)}}, state}
 	end
 
-	def handle_call({:move, game_id}, _from, state) do
+	def handle_call({:move, _game_id}, _from, state) do
 		{:ok, board_after_move} = GameEngine.Player.move(state[:next_player], state[:board])
 
 		handle_move(state, board_after_move)
 	end
 
-	def handle_call({:move, game_id, move}, _from, state) do
+	def handle_call({:move, _game_id, move}, _from, state) do
 		{:ok, board_after_move} = GameEngine.Player.move(state[:next_player], state[:board], move)
 
 		handle_move(state, board_after_move)
@@ -62,10 +62,6 @@ defmodule GameEngine.Game do
 	defp get_type_of_game(:computer, :human),  do: :human_computer
 
 	defp get_type_of_game(:human, :human),  do: :human_human
-
-	defp first_player_part_of_game?(state, first_player) do
-		state[:o] == first_player || state[:x] == first_player
-	end
 
 	defp handle_move(state, board_after_move) do
 		{new_state, response} = process_move(state[:next_player], board_after_move, state)
@@ -109,9 +105,9 @@ defmodule GameEngine.Game do
 	defp winner?({:winner, _winner}), do: true
 	defp winner?({:no_winner}), do: false
 
-	defp get_next_player(o, x, first_player) when first_player == o, do: :o
-	defp get_next_player(o, x, first_player) when first_player == x, do: :x
+	defp get_next_player(o, _x, first_player) when first_player == o, do: :o
+	defp get_next_player(_o, x, first_player) when first_player == x, do: :x
 
-	defp get_player_name(:o, o, x), do: o
-	defp get_player_name(:x, o, x), do: x
+	defp get_player_name(:o, o, _x), do: o
+	defp get_player_name(:x, _o, x), do: x
 end

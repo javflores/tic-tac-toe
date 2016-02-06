@@ -22,19 +22,19 @@ defmodule GameEngine.Player do
 		{:ok, state}
 	end
 
-	def handle_call({:initialize, name, type, mark, :computer_computer}, _from, state) do
+	def handle_call({:initialize, name, type, mark, :computer_computer}, _from, _state) do
 		state = %{name: name, type: type, mark: mark, strategy: :simple}
 
 		{:reply, {:ok, state}, state}
 	end
 
-	def handle_call({:initialize, name, :computer, mark, :human_computer}, _from, state) do
+	def handle_call({:initialize, name, :computer, mark, :human_computer}, _from, _state) do
 		state = %{name: name, type: :computer, mark: mark, strategy: :kickass}
 
 		{:reply, {:ok, state}, state}
 	end
 
-	def handle_call({:initialize, name, :human, mark, _game_type}, _from, state) do
+	def handle_call({:initialize, name, :human, mark, _game_type}, _from, _state) do
 		state = %{name: name, type: :human, mark: mark, strategy: :human}
 
 		{:reply, {:ok, state}, state}
