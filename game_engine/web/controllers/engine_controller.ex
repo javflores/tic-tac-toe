@@ -1,6 +1,11 @@
 defmodule GameEngine.EngineController do
 	use GameEngine.Web, :controller
 
+	def preflight(conn, _params) do
+		conn
+		|> send_resp(200, "")
+	end
+
 	def start(conn, params) do
 		case GameEngine.Game.start(:game, get_players(params)) do
 			{:ok, game} ->
