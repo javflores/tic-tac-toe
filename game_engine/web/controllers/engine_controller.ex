@@ -1,9 +1,9 @@
 defmodule GameEngine.EngineController do
 	use GameEngine.Web, :controller
 
-	def nothing(conn, _params) do
+	def preflight(conn, _params) do
 		conn
-		|> json(%{status: "ok"})
+		|> send_resp(200, "")
 	end
 
 	def start(conn, params) do
