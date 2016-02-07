@@ -9,9 +9,9 @@ const GameStore = Reflux.createStore({
         let secondPlayer = startGameParameters.players[1];
         return {
             o_name: firstPlayer.name,
-            o_type: firstPlayer.type.toLowerCase(),
+            o_type: firstPlayer.type,
             x_name: secondPlayer.name,
-            x_type: secondPlayer.type.toLowerCase(),
+            x_type: secondPlayer.type,
             first_player: startGameParameters.firstPlayer
         };
     },
@@ -27,7 +27,14 @@ const GameStore = Reflux.createStore({
             .accept('application/json')
             .end((err, response) => {
                 if(response && response.ok) {
-                    me.trigger(response.body);
+                    me.trigger({
+                        game_id: response.body.game_id,
+                        type: response.body.type,
+                        players: startGameParameters.players,
+                        next_player: startGameParameters.firstPlayer,
+                        board: response.body.board,
+                        status: response.body.status
+                    });
                 }
             });
     }

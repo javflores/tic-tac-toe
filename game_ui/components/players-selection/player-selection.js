@@ -26,12 +26,12 @@ const PlayerSelection = React.createClass({
                     <ul className="nav navbar-nav">
                         <li className="dropdown">
                             <a className="dropdown-toggle" data-toggle="dropdown">{this.props.player.type}
-                                <span className={(this.props.player.type == "Human") ? "glyphicon glyphicon-user pull-right" : "glyphicon glyphicon-blackboard pull-right"}/>
+                                <span className={(this.props.player.type == "human") ? "glyphicon glyphicon-user pull-right" : "glyphicon glyphicon-blackboard pull-right"}/>
                             </a>
                             <ul className="dropdown-menu">
-                                <li><a className="human-type" onClick={this.typeSelected}>Human<span className="glyphicon glyphicon-user pull-right"/></a></li>
+                                <li><a className="human-type" onClick={this.typeSelected}>human<span className="glyphicon glyphicon-user pull-right"/></a></li>
                                 <li className="divider"/>
-                                <li><a className="computer-type" onClick={this.typeSelected}>Computer<span className="glyphicon glyphicon-blackboard pull-right"/></a></li>
+                                <li><a className="computer-type" onClick={this.typeSelected}>computer<span className="glyphicon glyphicon-blackboard pull-right"/></a></li>
                             </ul>
                         </li>
                     </ul>

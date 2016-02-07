@@ -11,10 +11,10 @@ describe('When Game startup store is notified about game start', () => {
         gameStartParameters = {
             players: [{
                 name: "R2-D2",
-                type: "Computer"
+                type: "computer"
             },{
                 name: "C-3PO",
-                type: "Computer"
+                type: "computer"
             }],
             firstPlayer: "R2-D2"
         };
@@ -45,13 +45,18 @@ describe('When Game startup store is notified about game start', () => {
         GameStartupStore.onStart(gameStartParameters);
 
         let expectedGameEngineStart = {
-            "game_id": "123456",
-            "status": "start",
-            "type": "computer_computer",
-            "o": "R2-D2",
-            "x": "C-3PO",
-            "board": [null, null, null, null, null, null, null, null, null],
-            "next_player": "R2-D2"
+            game_id: "123456",
+            status: "start",
+            players:[{
+                name: "R2-D2",
+                type: "computer"
+            },{
+                name: "C-3PO",
+                type: "computer"
+            }],
+            type: "computer_computer",
+            board: [null, null, null, null, null, null, null, null, null],
+            next_player: "R2-D2"
         };
         expect(GameStartupStore.trigger).toBeCalledWith(expectedGameEngineStart);
     });

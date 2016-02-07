@@ -10,9 +10,14 @@ describe('When Game is notified about an started game', () => {
         let gameStartResponse = {
             game_id: "123456",
             status: "start",
+            players:[{
+                name: "R2-D2",
+                type: "computer"
+            },{
+                name: "C-3PO",
+                type: "computer"
+            }],
             type: "computer_computer",
-            o: "R2-D2",
-            x: "C-3PO",
             board: [null, null, null, null, null, null, null, null, null],
             next_player: "R2-D2"
         };

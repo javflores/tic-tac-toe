@@ -34,13 +34,13 @@ describe('When starting TicTacToe', () => {
     it('displays Human-type of player by default', () => {
         let playerTypeSelect = TestUtils.findRenderedDOMComponentWithClass(selection, 'dropdown-toggle');
 
-        expect(playerTypeSelect.textContent).toEqual("Human")
+        expect(playerTypeSelect.textContent).toEqual("human")
     });
 
     it('allows user to select type of player', () => {
         let computerTypeSelect = TestUtils.findRenderedDOMComponentWithClass(selection, 'computer-type');
 
-        let firstPlayerType = "Computer";
+        let firstPlayerType = "computer";
         TestUtils.Simulate.click(computerTypeSelect, {"target": {"textContent": firstPlayerType}});
 
         let playerTypeSelect = TestUtils.findRenderedDOMComponentWithClass(selection, 'dropdown-toggle');
@@ -139,6 +139,15 @@ describe('When the two players have been provided', () => {
         expect(typeOfPlayerToStartIcon).toBeDefined();
     });
 
+    it('displays start game button if player to start is selected', () => {
+        let firstPlayerOption = TestUtils.findRenderedDOMComponentWithClass(selection, 'first-player');
+        let selectedPlayer = {"textContent": "Juan", "childNodes": [{}, {className: "glyphicon glyphicon-user pull-right"}]};
+        TestUtils.Simulate.click(firstPlayerOption, {"target": selectedPlayer});
+
+        let startGameButton = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
+        expect(startGameButton).toBeDefined();
+    });
+
     it('should trigger game start if players were selected', () => {
         let firstPlayerOption = TestUtils.findRenderedDOMComponentWithClass(selection, 'first-player');
         let selectedPlayer = {"textContent": "Juan", "childNodes": [{}, {className: "glyphicon glyphicon-user pull-right"}]};
@@ -150,10 +159,10 @@ describe('When the two players have been provided', () => {
         let expectedGameStartParameters = {
             players: [{
                 name: "Juan",
-                type: "Human"
+                type: "human"
             },{
                 name: "John",
-                type: "Human"
+                type: "human"
             }],
             firstPlayer: "Juan"
         };

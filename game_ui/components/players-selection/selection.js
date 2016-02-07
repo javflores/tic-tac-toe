@@ -19,11 +19,11 @@ const Selection = React.createClass({
     },
 
     typeSelected(playerNumber, type){
-        let typeIcon = (type === "Human") ? "glyphicon-user" : "glyphicon-blackboard";
+        let typeIcon = (type === "human") ? "glyphicon-user" : "glyphicon-blackboard";
         let players = this.state.players;
         let player = players[playerNumber-1];
 
-        player.type = type;
+        player.type = type.toLowerCase();
         player.typeIcon = "glyphicon ".concat(typeIcon, " pull-right");
         this.setState({
             players: players
@@ -73,11 +73,11 @@ const Selection = React.createClass({
             editingPlayerNumber: 1,
             players: [{
                 name: "",
-                type: "Human",
+                type: "human",
                 typeIcon: "glyphicon glyphicon-user pull-right"
             },{
                 name: "",
-                type: "Human",
+                type: "human",
                 typeIcon: "glyphicon glyphicon-user pull-right"
             }],
             playerToStart: {
@@ -99,7 +99,7 @@ const Selection = React.createClass({
                     <div className="row">
                         <div className="form-group">
                             <div className="row">
-                                <ul className="nav navbar-nav">
+                                <ul className="first-player-select nav navbar-nav">
                                     <li className="dropdown">
                                         <a className="dropdown-toggle" data-toggle="dropdown">{this.state.playerToStart.name}
                                             <span className={this.state.playerToStart.typeIcon}/>
@@ -112,7 +112,7 @@ const Selection = React.createClass({
                                     </li>
                                 </ul>
                             </div>
-                            {(this.state.playerToStart !== "") ? <PlayerSelectionControl controlClicked={this.startGame} /> : <div></div>}
+                            {(this.state.playerToStart.name !== "") ? <PlayerSelectionControl controlClicked={this.startGame} /> : <div></div>}
                         </div>
                     </div>
                 </div>

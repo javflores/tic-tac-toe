@@ -129,6 +129,10 @@ table {
     padding: 25px;
 }
 
+.first-player-select{
+    margin-top: 0px !important;
+}
+
 .nav {
     left:50%;
     margin-left:-150px;

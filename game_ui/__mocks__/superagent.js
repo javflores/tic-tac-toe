@@ -9,16 +9,14 @@ var mockResponse = {
     ok() {
         return true;
     },
-    body(){
-        return {
-            "game_id": "123456",
-            "status": "start",
-            "type": "computer_computer",
-            "o": "R2-D2",
-            "x": "C-3PO",
-            "board": [null, null, null, null, null, null, null, null, null],
-            "next_player": "R2-D2"
-        };
+    body: {
+        game_id: "123456",
+        status: "start",
+        type: "computer_computer",
+        o: "R2-D2",
+        x: "C-3PO",
+        board: [null, null, null, null, null, null, null, null, null],
+        next_player: "R2-D2"
     },
     get: jest.genMockFunction(),
     toError: jest.genMockFunction()
