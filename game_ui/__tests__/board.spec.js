@@ -10,8 +10,6 @@ const Position = require('../components/board/position');
 
 describe('Board', () => {
     it('renders nine empty positions', () => {
-        let nextPlayer = "John the Champ";
-
         let renderedPlayer = TestUtils.renderIntoDocument(<Board />);
 
         var positions = TestUtils.scryRenderedComponentsWithType(renderedPlayer, Position);
