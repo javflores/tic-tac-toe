@@ -23,7 +23,7 @@ const Selection = React.createClass({
         let players = this.state.players;
         let player = players[playerNumber-1];
 
-        player.type = type.toLowerCase();
+        player.type = type;
         player.typeIcon = "glyphicon ".concat(typeIcon, " pull-right");
         this.setState({
             players: players
