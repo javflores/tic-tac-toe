@@ -7,7 +7,7 @@ import TestUtils from 'react-addons-test-utils';
 
 const TicTacToe = require('../components/tictactoe');
 const Heading = require('../components/heading');
-const Board = require('../components/board');
+const Board = require('../components/board/board');
 const GameControl = require('../components/game-control');
 
 describe('When rendering tic tac toe index', () => {

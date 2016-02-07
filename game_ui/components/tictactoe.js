@@ -2,9 +2,9 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-let Heading = require('../components/heading'),
-    Board = require('../components/board'),
-    GameControl = require('../components/game-control');
+let Heading = require('./heading'),
+    Board = require('./board/board'),
+    GameControl = require('./game-control');
 
 const TicTacToe = React.createClass({
     render() {

@@ -2,6 +2,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 
+let Position = require('./position');
+
 const Board = React.createClass({
     render() {
         return (
@@ -11,19 +13,19 @@ const Board = React.createClass({
                         <table className="board">
                             <tbody>
                             <tr id="row1">
-                                <td className="square"/>
-                                <td className="square v"/>
-                                <td className="square"/>
+                                <td className="square"><Position /></td>
+                                <td className="square v"><Position /></td>
+                                <td className="square"><Position /></td>
                             </tr>
                             <tr id="row2">
-                                <td className="square h"/>
-                                <td className="square middle"/>
-                                <td className="square h"/>
+                                <td className="square h"><Position /></td>
+                                <td className="square middle"><Position /></td>
+                                <td className="square h"><Position /></td>
                             </tr>
                             <tr id="row3">
-                                <td className="square"/>
-                                <td className="square v"/>
-                                <td className="square"/>
+                                <td className="square"><Position /></td>
+                                <td className="square v"><Position /></td>
+                                <td className="square"><Position /></td>
                             </tr>
                             </tbody>
                         </table>
