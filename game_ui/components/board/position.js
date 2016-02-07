@@ -12,19 +12,39 @@ const Position = React.createClass({
         return this.props.content === "";
     },
 
-    getContent(){
-        if(this.isPositionAvailable()){
-            return <i className="fa"/>;
+    setPossibleMark(e){
+        let markNode = e.target.children[0];
+        if(markNode){
+            let markStyle = (this.props.mark === "o") ? "position-o" : "position-x";
+            markNode.className = markStyle;
         }
-        if(this.isPositionNotInitialized()){
-            return <div></div>;
+    },
+
+    notSelected(e){
+        let markNode = e.target.children[0];
+        if(markNode){
+            markNode.className = "";
         }
     },
 
     render() {
+        if(this.props.content === null){
+            return (
+                <div className="space-wrapper-1" onMouseOver={this.setPossibleMark} onMouseOut={this.notSelected}>
+                    <div className="space-wrapper-2">
+                        <div className="space-wrapper-3">
+                            <div className="space">
+                                <div className="" >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
         return (
             <div>
-                {this.getContent()}
             </div>
         );
     }

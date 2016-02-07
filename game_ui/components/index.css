@@ -112,6 +112,66 @@ table {
     border: 5px solid rgb(220, 235, 223);
 }
 
+.space-wrapper-1 {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.space-wrapper-2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.space-wrapper-3{
+    display: table;
+    width: 100%;
+    height: 100%;
+}
+
+.space {
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 2.5em;
+    height: 33%;
+}
+
+.position-o {
+    position: relative;
+    font-size: 2em;
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+.position-o:before {
+    content: "\f10c";
+    font-family: FontAwesome;
+    left:-5px;
+    top:0;
+}
+
+.position-x {
+    position: relative;
+    font-size: 2em;
+    display: inline-block;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+}
+.position-x:before {
+    content: "\f00d";
+    font-family: FontAwesome;
+    left:-5px;
+    top:0;
+}
+
 .game-control{
     margin-bottom: 2.5em;
     margin-top: 2.2em;
