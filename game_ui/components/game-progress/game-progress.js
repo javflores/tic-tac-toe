@@ -35,9 +35,9 @@ const GameProgress = React.createClass({
         return (
             <div className="row">
                 <Message />
-                <Player player={this.state.players[0]}/>
+                <Player player={this.state.players[0]} nextPlayer={this.state.nextPlayer}/>
                 <TurnIndicator nextPlayer={this.state.nextPlayer}/>
-                <Player player={this.state.players[1]}/>
+                <Player player={this.state.players[1]} nextPlayer={this.state.nextPlayer}/>
             </div>
         );
     }

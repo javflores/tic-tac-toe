@@ -43,4 +43,22 @@ describe('Player', () => {
         var typeIconNode = TestUtils.findRenderedDOMComponentWithTag(humanPlayerNode, "i");
         expect(typeIconNode.className).toEqual(humanIcon);
     });
+
+    it('is faded when it is not the next player', () => {
+        let renderedPlayer = TestUtils.renderIntoDocument(
+            <Player player={{name: "me"}} nextPlayer={"other"}/>
+        );
+
+        var playerNode = TestUtils.findRenderedDOMComponentWithTag(renderedPlayer, "div");
+        expect(playerNode.className).toContain("control-faded");
+    });
+
+    it('is highlighted when it is the next player', () => {
+        let renderedPlayer = TestUtils.renderIntoDocument(
+            <Player player={{name: "me"}} nextPlayer={"me"}/>
+        );
+
+        var playerNode = TestUtils.findRenderedDOMComponentWithTag(renderedPlayer, "div");
+        expect(playerNode.className).toContain("control-focused");
+    });
 });
