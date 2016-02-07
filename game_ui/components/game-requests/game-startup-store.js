@@ -31,7 +31,7 @@ const GameStore = Reflux.createStore({
                         game_id: response.body.game_id,
                         type: response.body.type,
                         players: startGameParameters.players,
-                        next_player: startGameParameters.firstPlayer,
+                        nextPlayer: startGameParameters.firstPlayer,
                         board: response.body.board,
                         status: response.body.status
                     });

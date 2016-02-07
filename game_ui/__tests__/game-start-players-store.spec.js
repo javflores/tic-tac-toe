@@ -19,13 +19,13 @@ describe('When Game start players store is notified about an started game', () =
             }],
             type: "computer_computer",
             board: [null, null, null, null, null, null, null, null, null],
-            next_player: "R2-D2"
+            nextPlayer: "R2-D2"
         };
         GameStartPlayersStore.onGameStart(gameStartResponse);
 
         expect(GameStartPlayersStore.trigger).toBeCalledWith({
             players: gameStartResponse.players,
-            next_player: gameStartResponse.next_player
+            nextPlayer: gameStartResponse.nextPlayer
         });
     });
 });

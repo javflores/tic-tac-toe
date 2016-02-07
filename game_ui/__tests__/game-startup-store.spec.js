@@ -56,7 +56,7 @@ describe('When Game startup store is notified about game start', () => {
             }],
             type: "computer_computer",
             board: [null, null, null, null, null, null, null, null, null],
-            next_player: "R2-D2"
+            nextPlayer: "R2-D2"
         };
         expect(GameStartupStore.trigger).toBeCalledWith(expectedGameEngineStart);
     });

@@ -10,7 +10,7 @@ const GameStartPlayersStore = Reflux.createStore({
     onGameStart(startup){
         let players = {
             players: startup.players,
-            next_player: startup.next_player
+            nextPlayer: startup.nextPlayer
         };
         this.trigger(players);
     }
