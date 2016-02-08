@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import Reflux from 'reflux';
 
-let GameStatusStore = require('./game-requests/game-status-store'),
+let GameStatusStore = require('./game-requests/status-store'),
     Selection = require('./players-selection/selection'),
     GameProgress = require('./game-progress/game-progress');
 

@@ -1,9 +1,9 @@
 'use strict';
-jest.dontMock('../components/game-requests/game-status-store.js');
+jest.dontMock('../components/game-requests/status-store.js');
 
-const GameStatusStore = require('../components/game-requests/game-status-store');
+const GameStatusStore = require('../components/game-requests/status-store');
 
-describe('Game status', () => {
+describe('Status store', () => {
     let gameStartResponse;
     beforeEach(() => {
         GameStatusStore.trigger = jest.genMockFunction();

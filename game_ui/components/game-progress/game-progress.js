@@ -6,16 +6,10 @@ import Reflux from 'reflux';
 let Player = require("./player");
 let Message = require("./message");
 let TurnIndicator = require("./turn-indicator");
-let GameStartPlayersStore = require("../game-requests/game-start-players-store");
+let GameStartPlayersStore = require("../game-requests/start-players-store");
+let NextPlayerStore = require("../game-requests/next-player-store");
 
 const GameProgress = React.createClass({
-    onPlayersReady(startPlayers){
-        this.setState({
-            players: startPlayers.players,
-            nextPlayer: startPlayers.nextPlayer
-        });
-    },
-
     getInitialState(){
         return {
             players: [{
@@ -29,7 +23,7 @@ const GameProgress = React.createClass({
         };
     },
 
-    mixins: [Reflux.listenTo(GameStartPlayersStore, 'onPlayersReady')],
+    mixins: [Reflux.connect(GameStartPlayersStore, "players"), Reflux.connect(NextPlayerStore, "nextPlayer")],
 
     render() {
         return (

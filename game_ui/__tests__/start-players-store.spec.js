@@ -1,7 +1,7 @@
 'use strict';
-jest.dontMock('../components/game-requests/game-start-players-store.js');
+jest.dontMock('../components/game-requests/start-players-store.js');
 
-const GameStartPlayersStore = require('../components/game-requests/game-start-players-store');
+const GameStartPlayersStore = require('../components/game-requests/start-players-store');
 
 describe('When Game start players store is notified about an started game', () => {
     it('notifies listeners', () => {
@@ -23,9 +23,6 @@ describe('When Game start players store is notified about an started game', () =
         };
         GameStartPlayersStore.onStartCompleted(gameStartResponse);
 
-        expect(GameStartPlayersStore.trigger).toBeCalledWith({
-            players: gameStartResponse.players,
-            nextPlayer: gameStartResponse.nextPlayer
-        });
+        expect(GameStartPlayersStore.trigger).toBeCalledWith(gameStartResponse.players);
     });
 });

@@ -2,7 +2,7 @@
 import Reflux from 'reflux';
 let GameActions = require('./game-actions');
 
-const GameStatusStore = Reflux.createStore({
+const StatusStore = Reflux.createStore({
     init(){
         this.listenToMany(GameActions);
     },
@@ -16,4 +16,4 @@ const GameStatusStore = Reflux.createStore({
     }
 });
 
-module.exports = GameStatusStore;
+module.exports = StatusStore;
