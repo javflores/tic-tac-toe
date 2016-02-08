@@ -2,6 +2,8 @@
 import React from 'react';
 import { render } from 'react-dom';
 
+let Mark = require('./mark');
+
 const Position = React.createClass({
 
     isPositionAvailable() {
@@ -31,22 +33,25 @@ const Position = React.createClass({
         if(this.props.content === null){
             return (
                 <div className="space-wrapper-1" onClick={this.props.selected} onMouseOver={this.setPossibleMark} onMouseOut={this.notSelected}>
-                    <div className="space-wrapper-2">
-                        <div className="space-wrapper-3">
-                            <div className="space">
-                                <div className="" >
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <Mark markStyle={""} />
                 </div>
             );
         }
 
-        return (
-            <div>
-            </div>
-        );
+        else if(this.props.content === "o" || this.props.content === "x"){
+            let markStyle = "position-" + this.props.content;
+            return (
+                <div className="space-wrapper-1">
+                    <Mark markStyle={markStyle} />
+                </div>
+            );
+        }
+        else{
+            return (
+                <div>
+                </div>
+            );
+        }
     }
 });
 

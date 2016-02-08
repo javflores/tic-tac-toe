@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import Reflux from 'reflux';
 
-let GameStatusStore = require('./game-requests/status-store'),
+let StatusStore = require('./game-requests/status-store'),
     Selection = require('./players-selection/selection'),
     GameProgress = require('./game-progress/game-progress');
 
@@ -24,7 +24,7 @@ const GameControl = React.createClass({
         };
     },
 
-    mixins: [Reflux.connect(GameStatusStore, 'status')],
+    mixins: [Reflux.connect(StatusStore, 'status')],
 
     render() {
         return (

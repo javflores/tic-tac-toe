@@ -63,6 +63,7 @@ const GameStore = Reflux.createStore({
                     GameActions.move.completed({
                         game_id: response.body.game_id,
                         nextPlayer: response.body.next_player,
+                        player: response.body.player,
                         board: response.body.board,
                         status: response.body.status
                     });

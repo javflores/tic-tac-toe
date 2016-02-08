@@ -1,5 +1,6 @@
 'use strict';
 jest.dontMock('../components/board/position.js');
+jest.dontMock('../components/board/mark.js');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -65,3 +66,13 @@ describe('Position when available', () => {
         expect(renderedPosition.props.selected).toBeCalled();
     });
 });
+
+describe('Position when played', () => {
+    it('renders corresponding mark', () => {
+        let renderedPosition = TestUtils.renderIntoDocument(<Position content={"o"}/>);
+
+        var contentHovered = TestUtils.findRenderedDOMComponentWithClass(renderedPosition, "position-o");
+        expect(contentHovered).toBeDefined();
+    });
+});
+
