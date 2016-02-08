@@ -21,7 +21,7 @@ describe('When Game start players store is notified about an started game', () =
             board: [null, null, null, null, null, null, null, null, null],
             nextPlayer: "R2-D2"
         };
-        GameStartPlayersStore.onGameStart(gameStartResponse);
+        GameStartPlayersStore.onStartCompleted(gameStartResponse);
 
         expect(GameStartPlayersStore.trigger).toBeCalledWith({
             players: gameStartResponse.players,

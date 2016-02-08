@@ -1,16 +1,29 @@
 'use strict';
 import Reflux from 'reflux';
-let GameStartupStore = require('./game-startup-store');
+let GameActions = require('./game-actions');
 
 const CurrentMarkStore = Reflux.createStore({
-    init(){
-        this.listenTo(GameStartupStore, 'onGameStart');
+
+    triggerCurrentMark(nextPlayer){
+        let currentMark = (this.data.players[0].name === nextPlayer) ? "o" : "x";
+        this.trigger(currentMark);
     },
 
-    onGameStart(startup){
-        let currentMark = (startup.players[0].name === startup.nextPlayer) ? "o" : "x";
-        this.trigger(currentMark);
+    init(){
+        this.listenToMany(GameActions);
+    },
+
+    data: {},
+
+    onStartCompleted(startup){
+        this.data.players = startup.players;
+        this.triggerCurrentMark(startup.nextPlayer);
+    },
+
+    onMoveCompleted(move){
+        this.triggerCurrentMark(move.nextPlayer);
     }
+
 });
 
 module.exports = CurrentMarkStore;

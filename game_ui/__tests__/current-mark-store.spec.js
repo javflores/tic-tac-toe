@@ -3,11 +3,12 @@ jest.dontMock('../components/game-requests/current-mark-store.js');
 
 const CurrentMarkStore = require('../components/game-requests/current-mark-store');
 
-describe('When Current Mark Store is notified about an started game', () => {
-    it('sends listeners the starting mark', () => {
+describe('Current Mark Store', () => {
+    let gameStartResponse;
+    beforeEach(() => {
         CurrentMarkStore.trigger = jest.genMockFunction();
 
-        let gameStartResponse = {
+        gameStartResponse = {
             game_id: "123456",
             status: "start",
             players:[{
@@ -21,8 +22,21 @@ describe('When Current Mark Store is notified about an started game', () => {
             board: [null, null, null, null, null, null, null, null, null],
             nextPlayer: "R2-D2"
         };
-        CurrentMarkStore.onGameStart(gameStartResponse);
+    });
 
-        expect(CurrentMarkStore.trigger).toBeCalledWith("o");
+    it('sends listeners the starting mark upon game started', () => {
+        CurrentMarkStore.onStartCompleted(gameStartResponse);
+
+        let markFirstPlayer = "o";
+        expect(CurrentMarkStore.trigger).toBeCalledWith(markFirstPlayer);
+    });
+
+    it('sends listeners the next mark upon movement performed', () => {
+        CurrentMarkStore.onStartCompleted(gameStartResponse);
+
+        CurrentMarkStore.onMoveCompleted({nextPlayer: "C-3PO"});
+
+        let markNextPlayer = "x";
+        expect(CurrentMarkStore.trigger).toBeCalledWith(markNextPlayer);
     });
 });

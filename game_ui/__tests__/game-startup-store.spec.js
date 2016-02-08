@@ -3,9 +3,10 @@ jest.dontMock('../components/game-requests/game-startup-store.js');
 
 var EngineRequest = require('superagent');
 const GameStartupStore = require('../components/game-requests/game-startup-store');
+const GameActions = require('../components/game-requests/game-actions');
 
 
-describe('When Game startup store is notified about game start', () => {
+describe('Game store', () => {
     let gameStartParameters;
     beforeEach(() => {
         gameStartParameters = {
@@ -20,13 +21,13 @@ describe('When Game startup store is notified about game start', () => {
         };
     });
 
-    it('calls game engine to start game', () => {
+    it('calls game engine to start game when notified about game start', () => {
         GameStartupStore.onStart(gameStartParameters);
 
         expect(EngineRequest.post).toBeCalledWith("http://localhost:4000/start");
     });
 
-    it('passes game start parameters to game engine', () => {
+    it('passes game start parameters to game engine when notified about game start', () => {
         GameStartupStore.onStart(gameStartParameters);
 
         let parsedGameParameters = {
@@ -39,9 +40,7 @@ describe('When Game startup store is notified about game start', () => {
         expect(EngineRequest.send).toBeCalledWith(parsedGameParameters);
     });
 
-    it('notifies listeners when game has started', () => {
-        GameStartupStore.trigger = jest.genMockFunction();
-
+    it('triggers game start completed with game engine start response when notified about game start', () => {
         GameStartupStore.onStart(gameStartParameters);
 
         let expectedGameEngineStart = {
@@ -58,6 +57,6 @@ describe('When Game startup store is notified about game start', () => {
             board: [null, null, null, null, null, null, null, null, null],
             nextPlayer: "R2-D2"
         };
-        expect(GameStartupStore.trigger).toBeCalledWith(expectedGameEngineStart);
+        expect(GameActions.start.completed).toBeCalledWith(expectedGameEngineStart);
     });
 });

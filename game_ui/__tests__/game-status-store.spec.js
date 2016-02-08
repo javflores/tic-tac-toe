@@ -3,11 +3,12 @@ jest.dontMock('../components/game-requests/game-status-store.js');
 
 const GameStatusStore = require('../components/game-requests/game-status-store');
 
-describe('When Game is notified about an started game', () => {
-    it('notifies listeners', () => {
+describe('Game status', () => {
+    let gameStartResponse;
+    beforeEach(() => {
         GameStatusStore.trigger = jest.genMockFunction();
 
-        let gameStartResponse = {
+        gameStartResponse = {
             game_id: "123456",
             status: "start",
             players:[{
@@ -19,10 +20,22 @@ describe('When Game is notified about an started game', () => {
             }],
             type: "computer_computer",
             board: [null, null, null, null, null, null, null, null, null],
-            next_player: "R2-D2"
+            nextPlayer: "R2-D2"
         };
-        GameStatusStore.onGameStart(gameStartResponse);
+    });
+
+    it('notifies listeners about a started game upon start', () => {
+        GameStatusStore.onStartCompleted(gameStartResponse);
 
         expect(GameStatusStore.trigger).toBeCalledWith(gameStartResponse.status);
+    });
+
+    it('notifies listeners about next status upon movement performed', () => {
+        GameStatusStore.onStartCompleted(gameStartResponse);
+
+        let inProgressStatus = "in_progress";
+        GameStatusStore.onMoveCompleted({status: inProgressStatus});
+
+        expect(GameStatusStore.trigger).toBeCalledWith(inProgressStatus);
     });
 });

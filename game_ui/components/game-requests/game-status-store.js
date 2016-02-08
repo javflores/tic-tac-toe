@@ -1,14 +1,18 @@
 'use strict';
 import Reflux from 'reflux';
-let GameStartupStore = require('./game-startup-store');
+let GameActions = require('./game-actions');
 
 const GameStatusStore = Reflux.createStore({
     init(){
-        this.listenTo(GameStartupStore, 'onGameStart');
+        this.listenToMany(GameActions);
     },
 
-    onGameStart(startup){
+    onStartCompleted(startup){
         this.trigger(startup.status);
+    },
+
+    onMoveCompleted(move){
+        this.trigger(move.status)
     }
 });
 
