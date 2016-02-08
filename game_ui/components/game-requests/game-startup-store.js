@@ -16,7 +16,18 @@ const GameStore = Reflux.createStore({
         };
     },
 
+    parseMove(position){
+        return {
+            move: {
+                row: position.row,
+                column: position.column
+            }
+        };
+    },
+
     listenables: GameActions,
+
+    data: {},
 
     onStart(startGameParameters){
         let me = this;
@@ -27,11 +38,31 @@ const GameStore = Reflux.createStore({
             .accept('application/json')
             .end((err, response) => {
                 if(response && response.ok) {
+                    me.data.gameId = response.body.game_id;
                     me.trigger({
                         game_id: response.body.game_id,
                         type: response.body.type,
                         players: startGameParameters.players,
                         nextPlayer: startGameParameters.firstPlayer,
+                        board: response.body.board,
+                        status: response.body.status
+                    });
+                }
+            });
+    },
+
+    onMove(position){
+        let me = this;
+        const url = 'http://localhost:4000/move/' + me.data.gameId;
+        GameEngine.post(url)
+            .send(this.parseMove(position))
+            .type('application/json')
+            .accept('application/json')
+            .end((err, response) => {
+                if(response && response.ok) {
+                    me.trigger({
+                        game_id: response.body.game_id,
+                        nextPlayer: response.body.next_player,
                         board: response.body.board,
                         status: response.body.status
                     });

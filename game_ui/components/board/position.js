@@ -30,7 +30,7 @@ const Position = React.createClass({
     render() {
         if(this.props.content === null){
             return (
-                <div className="space-wrapper-1" onMouseOver={this.setPossibleMark} onMouseOut={this.notSelected}>
+                <div className="space-wrapper-1" onClick={this.props.selected} onMouseOver={this.setPossibleMark} onMouseOut={this.notSelected}>
                     <div className="space-wrapper-2">
                         <div className="space-wrapper-3">
                             <div className="space">

@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
 const Position = require('../components/board/position');
+const GameActions = require('../components/game-requests/game-actions');
 
 describe('Position when passed in empty content', () => {
     it('renders with empty space', () => {
@@ -53,5 +54,14 @@ describe('Position when available', () => {
 
         var contentHovered = TestUtils.scryRenderedDOMComponentsWithClass(renderedPosition, "position-x");
         expect(contentHovered.length).toEqual(0);
+    });
+
+    it('notifies board when clicked', () => {
+        let renderedPosition = TestUtils.renderIntoDocument(<Position content={null} mark={"x"} selected={jest.genMockFunction()}/>);
+
+        var positionNode = TestUtils.findRenderedDOMComponentWithClass(renderedPosition, "space-wrapper-1");
+        TestUtils.Simulate.click(positionNode);
+
+        expect(renderedPosition.props.selected).toBeCalled();
     });
 });

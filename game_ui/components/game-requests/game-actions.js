@@ -3,7 +3,8 @@ import Reflux from 'reflux';
 
 const GameActions = Reflux.createActions(
     {
-        'start': {children: ['completed']}
+        'start': {children: ['completed']},
+        'move': {children: ['completed']}
     }
 );
 
