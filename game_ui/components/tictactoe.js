@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { render } from 'react-dom';
-require('./game-requests/game-startup-store');
+require('./game-requests/game-store');
 
 let Heading = require('./heading'),
     Board = require('./board/board'),

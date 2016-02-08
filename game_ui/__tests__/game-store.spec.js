@@ -1,8 +1,8 @@
 'use strict';
-jest.dontMock('../components/game-requests/game-startup-store.js');
+jest.dontMock('../components/game-requests/game-store.js');
 
 var EngineRequest = require('superagent');
-const GameStartupStore = require('../components/game-requests/game-startup-store');
+const GameStartupStore = require('../components/game-requests/game-store');
 const GameActions = require('../components/game-requests/game-actions');
 
 
