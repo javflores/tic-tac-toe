@@ -11,6 +11,10 @@ const Mark = React.createClass({
         return this.props.content === null || this.props.content === "";
     },
 
+    nextPlayerMarkStyle: function () {
+        return (this.state.currentMark === "o") ? "position-o" : "position-x";
+    },
+
     positionSelected(){
         if(!this.isAvailable()){
             return;
@@ -26,7 +30,7 @@ const Mark = React.createClass({
 
         let markNode = e.target.children[0];
         if(markNode){
-            let markStyle = (this.state.currentMark === "o") ? "position-o" : "position-x";
+            let markStyle = this.nextPlayerMarkStyle();
             markNode.className = markStyle;
         }
     },
