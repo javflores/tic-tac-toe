@@ -17,7 +17,8 @@
       "<rootDir>/node_modules/react-dom",
       "<rootDir>/node_modules/react-addons-test-utils",
       "<rootDir>/node_modules/fbjs",
-      "<rootDir>/node_modules/reflux"
+      "<rootDir>/node_modules/reflux",
+      "<rootDir>/components/game-guard"
     ],
     "moduleFileExtensions": [
       "js",
