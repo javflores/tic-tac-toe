@@ -1,23 +1,23 @@
 'use strict';
 
-const Activated = "activate";
-
 export class GameGuard {
     constructor() {
-        this.flags = {};
+        this.activated = false;
     }
 
     deactivate(){
-        this.flags[Activated] = false;
+        this.activated = false;
     }
 
     activate(){
-        this.flags[Activated] = true;
+        this.activated = true;
     }
 
     guard(action){
-        if(!this.flags[Activated]){
-            return action.apply(this, arguments);
+        if(this.activated){
+            return;
         }
+
+        return action.apply(this, arguments);
     }
 }
