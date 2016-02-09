@@ -7,16 +7,22 @@ let CurrentMarkStore = require("../game-requests/current-mark-store");
 let GameActions = require('../game-requests/game-actions');
 
 const Mark = React.createClass({
+    isAvailable: function () {
+        return this.props.content === null || this.props.content === "";
+    },
+
     positionSelected(){
-        if(this.state.currentMark && this.state.currentMark !== "" )
+        if(!this.isAvailable()){
             return;
+        }
 
         GameActions.move(this.props.position);
     },
 
     setPossibleMark(e){
-        if(this.state.currentMark !== "" )
+        if(!this.isAvailable()){
             return;
+        }
 
         let markNode = e.target.children[0];
         if(markNode){
@@ -26,8 +32,9 @@ const Mark = React.createClass({
     },
 
     notSelected(e){
-        if(this.state.currentMark !== "" )
+        if(!this.isAvailable()){
             return;
+        }
 
         let markNode = e.target.children[0];
         if(markNode){
@@ -41,42 +48,10 @@ const Mark = React.createClass({
         };
     },
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.content !== ""){
-            this.setState({
-                currentMark: nextProps.content
-            });
-        }
-    },
+    mixins: [Reflux.connect(CurrentMarkStore, 'currentMark')],
 
-    //componentWillUpdate(nextProps){
-    //    if(nextProps.available){
-    //        MarkClickGuard.deactivate();
-    //        MarkHoverGuard.deactivate();
-    //    }
-    //    else{
-    //        MarkClickGuard.activate();
-    //        MarkHoverGuard.activate();
-    //    }
-    //},
-
-    //componentWillMount(){
-    //    if(this.props.available){
-    //        MarkClickGuard.deactivate();
-    //        MarkHoverGuard.deactivate();
-    //    }
-    //    else{
-    //        MarkClickGuard.activate();
-    //        MarkHoverGuard.activate();
-    //    }
-    //},
-
-    //mixins: [Reflux.connect(CurrentMarkStore, 'currentMark')],
-
-    //mixins: [Reflux.listenTo(GameActions.move)],
-    //
     render() {
-        let markStyle = (this.state.currentMark === "") ? "" : "position-" + this.state.currentMark;
+        let markStyle = (this.props.content === "") ? "" : "position-" + this.props.content;
 
         return (
             <div className="space-wrapper-1"
