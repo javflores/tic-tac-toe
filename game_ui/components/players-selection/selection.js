@@ -105,9 +105,9 @@ const Selection = React.createClass({
                                             <span className={this.state.playerToStart.typeIcon}/>
                                         </a>
                                         <ul className="dropdown-menu">
-                                            <li><a className="first-player" onClick={this.playerToStartSelected}>{this.state.players[0].name}<span className={this.state.players[0].typeIcon}/></a></li>
+                                            <li onClick={this.playerToStartSelected}><a className="first-player">{this.state.players[0].name}<span className={this.state.players[0].typeIcon}/></a></li>
                                             <li className="divider"/>
-                                            <li><a className="second-player" onClick={this.playerToStartSelected}>{this.state.players[1].name}<span className={this.state.players[1].typeIcon}/></a></li>
+                                            <li onClick={this.playerToStartSelected}><a className="second-player">{this.state.players[1].name}<span className={this.state.players[1].typeIcon}/></a></li>
                                         </ul>
                                     </li>
                                 </ul>

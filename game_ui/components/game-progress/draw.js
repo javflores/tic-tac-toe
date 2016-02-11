@@ -35,8 +35,12 @@ const Draw = React.createClass({
             <Modal
                 isOpen={true}
                 style={this.getStyle()}>
-                <h2>The battle was hard. This is draw!</h2>
-                <h2>This is draw!</h2>
+                <h2>The battle was hard...</h2>
+                <div className="row">
+                    <div className="col-lg-12">
+                        <h2 className="subheader">This is draw!</h2>
+                    </div>
+                </div>
                 <button className="btn btn-primary" onClick={this.props.restartGame}>Start new game</button>
             </Modal>
         );
