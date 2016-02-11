@@ -46,12 +46,6 @@ const Mark = React.createClass({
         }
     },
 
-    getInitialState(){
-        return {
-            currentMark: ''
-        };
-    },
-
     mixins: [Reflux.connect(CurrentMarkStore, 'currentMark')],
 
     render() {

@@ -24,6 +24,15 @@ describe('Current Mark Store', () => {
         };
     });
 
+    it('sets initial current mark of listeners upon game start', () => {
+        CurrentMarkStore.onStartCompleted(gameStartResponse);
+
+        let initialMark = CurrentMarkStore.getInitialState();
+
+        let markFirstPlayer = "o";
+        expect(initialMark).toEqual(markFirstPlayer);
+    });
+
     it('sends listeners the starting mark upon game started', () => {
         CurrentMarkStore.onStartCompleted(gameStartResponse);
 

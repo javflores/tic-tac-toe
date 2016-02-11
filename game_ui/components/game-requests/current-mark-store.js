@@ -3,9 +3,13 @@ import Reflux from 'reflux';
 let GameActions = require('./game-actions');
 
 const CurrentMarkStore = Reflux.createStore({
+    getInitialState: function() {
+        return this.data.currentMark;
+    },
 
     triggerCurrentMark(nextPlayer){
         let currentMark = (this.data.players[0].name === nextPlayer) ? "o" : "x";
+        this.data.currentMark = currentMark;
         this.trigger(currentMark);
     },
 
