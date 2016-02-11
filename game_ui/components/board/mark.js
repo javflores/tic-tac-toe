@@ -12,7 +12,7 @@ const Mark = React.createClass({
     },
 
     nextPlayerMarkStyle: function () {
-        return (this.state.currentMark === "o") ? "position-o" : "position-x";
+        return (this.state.currentMark === "o") ? "space position-o" : "space position-x";
     },
 
     positionSelected(){
@@ -28,10 +28,9 @@ const Mark = React.createClass({
             return;
         }
 
-        let markNode = e.target.children[0];
-        if(markNode){
-            let markStyle = this.nextPlayerMarkStyle();
-            markNode.className = markStyle;
+        let available = e.target;
+        if(available){
+            available.className = this.nextPlayerMarkStyle();
         }
     },
 
@@ -40,32 +39,22 @@ const Mark = React.createClass({
             return;
         }
 
-        let markNode = e.target.children[0];
-        if(markNode){
-            markNode.className = "";
+        let available = e.target;
+        if(available){
+            available.className = "space";
         }
     },
 
     mixins: [Reflux.connect(CurrentMarkStore, 'currentMark')],
 
     render() {
-        let markStyle = (this.props.content === "") ? "" : "position-" + this.props.content;
+        let markStyle = this.isAvailable() ? "space" : "space position-" + this.props.content;
 
         return (
-            <div className="space-wrapper-1"
+            <div className={markStyle}
                  onClick={this.positionSelected}
                  onMouseOver={this.setPossibleMark}
                  onMouseOut={this.notSelected}>
-
-                <div className="space-wrapper-2">
-                    <div className="space-wrapper-3">
-                        <div className="space">
-                            <div className={markStyle} >
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         );
     }

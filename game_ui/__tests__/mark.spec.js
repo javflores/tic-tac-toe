@@ -8,7 +8,7 @@ import TestUtils from 'react-addons-test-utils';
 const Mark = require('../components/board/mark');
 const GameActions = require('../components/game-requests/game-actions');
 
-describe('Mark when passed in o mark', () => {
+describe('When is taken with O', () => {
     it('renders the mark', () => {
         let renderedPosition = TestUtils.renderIntoDocument(<Mark content={"o"}/>);
 
@@ -17,7 +17,7 @@ describe('Mark when passed in o mark', () => {
     });
 });
 
-describe('Mark when passed in x mark', () => {
+describe('When is taken with X', () => {
     it('renders the mark', () => {
         let renderedPosition = TestUtils.renderIntoDocument(<Mark content={"x"}/>);
 
@@ -27,36 +27,37 @@ describe('Mark when passed in x mark', () => {
 });
 
 describe('Position when available', () => {
-    it('displays mark icon of next player when mouse over', () => {
-        let renderedMark = TestUtils.renderIntoDocument(<Mark content={null}/>);
-
+    let renderedMark,
+        position;
+    beforeEach(() => {
+        position = {row: 0, column: 0};
+        renderedMark = TestUtils.renderIntoDocument(<Mark content={null} position={position}/>);
         renderedMark.nextPlayerMarkStyle = jest.genMockFunction().mockReturnValueOnce("position-o");
+    });
 
-        var positionNode = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "space-wrapper-1");
-        TestUtils.Simulate.mouseOver(positionNode);
+    it('displays mark icon of next player when mouse over', () => {
+        let available = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "space");
+        TestUtils.Simulate.mouseOver(available);
 
-        var contentHovered = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "position-o");
+        let contentHovered = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "position-o");
         expect(contentHovered).toBeDefined();
     });
 
     it('displays empty space when mouse is out', () => {
-        let renderedMark = TestUtils.renderIntoDocument(<Mark content={null}/>);
-        var positionNode = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "space-wrapper-1");
-        TestUtils.Simulate.mouseOver(positionNode);
+        let available = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "space");
+        TestUtils.Simulate.mouseOver(available);
 
-        TestUtils.Simulate.mouseOut(positionNode);
+        TestUtils.Simulate.mouseOut(available);
 
-        var contentHovered = TestUtils.scryRenderedDOMComponentsWithClass(renderedMark, "position-x");
+        let contentHovered = TestUtils.scryRenderedDOMComponentsWithClass(renderedMark, "position-x");
         expect(contentHovered.length).toEqual(0);
     });
 
     it('triggers a board when clicked', () => {
         GameActions.move = jest.genMockFunction();
-        let position = {row: 0, column: 0};
-        let renderedMark = TestUtils.renderIntoDocument(<Mark content={null} position={position}/>);
 
-        var positionNode = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "space-wrapper-1");
-        TestUtils.Simulate.click(positionNode);
+        let available = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "space");
+        TestUtils.Simulate.click(available);
 
         expect(GameActions.move).toBeCalledWith(position);
     });
