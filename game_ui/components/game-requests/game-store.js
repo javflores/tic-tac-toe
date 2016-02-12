@@ -69,6 +69,25 @@ const GameStore = Reflux.createStore({
                     });
                 }
             });
+    },
+
+    onComputerMove(){
+        let me = this;
+        const url = 'http://localhost:4000/move/' + me.data.gameId;
+        GameEngine.post(url)
+            .type('application/json')
+            .accept('application/json')
+            .end((err, response) => {
+                if(response && response.ok) {
+                    GameActions.move.completed({
+                        game_id: response.body.game_id,
+                        nextPlayer: response.body.next_player,
+                        player: response.body.player,
+                        board: response.body.board,
+                        status: response.body.status
+                    });
+                }
+            });
     }
 });
 
