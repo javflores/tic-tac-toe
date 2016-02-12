@@ -65,6 +65,16 @@ defmodule GameEngine.KickAssStrategyAbsoluteLocationMovesTest do
 		assert move == %{row: 2, column: 2}
 	end
 
+	test "no empty corner to take" do
+		board = %GameEngine.Board{positions: {@player, nil, @opponent,
+						 					  nil, @opponent, nil,
+						 					  @player, nil, @player}}
+
+		move = KickAssAbsoluteLocationMoves.take_empty_corner(board)
+
+		assert move == nil
+	end
+
 	test "take empty top side" do
 		board = %GameEngine.Board{positions: {@opponent, nil, @player,
 						 					  nil, @opponent, nil,

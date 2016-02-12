@@ -14,7 +14,10 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 				block
 
 			fork = PlayStrategies.KickAssForkMoves.fork(board, player) ->
-				fork
+				fork			
+
+			prevent_fork = PlayStrategies.KickAssPreventOpponentForkMoves.prevent_fork(board, opponent) ->
+				prevent_fork
 
 			block_fork = PlayStrategies.KickAssForkMoves.fork(board, opponent) ->
 				block_fork

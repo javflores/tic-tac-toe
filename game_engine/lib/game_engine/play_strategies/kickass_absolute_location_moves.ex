@@ -24,6 +24,10 @@ defmodule GameEngine.PlayStrategies.KickAssAbsoluteLocationMoves do
 						 					  	  		_, _, _,
 						 					  	  		_, _, nil}}), do: %{row: 2, column: 2}
 
+	def take_empty_corner(%GameEngine.Board{positions: {_, _, _,
+						 					  	  		_, _, _,
+						 					  	  		_, _, _}}), do: nil
+
 	def take_empty_side(%GameEngine.Board{positions: {_, nil, _,
 						 					  	  	  _, _, _,
 						 					  	  	  _, _, _}}), do: %{row: 0, column: 1}

@@ -34,6 +34,16 @@ defmodule GameEngine.KickAssStrategyTest do
 		assert fork == %{row: 1, column: 0}
 	end
 
+	test "kickass strategy prevents fork by opponent" do
+		board = %GameEngine.Board{positions: {@player, nil, nil,
+						 					  nil, @opponent, nil,
+						 					  nil, nil, @opponent}}
+
+		prevent_fork = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
+			
+		assert prevent_fork == %{row: 2, column: 0}
+	end
+
 	test "kickass strategy tells to block a possible fork by opponent" do
 		board = %GameEngine.Board{positions: {@opponent, @player, nil,
 						 					  nil, @opponent, nil,
@@ -41,7 +51,7 @@ defmodule GameEngine.KickAssStrategyTest do
 
 		block_opponents_fork = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 			
-		assert block_opponents_fork == %{row: 1, column: 0}
+		assert block_opponents_fork == %{row: 2, column: 0}
 	end
 
 	test "kickass strategy finds a position to force opponent into defending to create a later fork" do

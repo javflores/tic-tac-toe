@@ -105,4 +105,15 @@ defmodule GameEngine.KickAssStrategyForkMovesTest do
 		expected_fork = %{row: 1, column: 0}		
 		assert fork == expected_fork
 	end
+
+	test "find really early fork" do
+		early_fork = {@opponent, nil, nil,
+					  nil, @player, nil,
+					  nil, @opponent, @player}
+
+		move = KickAssForkMoves.fork(%GameEngine.Board{positions: early_fork}, @player)
+
+		expected_fork = %{row: 1, column: 2}		
+		assert move == expected_fork
+	end
 end
