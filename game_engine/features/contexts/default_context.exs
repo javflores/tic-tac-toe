@@ -119,11 +119,11 @@ defmodule GameEngine.Features.DefaultContext do
 
   then_ ~r/^I get the computer opponent move$/, fn state ->
     response = state |> Dict.get(:response)
-    decoded_response = json_response(response, 200)
+    decoded_response = json_response(response, 200)    
 
     assert decoded_response["player"] == "C-3PO"
     assert decoded_response["next_player"] == "Johny"
-    assert decoded_response["board"] == ["o", nil, nil, nil, "x", nil, nil, nil, nil]
+    refute decoded_response["board"] == ["o", nil, nil, nil, nil, nil, nil, nil, nil]
 
     {:ok, state}
   end

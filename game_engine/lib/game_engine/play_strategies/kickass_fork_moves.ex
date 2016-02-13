@@ -2,69 +2,12 @@ defmodule GameEngine.PlayStrategies.KickAssForkMoves do
 	def fork(board, player) do
 		board 
 		|> GameEngine.Board.two_empty_spaces_triples_in_board(player)
+		|> GameEngine.BoardCutter.triples_with_two_empty_spaces
 		|> duplicated_empty_spaces
 		|> List.first
 	end	
 
-	defp duplicated_empty_spaces(%{rows: rows, columns: columns, diagonals: diagonals}) do
-		all_empty_spaces = empty_spaces_in_rows(rows) ++ empty_spaces_in_columns(columns) ++ empty_spaces_in_diagonals(diagonals)
-		
-		non_duplicated_spaces = all_empty_spaces
-		|> Enum.uniq
-
-		all_empty_spaces -- non_duplicated_spaces
-	end
-
-	def empty_spaces_in_rows([]), do: []
-
-	def empty_spaces_in_rows({[nil, nil, _], row_number}), do: [%{row: row_number, column: 0}, %{row: row_number, column: 1}]
-	def empty_spaces_in_rows({[nil, _, nil], row_number}), do: [%{row: row_number, column: 0}, %{row: row_number, column: 2}]
-	def empty_spaces_in_rows({[_, nil, nil], row_number}), do: [%{row: row_number, column: 1}, %{row: row_number, column: 2}]
-
-	def empty_spaces_in_rows([triple|tail]) do
-		empty_spaces_in_rows(triple) ++ empty_spaces_in_rows(tail)
-	end
-
-	def empty_spaces_in_columns([]), do: []
-
-	def empty_spaces_in_columns({[nil, nil, _], column_number}), do: [%{row: 0, column: column_number}, %{row: 1, column: column_number}]
-	def empty_spaces_in_columns({[nil, _, nil], column_number}), do: [%{row: 0, column: column_number}, %{row: 2, column: column_number}]
-	def empty_spaces_in_columns({[_, nil, nil], column_number}), do: [%{row: 1, column: column_number}, %{row: 2, column: column_number}]
-
-	def empty_spaces_in_columns([triple|tail]) do
-		empty_spaces_in_columns(triple) ++ empty_spaces_in_columns(tail)
-	end
-
-	def empty_spaces_in_diagonals([]), do: []
-
-	def empty_spaces_in_diagonals({[nil, nil, _], diagonal_number}) do
-		case diagonal_number do
-			0 ->
-				[%{row: 0, column: 0}, %{row: 1, column: 1}]
-			1 ->
-				[%{row: 0, column: 2}, %{row: 1, column: 1}]
-		end		
-	end
-	
-	def empty_spaces_in_diagonals({[nil, _, nil], diagonal_number}) do
-		case diagonal_number do
-			0 ->
-				[%{row: 0, column: 0}, %{row: 2, column: 2}]
-			1 ->
-				[%{row: 0, column: 2}, %{row: 2, column: 0}]
-		end		
-	end
-
-	def empty_spaces_in_diagonals({[_, nil, nil], diagonal_number}) do
-		case diagonal_number do
-			0 ->
-				[%{row: 1, column: 1}, %{row: 2, column: 2}]
-			1 ->
-				[%{row: 1, column: 1}, %{row: 2, column: 0}]
-		end		
-	end	
-
-	def empty_spaces_in_diagonals([triple|tail]) do
-		empty_spaces_in_diagonals(triple) ++ empty_spaces_in_diagonals(tail)
+	defp duplicated_empty_spaces(%{all: all_two_empty_spaces, non_duplicates: non_duplicated_spaces}) do
+		all_two_empty_spaces -- non_duplicated_spaces
 	end
 end
