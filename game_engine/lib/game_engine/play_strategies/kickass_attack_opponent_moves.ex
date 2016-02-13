@@ -8,7 +8,7 @@ defmodule GameEngine.PlayStrategies.KickAssAttackMoves do
 	end
 
 	def filter_non_duplicated(triples) do
-		%{non_duplicates: non_duplicated_spaces, all: all_two_empty_spaces} = triples
+		%{non_duplicates: non_duplicated_spaces, all: _all_two_empty_spaces} = triples
 		|> GameEngine.BoardCutter.triples_with_two_empty_spaces
 		non_duplicated_spaces
 	end
@@ -26,7 +26,7 @@ defmodule GameEngine.PlayStrategies.KickAssAttackMoves do
 
 	def get_possible_opponent_fork(possible_move, current_board, player) do
 		back_to_future_board = GameEngine.Board.put_mark(current_board, possible_move, player)
-		GameEngine.PlayStrategies.KickAssForkMoves.find(back_to_future_board, know_your_enemy(player))
+		GameEngine.PlayStrategies.KickAssForkMoves.find(back_to_future_board, GameEngine.Player.know_your_enemy(player))
 	end
 
 	def opponent_defence_is_fork?(nil, _players_move, _current_board, _player), do: false
@@ -37,9 +37,4 @@ defmodule GameEngine.PlayStrategies.KickAssAttackMoves do
 
 		block_win == opponent_fork
 	end
-
-
-	def know_your_enemy(:o), do: :x
-
-	def know_your_enemy(:x), do: :o
 end

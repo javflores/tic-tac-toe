@@ -55,13 +55,5 @@ defmodule GameEngine.KickAssAttackMovesTest do
 		force_fork_move = %{row: 0, column: 2}
 
 		assert KickAssAttackMoves.is_safe_defence?(force_fork_move, board, @player) == false
-	end	
-
-	test "o finds x as opponent in order to know about his possible future movements" do
-		assert KickAssAttackMoves.know_your_enemy(@player) == @opponent
-	end
-
-	test "x finds o as opponent in order to know about his possible future movements" do
-		assert KickAssAttackMoves.know_your_enemy(@opponent) == @player
 	end
 end

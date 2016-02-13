@@ -4,15 +4,7 @@ defmodule GameEngine.KickAssStrategyForceForkMovesTest do
 
 	@player :o
 	@opponent :x
-
-	test "o finds x as opponent in order to know about his possible future movements" do
-		assert KickAssForceForkMoves.know_your_enemy(@player) == @opponent
-	end
-
-	test "x finds o as opponent in order to know about his possible future movements" do
-		assert KickAssForceForkMoves.know_your_enemy(@opponent) == @player
-	end
-
+	
 	test "filter force-fork move not leading to subsequent player fork" do
 		positions = {@opponent, nil, @opponent,
 					 nil, @player, nil,

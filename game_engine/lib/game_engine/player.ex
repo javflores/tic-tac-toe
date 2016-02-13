@@ -59,6 +59,9 @@ defmodule GameEngine.Player do
 		{:reply, {:ok, board}, state}
 	end
 
+	def know_your_enemy(:o), do: :x
+	def know_your_enemy(:x), do: :o
+
 	defp play(:simple, board, _mark), do: GameEngine.PlayStrategies.SimpleStrategy.calculate_move(board)
 
 	defp play(:kickass, board, mark), do: GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, mark)

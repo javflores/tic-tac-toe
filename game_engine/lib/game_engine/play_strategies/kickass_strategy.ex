@@ -4,7 +4,7 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 
 	def calculate_move(board, player) do
 		
-		opponent = know_your_enemy(player)
+		opponent = GameEngine.Player.know_your_enemy(player)
 
 		cond do
 			win = PlayStrategies.KickAssWinMoves.win(board, player) ->
@@ -38,8 +38,4 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 				empty_side
 		end
 	end
-
-	def know_your_enemy(:o), do: :x
-	def know_your_enemy(:x), do: :o
-
 end

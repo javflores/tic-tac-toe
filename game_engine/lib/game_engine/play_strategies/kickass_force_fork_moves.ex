@@ -19,13 +19,8 @@ defmodule GameEngine.PlayStrategies.KickAssForceForkMoves do
 		back_to_future_board = GameEngine.Board.put_mark(current_board, prevent_opponent_fork_move, player)
 
 		block_win = GameEngine.PlayStrategies.KickAssWinMoves.win(back_to_future_board, player)
-		future_board_with_possible_fork = GameEngine.Board.put_mark(back_to_future_board, block_win, know_your_enemy(player))
+		future_board_with_possible_fork = GameEngine.Board.put_mark(back_to_future_board, block_win, GameEngine.Player.know_your_enemy(player))
 
 		GameEngine.PlayStrategies.KickAssForkMoves.find(future_board_with_possible_fork, player) != nil
 	end
-
-
-	def know_your_enemy(:o), do: :x
-
-	def know_your_enemy(:x), do: :o
 end

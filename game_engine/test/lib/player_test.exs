@@ -75,4 +75,16 @@ defmodule GameEngine.PlayerTest do
 			assert GameEngine.Board.get_by_position(board, kickass_move) == :o
 		end
 	end
+
+	test "o is able to identify that x is the opponent" do
+		opponent = GameEngine.Player.know_your_enemy(:o)
+
+		assert opponent == :x
+	end
+
+	test "x is able to identify that o is the opponent" do
+		opponent = GameEngine.Player.know_your_enemy(:x)
+
+		assert opponent == :o
+	end
 end
