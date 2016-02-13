@@ -1,5 +1,5 @@
 defmodule GameEngine.PlayStrategies.KickAssForkMoves do
-	def fork(board, player) do
+	def find(board, player) do
 		board 
 		|> GameEngine.Board.two_empty_spaces_triples_in_board(player)
 		|> GameEngine.BoardCutter.triples_with_two_empty_spaces

@@ -6,13 +6,13 @@ defmodule GameEngine.KickAssStrategyBlockingMovesTest do
 	@opponent :x
 
 	test "o is able to identify that x is the opponent" do
-		opponent = KickAssStrategy.spot_opponent(@player)
+		opponent = KickAssStrategy.know_your_enemy(@player)
 
 		assert opponent == @opponent
 	end
 
 	test "x is able to identify that o is the opponent" do
-		opponent = KickAssStrategy.spot_opponent(@opponent)
+		opponent = KickAssStrategy.know_your_enemy(@opponent)
 
 		assert opponent == @player
 	end

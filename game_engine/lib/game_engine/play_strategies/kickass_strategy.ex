@@ -4,7 +4,7 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 
 	def calculate_move(board, player) do
 		
-		opponent = spot_opponent(player)
+		opponent = know_your_enemy(player)
 
 		cond do
 			win = PlayStrategies.KickAssWinMoves.win(board, player) ->
@@ -13,13 +13,13 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 			block = PlayStrategies.KickAssWinMoves.win(board, opponent) ->
 				block
 
-			fork = PlayStrategies.KickAssForkMoves.fork(board, player) ->
+			fork = PlayStrategies.KickAssForkMoves.find(board, player) ->
 				fork			
 
-			prevent_fork = PlayStrategies.KickAssPreventOpponentForkMoves.prevent_fork(board, opponent) ->
-				prevent_fork
+			attack = PlayStrategies.KickAssAttackMoves.find(board, opponent) ->
+				attack
 
-			block_fork = PlayStrategies.KickAssForkMoves.fork(board, opponent) ->
+			block_fork = PlayStrategies.KickAssForkMoves.find(board, opponent) ->
 				block_fork
 
 			force_fork = PlayStrategies.KickAssForceForkMoves.force_fork(board, player) ->
@@ -39,7 +39,7 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 		end
 	end
 
-	def spot_opponent(:o), do: :x
-	def spot_opponent(:x), do: :o
+	def know_your_enemy(:o), do: :x
+	def know_your_enemy(:x), do: :o
 
 end

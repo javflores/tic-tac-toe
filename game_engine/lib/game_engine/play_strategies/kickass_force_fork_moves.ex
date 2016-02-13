@@ -1,7 +1,7 @@
 defmodule GameEngine.PlayStrategies.KickAssForceForkMoves do
 	def force_fork(board, player) do
-		board 
-		|> GameEngine.PlayStrategies.KickAssPreventOpponentForkMoves.prevent_fork(player)
+		board
+		|> GameEngine.PlayStrategies.KickAssAttackMoves.find(player)
 		|> filter_moves_not_leading_to_fork(board, player)
 	end
 
@@ -9,7 +9,7 @@ defmodule GameEngine.PlayStrategies.KickAssForceForkMoves do
 		if results_in_later_fork?(prevent_opponent_fork_move, current_board, player) do
 			prevent_opponent_fork_move
 		else
-			nil			
+			nil
 		end
 	end
 
@@ -21,7 +21,7 @@ defmodule GameEngine.PlayStrategies.KickAssForceForkMoves do
 		block_win = GameEngine.PlayStrategies.KickAssWinMoves.win(back_to_future_board, player)
 		future_board_with_possible_fork = GameEngine.Board.put_mark(back_to_future_board, block_win, know_your_enemy(player))
 
-		GameEngine.PlayStrategies.KickAssForkMoves.fork(future_board_with_possible_fork, player) != nil
+		GameEngine.PlayStrategies.KickAssForkMoves.find(future_board_with_possible_fork, player) != nil
 	end
 
 

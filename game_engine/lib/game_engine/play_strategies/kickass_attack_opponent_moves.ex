@@ -1,5 +1,5 @@
-defmodule GameEngine.PlayStrategies.KickAssPreventOpponentForkMoves do
-	def prevent_fork(board, player) do
+defmodule GameEngine.PlayStrategies.KickAssAttackMoves do
+	def find(board, player) do
 		board 
 		|> GameEngine.Board.two_empty_spaces_triples_in_board(player)
 		|> find_corners(player)
@@ -25,7 +25,7 @@ defmodule GameEngine.PlayStrategies.KickAssPreventOpponentForkMoves do
 
 	def get_possible_opponent_fork(possible_move, current_board, player) do
 		back_to_future_board = GameEngine.Board.put_mark(current_board, possible_move, player)
-		GameEngine.PlayStrategies.KickAssForkMoves.fork(back_to_future_board, know_your_enemy(player))
+		GameEngine.PlayStrategies.KickAssForkMoves.find(back_to_future_board, know_your_enemy(player))
 	end
 
 	def opponent_defence_is_fork?(nil, _players_move, _current_board, _player), do: false

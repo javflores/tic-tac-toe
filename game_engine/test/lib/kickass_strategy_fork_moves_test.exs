@@ -10,7 +10,7 @@ defmodule GameEngine.KickAssStrategyForkMovesTest do
 													 nil, @player, nil,
 													 nil, nil, @opponent}
 
-		fork = KickAssForkMoves.fork(%GameEngine.Board{positions: positions_with_fork_in_bottom_left_corner}, @player)
+		fork = KickAssForkMoves.find(%GameEngine.Board{positions: positions_with_fork_in_bottom_left_corner}, @player)
 
 		expected_fork = %{row: 1, column: 0}		
 		assert fork == expected_fork
@@ -21,7 +21,7 @@ defmodule GameEngine.KickAssStrategyForkMovesTest do
 					  nil, @player, nil,
 					  nil, @opponent, @player}
 
-		move = KickAssForkMoves.fork(%GameEngine.Board{positions: early_fork}, @player)
+		move = KickAssForkMoves.find(%GameEngine.Board{positions: early_fork}, @player)
 
 		expected_fork = %{row: 1, column: 2}		
 		assert move == expected_fork
