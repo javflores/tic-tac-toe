@@ -1,6 +1,6 @@
 defmodule GameEngine.PlayStrategies.KickAssWinMoves do
 
-	def win(%GameEngine.Board{positions: positions}, player) do
+	def find(%GameEngine.Board{positions: positions}, player) do
 		rows = GameEngine.Board.get_rows(%GameEngine.Board{positions: positions})
 		columns = GameEngine.Board.get_columns(%GameEngine.Board{positions: positions})
 

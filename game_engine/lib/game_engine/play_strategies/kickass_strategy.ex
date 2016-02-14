@@ -7,10 +7,10 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 		opponent = GameEngine.Player.know_your_enemy(player)
 
 		cond do
-			win = PlayStrategies.KickAssWinMoves.win(board, player) ->
+			win = PlayStrategies.KickAssWinMoves.find(board, player) ->
 				win
 
-			block = PlayStrategies.KickAssWinMoves.win(board, opponent) ->
+			block = PlayStrategies.KickAssWinMoves.find(board, opponent) ->
 				block
 
 			fork = PlayStrategies.KickAssForkMoves.find(board, player) ->
@@ -25,16 +25,16 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 			force_fork = PlayStrategies.KickAssForceForkMoves.find(board, player) ->
 				force_fork
 
-			center = PlayStrategies.KickAssAbsoluteLocationMoves.play_center(board) ->
+			center = PlayStrategies.KickAssPlayCenterMoves.find(board) ->
 				center
 
-			opponent_opposite_corner = PlayStrategies.KickAssOpponentsOppositeCornerMoves.find_corner(board, opponent) ->
+			opponent_opposite_corner = PlayStrategies.KickAssOpponentsOppositeCornerMoves.find(board, opponent) ->
 				opponent_opposite_corner
 
-			empty_corner = PlayStrategies.KickAssAbsoluteLocationMoves.take_empty_corner(board) ->
+			empty_corner = PlayStrategies.KickAssEmptyCornerMoves.find(board) ->
 				empty_corner
 
-			empty_side = PlayStrategies.KickAssAbsoluteLocationMoves.take_empty_side(board) ->
+			empty_side = PlayStrategies.KickAssEmptySideMoves.find(board) ->
 				empty_side
 		end
 	end

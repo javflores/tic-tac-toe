@@ -12,7 +12,7 @@ defmodule GameEngine.PlayStrategies.OpponentsForksBlocker do
 
 	defp get_opponent_defence(possible_move, current_board, player) do
 		back_to_future_board = GameEngine.Board.put_mark(current_board, possible_move, player)
-		GameEngine.PlayStrategies.KickAssWinMoves.win(back_to_future_board, player)
+		GameEngine.PlayStrategies.KickAssWinMoves.find(back_to_future_board, player)
 	end
 
 	defp opponent_defence_is_fork?(nil, _players_move, _current_board, _player), do: false
