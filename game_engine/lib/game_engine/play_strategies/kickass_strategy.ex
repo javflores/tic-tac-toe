@@ -14,15 +14,15 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 				block
 
 			fork = PlayStrategies.KickAssForkMoves.find(board, player) ->
-				fork			
+				fork
 
-			attack = PlayStrategies.KickAssAttackMoves.find(board, opponent) ->
-				attack
+			attack_fork = PlayStrategies.KickAssAttackOpponentsForkMoves.find(board, player) ->
+				attack_fork
 
 			block_fork = PlayStrategies.KickAssForkMoves.find(board, opponent) ->
 				block_fork
 
-			force_fork = PlayStrategies.KickAssForceForkMoves.force_fork(board, player) ->
+			force_fork = PlayStrategies.KickAssForceForkMoves.find(board, player) ->
 				force_fork
 
 			center = PlayStrategies.KickAssAbsoluteLocationMoves.play_center(board) ->

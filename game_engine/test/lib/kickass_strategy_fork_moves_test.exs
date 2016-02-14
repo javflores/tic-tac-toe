@@ -16,6 +16,16 @@ defmodule GameEngine.KickAssStrategyForkMovesTest do
 		assert fork == expected_fork
 	end
 
+	test "able to find all forks" do
+		positions_with_fork_in_bottom_left_corner = {@opponent, @opponent, nil,
+													 nil, @player, nil,
+													 nil, nil, @player}
+
+		forks = KickAssForkMoves.find_all(%GameEngine.Board{positions: positions_with_fork_in_bottom_left_corner}, @player)
+
+		assert forks == [%{column: 2, row: 1}, %{column: 2, row: 0}, %{column: 0, row: 2}]
+	end
+
 	test "find really early fork" do
 		early_fork = {@opponent, nil, nil,
 					  nil, @player, nil,
