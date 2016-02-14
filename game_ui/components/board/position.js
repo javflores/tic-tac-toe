@@ -1,7 +1,9 @@
 'use strict';
 import React from 'react';
 import { render } from 'react-dom';
+import Reflux from 'reflux';
 
+let GameTypeStore = require("../game-requests/game-type-store");
 let Mark = require('./mark');
 
 const Position = React.createClass({
@@ -13,6 +15,14 @@ const Position = React.createClass({
         return this.props.content === null;
     },
 
+    getInitialState(){
+        return {
+            gameType: "human_computer"
+        };
+    },
+
+    mixins: [Reflux.connect(GameTypeStore, 'gameType')],
+
     render() {
         let position = this.props.position,
             isAvailable = this.isPositionAvailable(),
@@ -20,7 +30,7 @@ const Position = React.createClass({
 
         if(isAvailable || isTaken){
             return (
-                <Mark content={this.props.content} position={position} available={isAvailable}/>
+                <Mark content={this.props.content} position={position} available={isAvailable} gameType={this.state.gameType}/>
             );
         }
 

@@ -26,7 +26,7 @@ describe('When is taken with X', () => {
     });
 });
 
-describe('Position when available', () => {
+describe('Mark when available', () => {
     let renderedMark,
         position;
     beforeEach(() => {
@@ -53,12 +53,39 @@ describe('Position when available', () => {
         expect(contentHovered.length).toEqual(0);
     });
 
-    it('triggers a board when clicked', () => {
+    it('triggers a move when clicked', () => {
         GameActions.move = jest.genMockFunction();
 
         let available = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "space");
         TestUtils.Simulate.click(available);
 
         expect(GameActions.move).toBeCalledWith(position);
+    });
+});
+
+describe('When mark is rendered for a computers only game', () => {
+    let renderedMark,
+        position;
+    beforeEach(() => {
+        position = {row: 0, column: 0};
+        renderedMark = TestUtils.renderIntoDocument(<Mark gameType={"computer_computer"} content={null} position={position}/>);
+        renderedMark.nextPlayerMarkStyle = jest.genMockFunction().mockReturnValueOnce("position-o");
+    });
+
+    it('does not display mark icon when mouse over', () => {
+        let available = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "space");
+        TestUtils.Simulate.mouseOver(available);
+
+        let contentHovered = TestUtils.scryRenderedDOMComponentsWithClass(renderedMark, "position-o");
+        expect(contentHovered.length).toEqual(0);
+    });
+
+    it('does not trigger a move when clicked', () => {
+        GameActions.move = jest.genMockFunction();
+
+        let available = TestUtils.findRenderedDOMComponentWithClass(renderedMark, "space");
+        TestUtils.Simulate.click(available);
+
+        expect(GameActions.move).not.toBeCalled();
     });
 });

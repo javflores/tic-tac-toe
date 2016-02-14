@@ -11,12 +11,16 @@ const Mark = React.createClass({
         return this.props.content === null || this.props.content === "";
     },
 
+    areControlsDisabled(){
+        return !this.isAvailable() || this.props.gameType === "computer_computer";
+    },
+
     nextPlayerMarkStyle: function () {
         return (this.state.currentMark === "o") ? "space position-o" : "space position-x";
     },
 
     positionSelected(){
-        if(!this.isAvailable()){
+        if(this.areControlsDisabled()){
             return;
         }
 
@@ -24,7 +28,7 @@ const Mark = React.createClass({
     },
 
     setPossibleMark(e){
-        if(!this.isAvailable()){
+        if(this.areControlsDisabled()){
             return;
         }
 
@@ -35,7 +39,7 @@ const Mark = React.createClass({
     },
 
     notSelected(e){
-        if(!this.isAvailable()){
+        if(this.areControlsDisabled()){
             return;
         }
 
