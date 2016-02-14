@@ -1,8 +1,6 @@
 'use strict';
 jest.dontMock('../components/game-requests/next-player-store.js');
 
-let GameActions = require('../components/game-requests/game-actions');
-
 const NextPlayerStore = require('../components/game-requests/next-player-store');
 
 describe('Next Player Store', () => {
@@ -38,18 +36,6 @@ describe('Next Player Store', () => {
             let nextPlayer = "R2-D2";
             expect(NextPlayerStore.trigger).toBeCalledWith(nextPlayer);
         });
-
-        it('stores the start players', () => {
-            NextPlayerStore.onStartCompleted(gameStartResponse);
-
-            expect(NextPlayerStore.data.players).toEqual(players);
-        });
-
-        it('stores the type of game', () => {
-            NextPlayerStore.onStartCompleted(gameStartResponse);
-
-            expect(NextPlayerStore.data.type).toEqual(type);
-        });
     });
 
     describe('when performing a move', () => {
@@ -79,14 +65,6 @@ describe('Next Player Store', () => {
 
             let nextPlayer = "C-3PO";
             expect(NextPlayerStore.trigger).toBeCalledWith(nextPlayer);
-        });
-
-        it('triggers a move if next player is computer and previous player was human', () => {
-            GameActions.move = jest.genMockFunction();
-
-            NextPlayerStore.onMoveCompleted({nextPlayer: "C-3PO"});
-
-            expect(GameActions.computerMove).toBeCalled();
         });
     });
 });
