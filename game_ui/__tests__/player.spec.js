@@ -5,6 +5,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
+const GameActions = require('../components/game-requests/game-actions');
 const Player = require('../components/game-progress/player');
 
 describe('Player', () => {
@@ -60,5 +61,38 @@ describe('Player', () => {
 
         var playerNode = TestUtils.findRenderedDOMComponentWithTag(renderedPlayer, "div");
         expect(playerNode.className).toContain("control-focused");
+    });
+
+    it('does not trigger move when clicked and it is not a computer', () => {
+        GameActions.computerMove = jest.genMockFunction();
+        let humanPlayer = {name: "", type: "human"};
+        let humanPlayerNode = TestUtils.renderIntoDocument(<Player player={humanPlayer}/>)
+
+        var playerNode = TestUtils.findRenderedDOMComponentWithTag(humanPlayerNode, "div");
+        TestUtils.Simulate.click(playerNode);
+
+        expect(GameActions.computerMove).not.toBeCalled();
+    });
+
+    it('does not trigger move when it is not the current player', () => {
+        GameActions.computerMove = jest.genMockFunction();
+        let humanPlayer = {name: "John", type: "computer"};
+        let humanPlayerNode = TestUtils.renderIntoDocument(<Player player={humanPlayer} nextPlayer="Mark"/>);
+
+        var playerNode = TestUtils.findRenderedDOMComponentWithTag(humanPlayerNode, "div");
+        TestUtils.Simulate.click(playerNode);
+
+        expect(GameActions.computerMove).not.toBeCalled();
+    });
+
+    it('triggers computer move when computer and current player', () => {
+        GameActions.computerMove = jest.genMockFunction();
+        let humanPlayer = {name: "John", type: "computer"};
+        let humanPlayerNode = TestUtils.renderIntoDocument(<Player player={humanPlayer} nextPlayer="John"/>);
+
+        var playerNode = TestUtils.findRenderedDOMComponentWithTag(humanPlayerNode, "div");
+        TestUtils.Simulate.click(playerNode);
+
+        expect(GameActions.computerMove).toBeCalled();
     });
 });
