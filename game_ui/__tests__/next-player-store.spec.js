@@ -66,5 +66,21 @@ describe('Next Player Store', () => {
             let nextPlayer = "C-3PO";
             expect(NextPlayerStore.trigger).toBeCalledWith(nextPlayer);
         });
+
+        it('does not send listeners next player if game is a draw', () => {
+            NextPlayerStore.trigger = jest.genMockFunction();
+
+            NextPlayerStore.onMoveCompleted({nextPlayer: "C-3PO", status: "draw"});
+
+            expect(NextPlayerStore.trigger).not.toBeCalled();
+        });
+
+        it('does not send listeners next player if game is a win', () => {
+            NextPlayerStore.trigger = jest.genMockFunction();
+
+            NextPlayerStore.onMoveCompleted({nextPlayer: "C-3PO", status: "win"});
+
+            expect(NextPlayerStore.trigger).not.toBeCalled();
+        });
     });
 });
