@@ -2,15 +2,12 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 
 	alias GameEngine.PlayStrategies.Moves
 
-	def calculate_move(board, player) do
-		
-		opponent = GameEngine.Player.know_your_enemy(player)
-
+	def calculate_move(board, player) do		
 		cond do
 			win = Moves.Win.find(board, player) ->
 				win
 
-			block = Moves.Win.find(board, opponent) ->
+			block = Moves.BlockWin.find(board, player) ->
 				block
 
 			fork = Moves.Fork.find(board, player) ->
@@ -19,22 +16,22 @@ defmodule GameEngine.PlayStrategies.KickAssStrategy do
 			attack_fork = Moves.AttackOpponentsFork.find(board, player) ->
 				attack_fork
 
-			block_fork = Moves.Fork.find(board, opponent) ->
+			block_fork = Moves.BlockFork.find(board, player) ->
 				block_fork
 
 			force_fork = Moves.ForceFork.find(board, player) ->
 				force_fork
 
-			center = Moves.Center.find(board) ->
+			center = Moves.Center.find(board, player) ->
 				center
 
-			opponent_opposite_corner = Moves.OpponentsOppositeCorner.find(board, opponent) ->
+			opponent_opposite_corner = Moves.OpponentsOppositeCorner.find(board, player) ->
 				opponent_opposite_corner
 
-			empty_corner = Moves.EmptyCorner.find(board) ->
+			empty_corner = Moves.EmptyCorner.find(board, player) ->
 				empty_corner
 
-			empty_side = Moves.EmptySide.find(board) ->
+			empty_side = Moves.EmptySide.find(board, player) ->
 				empty_side
 		end
 	end

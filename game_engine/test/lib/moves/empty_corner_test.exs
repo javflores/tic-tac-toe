@@ -10,7 +10,7 @@ defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
 						 					  nil, @opponent, nil,
 						 					  nil, nil, nil}}
 
-		move = EmptyCorner.find(board)
+		move = EmptyCorner.find(board, @player)
 
 		assert move == %{row: 0, column: 0}
 	end
@@ -20,7 +20,7 @@ defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
 						 					  nil, @opponent, nil,
 						 					  nil, nil, nil}}
 
-		move = EmptyCorner.find(board)
+		move = EmptyCorner.find(board, @player)
 
 		assert move == %{row: 0, column: 2}
 	end
@@ -30,7 +30,7 @@ defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
 						 					  nil, @opponent, nil,
 						 					  nil, nil, nil}}
 
-		move = EmptyCorner.find(board)
+		move = EmptyCorner.find(board, @player)
 
 		assert move == %{row: 2, column: 0}
 	end
@@ -40,7 +40,7 @@ defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
 						 					  nil, @opponent, nil,
 						 					  @player, nil, nil}}
 
-		move = EmptyCorner.find(board)
+		move = EmptyCorner.find(board, @player)
 
 		assert move == %{row: 2, column: 2}
 	end
@@ -50,7 +50,7 @@ defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
 						 					  nil, @opponent, nil,
 						 					  @player, nil, @player}}
 
-		move = EmptyCorner.find(board)
+		move = EmptyCorner.find(board, @player)
 
 		assert move == nil
 	end

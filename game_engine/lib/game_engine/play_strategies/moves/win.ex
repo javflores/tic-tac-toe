@@ -1,5 +1,7 @@
 defmodule GameEngine.PlayStrategies.Moves.Win do
 
+	@behaviour GameEngine.PlayStrategies.Move
+
 	def find(%GameEngine.Board{positions: positions}, player) do
 		rows = GameEngine.Board.get_rows(%GameEngine.Board{positions: positions})
 		columns = GameEngine.Board.get_columns(%GameEngine.Board{positions: positions})

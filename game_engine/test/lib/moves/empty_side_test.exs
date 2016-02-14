@@ -10,7 +10,7 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
 						 					  nil, @opponent, nil,
 						 					  @player, nil, @player}}
 
-		move = EmptySide.find(board)
+		move = EmptySide.find(board, @player)
 
 		assert move == %{row: 0, column: 1}
 	end
@@ -20,7 +20,7 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
 						 					  nil, @opponent, nil,
 						 					  @opponent, nil, @opponent}}
 
-		move = EmptySide.find(board)
+		move = EmptySide.find(board, @player)
 
 		assert move == %{row: 1, column: 0}
 	end
@@ -30,7 +30,7 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
 						 					  @player, @opponent, nil,
 						 					  @player, nil, @player}}
 
-		move = EmptySide.find(board)
+		move = EmptySide.find(board, @player)
 
 		assert move == %{row: 1, column: 2}
 	end
@@ -40,7 +40,7 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
 						 					  @player, @opponent, @opponent,
 						 					  @player, nil, @player}}
 
-		move = EmptySide.find(board)
+		move = EmptySide.find(board, @player)
 
 		assert move == %{row: 2, column: 1}
 	end

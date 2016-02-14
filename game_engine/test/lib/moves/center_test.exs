@@ -10,7 +10,7 @@ defmodule GameEngine.PlayStrategies.Moves.CenterTest do
 						 					  nil, nil, nil,
 						 					  nil, nil, nil}}
 
-		move = Center.find(board)
+		move = Center.find(board, @player)
 
 		assert move == %{row: 1, column: 1}
 	end
@@ -20,7 +20,7 @@ defmodule GameEngine.PlayStrategies.Moves.CenterTest do
 						 					  nil, @opponent, nil,
 						 					  nil, nil, nil}}
 
-		move = Center.find(board)
+		move = Center.find(board, @player)
 
 		assert move == nil
 	end

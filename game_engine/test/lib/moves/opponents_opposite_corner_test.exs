@@ -11,7 +11,7 @@ defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
 						 					  nil, @player, nil,
 						 					  nil, nil, nil}}
 
-		opposite_corner = OpponentsOppositeCorner.find(board, @opponent)
+		opposite_corner = OpponentsOppositeCorner.find(board, @player)
 
 		assert opposite_corner == %{row: 2, column: 2}
 	end
@@ -21,7 +21,7 @@ defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
 						 					  nil, @player, nil,
 						 					  nil, nil, nil}}
 
-		opposite_corner = OpponentsOppositeCorner.find(board, @opponent)
+		opposite_corner = OpponentsOppositeCorner.find(board, @player)
 
 		assert opposite_corner == %{row: 2, column: 0}
 	end
@@ -31,7 +31,7 @@ defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
 						 					  nil, @player, nil,
 						 					  @opponent, nil, nil}}
 
-		opposite_corner = OpponentsOppositeCorner.find(board, @opponent)
+		opposite_corner = OpponentsOppositeCorner.find(board, @player)
 
 		assert opposite_corner == %{row: 0, column: 2}
 	end
@@ -41,7 +41,7 @@ defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
 						 					  nil, @player, nil,
 						 					  nil, nil, @opponent}}
 
-		opposite_corner = OpponentsOppositeCorner.find(board, @opponent)
+		opposite_corner = OpponentsOppositeCorner.find(board, @player)
 
 		assert opposite_corner == %{row: 0, column: 0}
 	end
@@ -51,7 +51,7 @@ defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
 						 					  nil, @player, nil,
 						 					  @opponent, nil, @opponent}}
 
-		move = OpponentsOppositeCorner.find(board, @opponent)
+		move = OpponentsOppositeCorner.find(board, @player)
 
 		assert move == nil
 	end

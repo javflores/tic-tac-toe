@@ -1,4 +1,7 @@
 defmodule GameEngine.PlayStrategies.Moves.ForceFork do
+
+	@behaviour GameEngine.PlayStrategies.Move
+	
 	def find(board, player) do
 		GameEngine.PlayStrategies.Moves.AttackOpponentsFork.attack(true, board, player)
 		|> move_leading_to_own_fork(board, player)

@@ -1,4 +1,7 @@
 defmodule GameEngine.PlayStrategies.Moves.Fork do
+	
+	@behaviour GameEngine.PlayStrategies.Move
+
 	def find(board, player) do
 		board 
 		|> find_all(player)
