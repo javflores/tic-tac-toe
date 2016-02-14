@@ -76,6 +76,18 @@ defmodule GameEngine.PlayerTest do
 		end
 	end
 
+	test "player returns same board when no moves available", %{player: player} do
+		GameEngine.Player.initialize(player, "R2-D2", :computer, :o, :human_computer)
+
+		full_board = %GameEngine.Board{positions: {:x, :o, :o,
+						 					  		:o, :x, :x,
+						 					  		:o, :x, :o}}
+
+		{:ok, board} = GameEngine.Player.move(player, full_board)
+
+		assert board == full_board
+	end
+
 	test "o is able to identify that x is the opponent" do
 		opponent = GameEngine.Player.know_your_enemy(:o)
 

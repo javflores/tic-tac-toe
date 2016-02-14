@@ -17,4 +17,8 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySide do
 	def find(%GameEngine.Board{positions: {_, _, _,
 						 					_, _, _,
 						 					_, nil, _}}, _player), do: %{row: 2, column: 1}
+
+	def find(%GameEngine.Board{positions: {_, _, _,
+						 					_, _, _,
+						 					_, _, _}}, _player), do: nil
 end

@@ -45,8 +45,7 @@ defmodule GameEngine.Player do
 		mark = state[:mark]
 
 		position = play(strategy, board, mark)
-
-		board = GameEngine.Board.put_mark(board, position, mark)
+		board = put_mark(board, position, mark)
 
 		{:reply, {:ok, board}, state}
 	end
@@ -65,4 +64,9 @@ defmodule GameEngine.Player do
 	defp play(:simple, board, _mark), do: GameEngine.PlayStrategies.SimpleStrategy.calculate_move(board)
 
 	defp play(:kickass, board, mark), do: GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, mark)
+
+	defp put_mark(board, :not_found, _mark), do: board
+
+	defp put_mark(board, position, mark), do: GameEngine.Board.put_mark(board, position, mark)
+ 
 end

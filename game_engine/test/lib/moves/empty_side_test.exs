@@ -44,4 +44,14 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
 
 		assert move == %{row: 2, column: 1}
 	end
+
+	test "no sides available" do
+		board = %GameEngine.Board{positions: {@opponent, @player, @player,
+						 					  @player, @opponent, @opponent,
+						 					  @player, @opponent, @player}}
+
+		move = EmptySide.find(board, @player)
+
+		assert move == nil
+	end
 end
