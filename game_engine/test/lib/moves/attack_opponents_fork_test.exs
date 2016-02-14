@@ -1,6 +1,6 @@
-defmodule GameEngine.KickAssStrategyAttackOpponentsForkMovesTest do
+defmodule GameEngine.PlayStrategies.Moves.AttackOpponentsForkTest do
 	use ExUnit.Case
-	alias GameEngine.PlayStrategies.KickAssAttackOpponentsForkMoves, as: AttackOpponentsFork
+	alias GameEngine.PlayStrategies.Moves.AttackOpponentsFork, as: AttackOpponentsFork
 
 	@player :o
 	@opponent :x

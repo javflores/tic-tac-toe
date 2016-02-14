@@ -1,4 +1,4 @@
-defmodule GameEngine.PlayStrategies.KickAssAttackOpponentsForkMoves do
+defmodule GameEngine.PlayStrategies.Moves.AttackOpponentsFork do
 	def find(board, player) do
 		board
 		|> find_all(player)
@@ -13,7 +13,7 @@ defmodule GameEngine.PlayStrategies.KickAssAttackOpponentsForkMoves do
 
 	def opponent_has_forks?(board, player) do
 		opponent_forks = board
-		|> GameEngine.PlayStrategies.KickAssForkMoves.find_all(GameEngine.Player.know_your_enemy(player))
+		|> GameEngine.PlayStrategies.Moves.Fork.find_all(GameEngine.Player.know_your_enemy(player))
 		
 		opponent_forks != []
 	end
@@ -24,7 +24,7 @@ defmodule GameEngine.PlayStrategies.KickAssAttackOpponentsForkMoves do
 		board 
 		|> GameEngine.Board.two_empty_spaces_triples_in_board(player)
 		|> all_possible_atacks
-		|> GameEngine.PlayStrategies.OpponentsForksBlocker.reject(board, player)
+		|> GameEngine.PlayStrategies.Moves.OpponentsForksBlocker.reject(board, player)
 	end
 
 	def all_possible_atacks(triples) do

@@ -1,4 +1,4 @@
-defmodule GameEngine.PlayStrategies.KickAssForkMoves do
+defmodule GameEngine.PlayStrategies.Moves.Fork do
 	def find(board, player) do
 		board 
 		|> find_all(player)

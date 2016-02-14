@@ -1,7 +1,7 @@
-defmodule GameEngine.KickAssStrategyOpponentsOppositeCornerMovesTest do
+defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
 
 	use ExUnit.Case
-	alias GameEngine.PlayStrategies.KickAssOpponentsOppositeCornerMoves, as: KickAssOpponentsOppositeCornerMoves
+	alias GameEngine.PlayStrategies.Moves.OpponentsOppositeCorner, as: OpponentsOppositeCorner
 
 	@player :o
 	@opponent :x
@@ -11,7 +11,7 @@ defmodule GameEngine.KickAssStrategyOpponentsOppositeCornerMovesTest do
 						 					  nil, @player, nil,
 						 					  nil, nil, nil}}
 
-		opposite_corner = KickAssOpponentsOppositeCornerMoves.find(board, @opponent)
+		opposite_corner = OpponentsOppositeCorner.find(board, @opponent)
 
 		assert opposite_corner == %{row: 2, column: 2}
 	end
@@ -21,7 +21,7 @@ defmodule GameEngine.KickAssStrategyOpponentsOppositeCornerMovesTest do
 						 					  nil, @player, nil,
 						 					  nil, nil, nil}}
 
-		opposite_corner = KickAssOpponentsOppositeCornerMoves.find(board, @opponent)
+		opposite_corner = OpponentsOppositeCorner.find(board, @opponent)
 
 		assert opposite_corner == %{row: 2, column: 0}
 	end
@@ -31,7 +31,7 @@ defmodule GameEngine.KickAssStrategyOpponentsOppositeCornerMovesTest do
 						 					  nil, @player, nil,
 						 					  @opponent, nil, nil}}
 
-		opposite_corner = KickAssOpponentsOppositeCornerMoves.find(board, @opponent)
+		opposite_corner = OpponentsOppositeCorner.find(board, @opponent)
 
 		assert opposite_corner == %{row: 0, column: 2}
 	end
@@ -41,7 +41,7 @@ defmodule GameEngine.KickAssStrategyOpponentsOppositeCornerMovesTest do
 						 					  nil, @player, nil,
 						 					  nil, nil, @opponent}}
 
-		opposite_corner = KickAssOpponentsOppositeCornerMoves.find(board, @opponent)
+		opposite_corner = OpponentsOppositeCorner.find(board, @opponent)
 
 		assert opposite_corner == %{row: 0, column: 0}
 	end
@@ -51,7 +51,7 @@ defmodule GameEngine.KickAssStrategyOpponentsOppositeCornerMovesTest do
 						 					  nil, @player, nil,
 						 					  @opponent, nil, @opponent}}
 
-		move = KickAssOpponentsOppositeCornerMoves.find(board, @opponent)
+		move = OpponentsOppositeCorner.find(board, @opponent)
 
 		assert move == nil
 	end

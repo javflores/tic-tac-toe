@@ -1,6 +1,6 @@
-defmodule GameEngine.KickAssStrategyForceForkMovesTest do
+defmodule GameEngine.PlayStrategies.Moves.ForceForkTest do
 	use ExUnit.Case
-	alias GameEngine.PlayStrategies.KickAssForceForkMoves, as: KickAssForceForkMoves
+	alias GameEngine.PlayStrategies.Moves.ForceFork, as: ForceFork
 
 	@player :o
 	@opponent :x
@@ -8,7 +8,7 @@ defmodule GameEngine.KickAssStrategyForceForkMovesTest do
 	test "not able to force fork if no attack positions are left" do
 		possible_force_fork_move = nil
 
-		filtered_moves = KickAssForceForkMoves.move_leading_to_own_fork(possible_force_fork_move, %GameEngine.Board{positions: {}}, @player)
+		filtered_moves = ForceFork.move_leading_to_own_fork(possible_force_fork_move, %GameEngine.Board{positions: {}}, @player)
 
 		assert filtered_moves == nil
 	end
@@ -19,7 +19,7 @@ defmodule GameEngine.KickAssStrategyForceForkMovesTest do
 					 nil, nil, @player}
 		possible_force_fork_move = %{row: 2, column: 0}
 
-		filtered_moves = KickAssForceForkMoves.move_leading_to_own_fork(possible_force_fork_move, %GameEngine.Board{positions: positions}, @player)
+		filtered_moves = ForceFork.move_leading_to_own_fork(possible_force_fork_move, %GameEngine.Board{positions: positions}, @player)
 
 		assert filtered_moves == nil
 	end
@@ -30,7 +30,7 @@ defmodule GameEngine.KickAssStrategyForceForkMovesTest do
 					 nil, nil, nil}
 		possible_attacks  = [%{row: 0, column: 1}]
 
-		filtered_moves = KickAssForceForkMoves.move_leading_to_own_fork(possible_attacks, %GameEngine.Board{positions: positions}, @player)
+		filtered_moves = ForceFork.move_leading_to_own_fork(possible_attacks, %GameEngine.Board{positions: positions}, @player)
 
 		assert filtered_moves == nil
 	end
@@ -40,7 +40,7 @@ defmodule GameEngine.KickAssStrategyForceForkMovesTest do
 					 nil, @player, nil,
 					 nil, nil, nil}
 
-		move = KickAssForceForkMoves.find(%GameEngine.Board{positions: positions}, @player)
+		move = ForceFork.find(%GameEngine.Board{positions: positions}, @player)
 
 		assert move == %{row: 1, column: 0}
 	end

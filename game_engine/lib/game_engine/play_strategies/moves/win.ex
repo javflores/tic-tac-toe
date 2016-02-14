@@ -1,4 +1,4 @@
-defmodule GameEngine.PlayStrategies.KickAssWinMoves do
+defmodule GameEngine.PlayStrategies.Moves.Win do
 
 	def find(%GameEngine.Board{positions: positions}, player) do
 		rows = GameEngine.Board.get_rows(%GameEngine.Board{positions: positions})

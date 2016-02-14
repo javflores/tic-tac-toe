@@ -1,6 +1,6 @@
-defmodule GameEngine.KickAssStrategyForkMovesTest do
+defmodule GameEngine.PlayStrategies.Moves.ForkTest do
 	use ExUnit.Case
-	alias GameEngine.PlayStrategies.KickAssForkMoves, as: KickAssForkMoves
+	alias GameEngine.PlayStrategies.Moves.Fork, as: Fork
 
 	@player :o
 	@opponent :x
@@ -10,7 +10,7 @@ defmodule GameEngine.KickAssStrategyForkMovesTest do
 													 nil, @player, nil,
 													 nil, nil, @opponent}
 
-		fork = KickAssForkMoves.find(%GameEngine.Board{positions: positions_with_fork_in_bottom_left_corner}, @player)
+		fork = Fork.find(%GameEngine.Board{positions: positions_with_fork_in_bottom_left_corner}, @player)
 
 		expected_fork = %{row: 1, column: 0}		
 		assert fork == expected_fork
@@ -21,7 +21,7 @@ defmodule GameEngine.KickAssStrategyForkMovesTest do
 													 nil, @player, nil,
 													 nil, nil, @player}
 
-		forks = KickAssForkMoves.find_all(%GameEngine.Board{positions: positions_with_fork_in_bottom_left_corner}, @player)
+		forks = Fork.find_all(%GameEngine.Board{positions: positions_with_fork_in_bottom_left_corner}, @player)
 
 		assert forks == [%{column: 2, row: 1}, %{column: 2, row: 0}, %{column: 0, row: 2}]
 	end
@@ -31,7 +31,7 @@ defmodule GameEngine.KickAssStrategyForkMovesTest do
 					  nil, @player, nil,
 					  nil, @opponent, @player}
 
-		move = KickAssForkMoves.find(%GameEngine.Board{positions: early_fork}, @player)
+		move = Fork.find(%GameEngine.Board{positions: early_fork}, @player)
 
 		expected_fork = %{row: 1, column: 2}		
 		assert move == expected_fork

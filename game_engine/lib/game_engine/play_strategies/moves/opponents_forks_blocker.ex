@@ -1,4 +1,4 @@
-defmodule GameEngine.PlayStrategies.OpponentsForksBlocker do
+defmodule GameEngine.PlayStrategies.Moves.OpponentsForksBlocker do
 	def reject(possible_moves, board, player) do
 		possible_moves
 		|> Enum.filter(fn(possible_move) -> 
@@ -12,7 +12,7 @@ defmodule GameEngine.PlayStrategies.OpponentsForksBlocker do
 
 	defp get_opponent_defence(possible_move, current_board, player) do
 		back_to_future_board = GameEngine.Board.put_mark(current_board, possible_move, player)
-		GameEngine.PlayStrategies.KickAssWinMoves.find(back_to_future_board, player)
+		GameEngine.PlayStrategies.Moves.Win.find(back_to_future_board, player)
 	end
 
 	defp opponent_defence_is_fork?(nil, _players_move, _current_board, _player), do: false
@@ -21,7 +21,7 @@ defmodule GameEngine.PlayStrategies.OpponentsForksBlocker do
 		opponent = GameEngine.Player.know_your_enemy(player)
 		board_with_player_move = GameEngine.Board.put_mark(current_board, players_move, player)
 		
-		GameEngine.PlayStrategies.KickAssForkMoves.find_all(board_with_player_move, opponent)
+		GameEngine.PlayStrategies.Moves.Fork.find_all(board_with_player_move, opponent)
 		|> Enum.any?(fn fork -> fork == opponent_defence end)
 	end
 end

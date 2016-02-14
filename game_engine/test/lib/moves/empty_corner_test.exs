@@ -1,6 +1,6 @@
-defmodule GameEngine.KickAssStrategyEmptyCornerMovesTest do
+defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
 	use ExUnit.Case
-	alias GameEngine.PlayStrategies.KickAssEmptyCornerMoves, as: KickAssEmptyCornerMoves
+	alias GameEngine.PlayStrategies.Moves.EmptyCorner, as: EmptyCorner
 
 	@player :o
 	@opponent :x
@@ -10,7 +10,7 @@ defmodule GameEngine.KickAssStrategyEmptyCornerMovesTest do
 						 					  nil, @opponent, nil,
 						 					  nil, nil, nil}}
 
-		move = KickAssEmptyCornerMoves.find(board)
+		move = EmptyCorner.find(board)
 
 		assert move == %{row: 0, column: 0}
 	end
@@ -20,7 +20,7 @@ defmodule GameEngine.KickAssStrategyEmptyCornerMovesTest do
 						 					  nil, @opponent, nil,
 						 					  nil, nil, nil}}
 
-		move = KickAssEmptyCornerMoves.find(board)
+		move = EmptyCorner.find(board)
 
 		assert move == %{row: 0, column: 2}
 	end
@@ -30,7 +30,7 @@ defmodule GameEngine.KickAssStrategyEmptyCornerMovesTest do
 						 					  nil, @opponent, nil,
 						 					  nil, nil, nil}}
 
-		move = KickAssEmptyCornerMoves.find(board)
+		move = EmptyCorner.find(board)
 
 		assert move == %{row: 2, column: 0}
 	end
@@ -40,7 +40,7 @@ defmodule GameEngine.KickAssStrategyEmptyCornerMovesTest do
 						 					  nil, @opponent, nil,
 						 					  @player, nil, nil}}
 
-		move = KickAssEmptyCornerMoves.find(board)
+		move = EmptyCorner.find(board)
 
 		assert move == %{row: 2, column: 2}
 	end
@@ -50,7 +50,7 @@ defmodule GameEngine.KickAssStrategyEmptyCornerMovesTest do
 						 					  nil, @opponent, nil,
 						 					  @player, nil, @player}}
 
-		move = KickAssEmptyCornerMoves.find(board)
+		move = EmptyCorner.find(board)
 
 		assert move == nil
 	end

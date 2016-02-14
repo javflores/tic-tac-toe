@@ -1,4 +1,4 @@
-defmodule GameEngine.PlayStrategies.KickAssPlayCenterMoves do
+defmodule GameEngine.PlayStrategies.Moves.Center do
 
 	def find(%GameEngine.Board{positions: {_, _, _,
 						 				   _, nil, _,

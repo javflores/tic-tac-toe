@@ -1,6 +1,6 @@
-defmodule GameEngine.KickAssOpponentsForksBlockerTest do
+defmodule GameEngine.PlayStrategies.Moves.OpponentsForksBlockerTest do
 	use ExUnit.Case
-	alias GameEngine.PlayStrategies.OpponentsForksBlocker, as: OpponentsForksBlocker
+	alias GameEngine.PlayStrategies.Moves.OpponentsForksBlocker, as: OpponentsForksBlocker
 
 	@player :o
 	@opponent :x

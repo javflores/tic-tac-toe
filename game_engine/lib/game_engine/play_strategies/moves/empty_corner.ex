@@ -1,4 +1,4 @@
-defmodule GameEngine.PlayStrategies.KickAssEmptyCornerMoves do
+defmodule GameEngine.PlayStrategies.Moves.EmptyCorner do
 
 	def find(%GameEngine.Board{positions: {nil, _, _,
 						 					_, _, _,

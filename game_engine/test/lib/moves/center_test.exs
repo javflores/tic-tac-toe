@@ -1,6 +1,6 @@
-defmodule GameEngine.KickAssPlayCenterMovesTest do
+defmodule GameEngine.PlayStrategies.Moves.CenterTest do
 	use ExUnit.Case
-	alias GameEngine.PlayStrategies.KickAssPlayCenterMoves, as: KickAssPlayCenterMoves
+	alias GameEngine.PlayStrategies.Moves.Center, as: Center
 
 	@player :o
 	@opponent :x
@@ -10,7 +10,7 @@ defmodule GameEngine.KickAssPlayCenterMovesTest do
 						 					  nil, nil, nil,
 						 					  nil, nil, nil}}
 
-		move = KickAssPlayCenterMoves.find(board)
+		move = Center.find(board)
 
 		assert move == %{row: 1, column: 1}
 	end
@@ -20,7 +20,7 @@ defmodule GameEngine.KickAssPlayCenterMovesTest do
 						 					  nil, @opponent, nil,
 						 					  nil, nil, nil}}
 
-		move = KickAssPlayCenterMoves.find(board)
+		move = Center.find(board)
 
 		assert move == nil
 	end
