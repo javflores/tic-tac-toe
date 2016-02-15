@@ -14,7 +14,9 @@ Welcome to the TicTacToe Game Engine, an Elixir Phoenix API that manages a TicTa
  
 * In a command line, run `mix deps.get` in order to install all required dependencies.
 
-* Run `mix test` to run unit tests. 
+* Run ```npm install``` to get required dependecies for Brunch.
+
+* Run `mix test` to run unit tests.
 
 * Run `mix acceptance` to execute acceptance tests. These are end to end api tests written in WhiteBread, making sure that the happy path works.
 
