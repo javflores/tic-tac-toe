@@ -38,7 +38,7 @@ Including players and player to start moving (in the Payload of the request as J
   "o_type": "human", 
   "x_name": "R2-D2", 
   "x_type": "computer", 
-  "first_player": "C3-PO"
+  "first_player": "Juan"
 }
 ```
 
