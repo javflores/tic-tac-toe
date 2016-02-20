@@ -1,57 +1,57 @@
 defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
-	use ExUnit.Case
-	alias GameEngine.PlayStrategies.Moves.EmptySide, as: EmptySide
+    use ExUnit.Case
+    alias GameEngine.PlayStrategies.Moves.EmptySide, as: EmptySide
 
-	@player :o
-	@opponent :x
+    @player :o
+    @opponent :x
 
-	test "take empty top side" do
-		board = %GameEngine.Board{positions: {@opponent, nil, @player,
-						 					  nil, @opponent, nil,
-						 					  @player, nil, @player}}
+    test "take empty top side" do
+        board = %GameEngine.Board{positions: {@opponent, nil, @player,
+                                              nil, @opponent, nil,
+                                              @player, nil, @player}}
 
-		move = EmptySide.find(board, @player)
+        move = EmptySide.find(board, @player)
 
-		assert move == %{row: 0, column: 1}
-	end
+        assert move == %{row: 0, column: 1}
+    end
 
-	test "take empty left side" do
-		board = %GameEngine.Board{positions: {@player, @player, @opponent,
-						 					  nil, @opponent, nil,
-						 					  @opponent, nil, @opponent}}
+    test "take empty left side" do
+        board = %GameEngine.Board{positions: {@player, @player, @opponent,
+                                              nil, @opponent, nil,
+                                              @opponent, nil, @opponent}}
 
-		move = EmptySide.find(board, @player)
+        move = EmptySide.find(board, @player)
 
-		assert move == %{row: 1, column: 0}
-	end
+        assert move == %{row: 1, column: 0}
+    end
 
-	test "take empty right side" do
-		board = %GameEngine.Board{positions: {@player, @player, @opponent,
-						 					  @player, @opponent, nil,
-						 					  @player, nil, @player}}
+    test "take empty right side" do
+        board = %GameEngine.Board{positions: {@player, @player, @opponent,
+                                              @player, @opponent, nil,
+                                              @player, nil, @player}}
 
-		move = EmptySide.find(board, @player)
+        move = EmptySide.find(board, @player)
 
-		assert move == %{row: 1, column: 2}
-	end
+        assert move == %{row: 1, column: 2}
+    end
 
-	test "take empty bottom side" do
-		board = %GameEngine.Board{positions: {@player, @player, @opponent,
-						 					  @player, @opponent, @opponent,
-						 					  @player, nil, @player}}
+    test "take empty bottom side" do
+        board = %GameEngine.Board{positions: {@player, @player, @opponent,
+                                              @player, @opponent, @opponent,
+                                              @player, nil, @player}}
 
-		move = EmptySide.find(board, @player)
+        move = EmptySide.find(board, @player)
 
-		assert move == %{row: 2, column: 1}
-	end
+        assert move == %{row: 2, column: 1}
+    end
 
-	test "no sides available" do
-		board = %GameEngine.Board{positions: {@opponent, @player, @player,
-						 					  @player, @opponent, @opponent,
-						 					  @player, @opponent, @player}}
+    test "no sides available" do
+        board = %GameEngine.Board{positions: {@opponent, @player, @player,
+                                              @player, @opponent, @opponent,
+                                              @player, @opponent, @player}}
 
-		move = EmptySide.find(board, @player)
+        move = EmptySide.find(board, @player)
 
-		assert move == nil
-	end
+        assert move == nil
+    end
 end

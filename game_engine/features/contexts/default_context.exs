@@ -12,7 +12,7 @@ defmodule GameEngine.Features.DefaultContext do
     {:ok, state}
   end
 
-  when_ ~r/^I choose to start the game/, fn state ->    
+  when_ ~r/^I choose to start the game/, fn state ->
     o = state |> Dict.get(:o)
     x = state |> Dict.get(:x)
     first_player = state |> Dict.get(:first_player)
@@ -22,7 +22,7 @@ defmodule GameEngine.Features.DefaultContext do
     response = conn()
     |> content_type_json
     |> post("/start", params)
-    
+
     {:ok, state |> Dict.put(:response, response)}
   end
 
@@ -73,7 +73,7 @@ defmodule GameEngine.Features.DefaultContext do
   then_ ~r/^the game is in progress$/, fn state ->
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
-    
+
     assert decoded_response["status"] == "in_progress"
 
     {:ok, state}
@@ -95,7 +95,7 @@ defmodule GameEngine.Features.DefaultContext do
       game_id = state |> Dict.get(:game_id)
       params = Poison.encode!(%{move: %{row: 0, column: 0}})
 
-      response = conn()        
+      response = conn()
       |> content_type_json
       |> post("/move/#{game_id}", params)
 
@@ -115,7 +115,7 @@ defmodule GameEngine.Features.DefaultContext do
 
   then_ ~r/^I get the computer opponent move$/, fn state ->
     response = state |> Dict.get(:response)
-    decoded_response = json_response(response, 200)    
+    decoded_response = json_response(response, 200)
 
     assert decoded_response["player"] == "X"
     assert decoded_response["next_player"] == "O"
@@ -141,7 +141,7 @@ defmodule GameEngine.Features.DefaultContext do
       game_id = state |> Dict.get(:game_id)
       params = Poison.encode!(%{move: %{row: 0, column: 0}})
 
-      response = conn()        
+      response = conn()
       |> content_type_json
       |> post("/move/#{game_id}", params)
 
@@ -163,7 +163,7 @@ defmodule GameEngine.Features.DefaultContext do
       game_id = state |> Dict.get(:game_id)
       params = Poison.encode!(%{move: %{row: 1, column: 1}})
 
-      response = conn()        
+      response = conn()
       |> content_type_json
       |> post("/move/#{game_id}", params)
 
