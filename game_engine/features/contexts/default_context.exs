@@ -6,22 +6,18 @@ defmodule GameEngine.Features.DefaultContext do
 
   given_ ~r/^I select two computer players$/, fn state ->
     state = state
-    |> Dict.put(:o_type, "computer")
-    |> Dict.put(:o_name, "R2-D2")
-    |> Dict.put(:x_name, "C-3PO")
-    |> Dict.put(:x_type, "computer")
-    |> Dict.put(:first_player, "R2-D2")
+    |> Dict.put(:o, "computer")
+    |> Dict.put(:x, "computer")
+    |> Dict.put(:first_player, "O")
     {:ok, state}
   end
 
   when_ ~r/^I choose to start the game/, fn state ->    
-    o_name = state |> Dict.get(:o_name)
-    o_type = state |> Dict.get(:o_type)
-    x_name = state |> Dict.get(:x_name)
-    x_type = state |> Dict.get(:x_type)
+    o = state |> Dict.get(:o)
+    x = state |> Dict.get(:x)
     first_player = state |> Dict.get(:first_player)
 
-    params = Poison.encode!(%{o_name: o_name, o_type: o_type, x_name: x_name, x_type: x_type, first_player: first_player})
+    params = Poison.encode!(%{o: o, x: x, first_player: first_player})
 
     response = conn()
     |> content_type_json
@@ -37,13 +33,13 @@ defmodule GameEngine.Features.DefaultContext do
     assert decoded_response["game_id"] != ""
     assert decoded_response["status"] == "start"
     assert decoded_response["board"] == [nil, nil, nil, nil, nil, nil, nil, nil, nil]
-    assert decoded_response["next_player"] == "R2-D2"
+    assert decoded_response["next_player"] == "O"
 
     {:ok, state}
   end
 
   given_ ~r/^I have started a new Computer vs Computer game$/, fn state ->
-    params = Poison.encode!(%{o_name: "R2-D2", o_type: "computer", x_name: "C-3PO", x_type: "computer", first_player: "R2-D2"})
+    params = Poison.encode!(%{o: "computer", x: "computer", first_player: "O"})
 
     response = conn()
     |> content_type_json
@@ -67,8 +63,8 @@ defmodule GameEngine.Features.DefaultContext do
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
 
-    assert decoded_response["player"] == "R2-D2"
-    assert decoded_response["next_player"] == "C-3PO"
+    assert decoded_response["player"] == "O"
+    assert decoded_response["next_player"] == "X"
     refute decoded_response["board"] == [nil, nil, nil, nil, nil, nil, nil, nil, nil]
 
     {:ok, state}
@@ -84,7 +80,7 @@ defmodule GameEngine.Features.DefaultContext do
   end
 
   given_ ~r/^I have started a human versus computer game$/, fn state ->
-    params = Poison.encode!(%{o_name: "Johny", o_type: "human", x_name: "C-3PO", x_type: "computer", first_player: "Johny"})
+    params = Poison.encode!(%{o: "human", x: "computer", first_player: "O"})
     response = conn()
     |> content_type_json
     |> post("/start", params)
@@ -110,8 +106,8 @@ defmodule GameEngine.Features.DefaultContext do
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
 
-    assert decoded_response["player"] == "Johny"
-    assert decoded_response["next_player"] == "C-3PO"
+    assert decoded_response["player"] == "O"
+    assert decoded_response["next_player"] == "X"
     assert decoded_response["board"] == ["o", nil, nil, nil, nil, nil, nil, nil, nil]
 
     {:ok, state}
@@ -121,15 +117,15 @@ defmodule GameEngine.Features.DefaultContext do
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)    
 
-    assert decoded_response["player"] == "C-3PO"
-    assert decoded_response["next_player"] == "Johny"
+    assert decoded_response["player"] == "X"
+    assert decoded_response["next_player"] == "O"
     refute decoded_response["board"] == ["o", nil, nil, nil, nil, nil, nil, nil, nil]
 
     {:ok, state}
   end
 
   given_ ~r/^I have started a human versus human game$/, fn state ->
-    params = Poison.encode!(%{o_name: "Johny", o_type: "human", x_name: "Richard", x_type: "human", first_player: "Johny"})
+    params = Poison.encode!(%{o: "human", x: "human", first_player: "O"})
     response = conn()
     |> content_type_json
     |> post("/start", params)
@@ -156,8 +152,8 @@ defmodule GameEngine.Features.DefaultContext do
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
 
-    assert decoded_response["player"] == "Johny"
-    assert decoded_response["next_player"] == "Richard"
+    assert decoded_response["player"] == "O"
+    assert decoded_response["next_player"] == "X"
     assert decoded_response["board"] == ["o", nil, nil, nil, nil, nil, nil, nil, nil]
 
     {:ok, state}
@@ -178,8 +174,8 @@ defmodule GameEngine.Features.DefaultContext do
     response = state |> Dict.get(:response)
     decoded_response = json_response(response, 200)
 
-    assert decoded_response["player"] == "Richard"
-    assert decoded_response["next_player"] == "Johny"
+    assert decoded_response["player"] == "X"
+    assert decoded_response["next_player"] == "O"
     assert decoded_response["board"] == ["o", nil, nil, nil, "x", nil, nil, nil, nil]
 
     {:ok, state}

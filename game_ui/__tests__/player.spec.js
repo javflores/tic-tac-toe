@@ -9,20 +9,9 @@ const GameActions = require('../components/game-requests/game-actions');
 const Player = require('../components/game-progress/player');
 
 describe('Player', () => {
-    it('renders provided name of the player', () => {
-        let name = "Johny the computer";
-        let player = {name: name, type: "computer"};
-
-        let renderedPlayer = TestUtils.renderIntoDocument(
-            <Player player={player}/>
-        );
-
-        var nameNode = TestUtils.findRenderedDOMComponentWithTag(renderedPlayer, "p");
-        expect(nameNode.textContent).toEqual(name);
-    });
 
     it('renders with computer type icon when computer is provided', () => {
-        let computerizedPlayer = {name: "", type: "computer"};
+        let computerizedPlayer = {type: "computer"};
 
         let computerPlayerNode = TestUtils.renderIntoDocument(
             <Player player={computerizedPlayer}/>
@@ -34,7 +23,7 @@ describe('Player', () => {
     });
 
     it('renders with human type icon when human is provided', () => {
-        let humanizedPlayer = {name: "", type: "human"};
+        let humanizedPlayer = {type: "human"};
 
         let humanPlayerNode = TestUtils.renderIntoDocument(
             <Player player={humanizedPlayer}/>
@@ -47,7 +36,7 @@ describe('Player', () => {
 
     it('is faded when it is not the next player', () => {
         let renderedPlayer = TestUtils.renderIntoDocument(
-            <Player player={{name: "me"}} nextPlayer={"other"}/>
+            <Player mark={"O"} player={{type: "computer"}} nextPlayer={"X"}/>
         );
 
         var playerNode = TestUtils.findRenderedDOMComponentWithTag(renderedPlayer, "div");
@@ -56,7 +45,7 @@ describe('Player', () => {
 
     it('is highlighted when it is the next player', () => {
         let renderedPlayer = TestUtils.renderIntoDocument(
-            <Player player={{name: "me"}} nextPlayer={"me"}/>
+            <Player mark={"O"} player={{type: "computer"}} nextPlayer={"O"}/>
         );
 
         var playerNode = TestUtils.findRenderedDOMComponentWithTag(renderedPlayer, "div");
@@ -65,8 +54,8 @@ describe('Player', () => {
 
     it('does not trigger move when clicked and it is not a computer', () => {
         GameActions.computerMove = jest.genMockFunction();
-        let humanPlayer = {name: "", type: "human"};
-        let humanPlayerNode = TestUtils.renderIntoDocument(<Player player={humanPlayer}/>)
+        let humanPlayer = {type: "human"};
+        let humanPlayerNode = TestUtils.renderIntoDocument(<Player player={humanPlayer}/>);
 
         var playerNode = TestUtils.findRenderedDOMComponentWithTag(humanPlayerNode, "div");
         TestUtils.Simulate.click(playerNode);
@@ -76,10 +65,10 @@ describe('Player', () => {
 
     it('does not trigger move when it is not the current player', () => {
         GameActions.computerMove = jest.genMockFunction();
-        let humanPlayer = {name: "John", type: "computer"};
-        let humanPlayerNode = TestUtils.renderIntoDocument(<Player player={humanPlayer} nextPlayer="Mark"/>);
+        let computerPlayer = {type: "computer"};
+        let computerPlayerNode = TestUtils.renderIntoDocument(<Player mark={"O"} player={computerPlayer} nextPlayer="X"/>);
 
-        var playerNode = TestUtils.findRenderedDOMComponentWithTag(humanPlayerNode, "div");
+        var playerNode = TestUtils.findRenderedDOMComponentWithTag(computerPlayerNode, "div");
         TestUtils.Simulate.click(playerNode);
 
         expect(GameActions.computerMove).not.toBeCalled();
@@ -87,10 +76,10 @@ describe('Player', () => {
 
     it('triggers computer move when computer and current player', () => {
         GameActions.computerMove = jest.genMockFunction();
-        let humanPlayer = {name: "John", type: "computer"};
-        let humanPlayerNode = TestUtils.renderIntoDocument(<Player player={humanPlayer} nextPlayer="John"/>);
+        let computerPlayer = {type: "computer"};
+        let computerPlayerNode = TestUtils.renderIntoDocument(<Player mark={"O"} player={computerPlayer} nextPlayer="O"/>);
 
-        var playerNode = TestUtils.findRenderedDOMComponentWithTag(humanPlayerNode, "div");
+        var playerNode = TestUtils.findRenderedDOMComponentWithTag(computerPlayerNode, "div");
         TestUtils.Simulate.click(playerNode);
 
         expect(GameActions.computerMove).toBeCalled();

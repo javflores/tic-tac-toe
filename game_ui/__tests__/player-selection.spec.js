@@ -11,24 +11,26 @@ describe('Player selection', () => {
     let player, selection;
     beforeEach(() => {
         player = TestUtils.renderIntoDocument(
-            <PlayerSelection playerNumber={1} player={{name: "", type:"Computer"}} nameChanged={jest.genMockFunction()} typeSelected={jest.genMockFunction()}/>
+            <PlayerSelection player={{type:"computer", typeIcon: "fa-laptop"}}
+                             isPlayerToStart={false}
+                             playerToStartSelected={jest.genMockFunction()}
+                             typeSelected={jest.genMockFunction()}/>
         );
     });
 
-    it('notifies selection when name is introduced', () => {
-        let playerNameInput = TestUtils.findRenderedDOMComponentWithTag(player, 'input');
+    it('notifies selection when type is selected', () => {
+        let humanTypeSelect = TestUtils.findRenderedDOMComponentWithClass(player, 'human-type');
 
-        playerNameInput.value = 'Juan';
-        TestUtils.Simulate.change(playerNameInput);
+        TestUtils.Simulate.click(humanTypeSelect, {"target": {"textContent": "human"}});
 
-        expect(player.props.nameChanged).toBeCalledWith(1, 'Juan');
+        expect(player.props.typeSelected).toBeCalledWith('human');
     });
 
-    it('notifies selection when type is selected', () => {
-        let computerTypeSelect = TestUtils.findRenderedDOMComponentWithClass(player, 'computer-type');
+    it('notifies selection when player to start is selected', () => {
+        let renderedPlayer = TestUtils.scryRenderedDOMComponentsWithClass(player, 'col-lg-12 col-sm-12 control')[0];
 
-        TestUtils.Simulate.click(computerTypeSelect, {"target": {"textContent": "Computer"}});
+        TestUtils.Simulate.click(renderedPlayer);
 
-        expect(player.props.typeSelected).toBeCalledWith(1, 'Computer');
+        expect(player.props.playerToStartSelected).toBeCalled();
     });
 });

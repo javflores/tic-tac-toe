@@ -13,10 +13,8 @@ const GameProgress = React.createClass({
     getInitialState(){
         return {
             players: [{
-                name: "",
                 type: ""
             },{
-                name: "",
                 type: ""
             }],
             nextPlayer: ""
@@ -28,10 +26,10 @@ const GameProgress = React.createClass({
     render() {
         return (
             <div className="row">
-                <Message />
-                <Player player={this.state.players[0]} nextPlayer={this.state.nextPlayer}/>
+                <Message message={"The Game has started!"}/>
+                <Player mark={"O"} player={this.state.players[0]} nextPlayer={this.state.nextPlayer}/>
                 <TurnIndicator nextPlayer={this.state.nextPlayer}/>
-                <Player player={this.state.players[1]} nextPlayer={this.state.nextPlayer}/>
+                <Player mark={"X"} player={this.state.players[1]} nextPlayer={this.state.nextPlayer}/>
             </div>
         );
     }

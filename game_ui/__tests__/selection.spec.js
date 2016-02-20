@@ -1,5 +1,6 @@
 'use strict';
 jest.dontMock('../components/players-selection/selection.js');
+jest.dontMock('../components/game-progress/message.js');
 jest.dontMock('../components/players-selection/player-selection.js');
 jest.dontMock('../components/players-selection/player-selection-control.js');
 
@@ -16,157 +17,68 @@ describe('When starting TicTacToe', () => {
         selection = TestUtils.renderIntoDocument(<Selection />);
     });
 
-    it('should ask user to select first player', () => {
+    it('renders selection message', () => {
         let mainText = TestUtils.findRenderedDOMComponentWithTag(selection, 'h4');
-        expect(mainText.textContent).toEqual("Select first player");
+        expect(mainText.textContent).toEqual("Select type of players and player that goes first");
     });
 
-    it('allows user to input name of first player', () => {
-        let playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
+    it('displays Human versus computer players by default', () => {
+        let players = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'fa fa-5x');
 
-        let firstPlayerName = 'Juan';
-        playerNameInput.value = firstPlayerName;
-        TestUtils.Simulate.change(playerNameInput);
-
-        expect(playerNameInput.value).toEqual(firstPlayerName);
+        expect(players[0].className).toEqual("fa fa-user fa-5x");
+        expect(players[1].className).toEqual("fa fa-laptop fa-5x");
     });
 
-    it('displays Human-type of player by default', () => {
-        let playerTypeSelect = TestUtils.findRenderedDOMComponentWithClass(selection, 'dropdown-toggle');
+    it('allows user to select computer type for player', () => {
+        let computerTypeSelect = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'computer-type')[0];
 
-        expect(playerTypeSelect.textContent).toEqual("human")
+        TestUtils.Simulate.click(computerTypeSelect, {"target": {"textContent": "computer"}});
+
+        let playerTypeSelect = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'dropdown-toggle')[0];
+        expect(playerTypeSelect.textContent).toEqual("computer");
     });
 
-    it('allows user to select type of player', () => {
-        let computerTypeSelect = TestUtils.findRenderedDOMComponentWithClass(selection, 'computer-type');
+    it('allows user to select human type for player', () => {
+        let humanTypeSelect = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'human-type')[1];
 
-        let firstPlayerType = "computer";
-        TestUtils.Simulate.click(computerTypeSelect, {"target": {"textContent": firstPlayerType}});
+        TestUtils.Simulate.click(humanTypeSelect, {"target": {"textContent": "human"}});
 
-        let playerTypeSelect = TestUtils.findRenderedDOMComponentWithClass(selection, 'dropdown-toggle');
-        expect(playerTypeSelect.textContent).toEqual(firstPlayerType)
+        let playerTypeSelect = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'dropdown-toggle')[1];
+        expect(playerTypeSelect.textContent).toEqual("human");
     });
 
-    it('display continue selection button if first player name is provided', () => {
-        let playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
+    it('sets computer type of player icon when selecting computer type', () => {
+        let humanTypeSelect = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'computer-type')[0];
 
-        playerNameInput.value = 'Juan';
-        TestUtils.Simulate.change(playerNameInput);
+        TestUtils.Simulate.click(humanTypeSelect, {"target": {"textContent": "computer"}});
 
-        let continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
-        expect(continueSelection).toBeDefined();
-    });
-});
-
-describe('When starting TicTacToe and first player has been selected', () => {
-    let selection,
-        playerNameInput;
-    beforeEach(() => {
-        selection = TestUtils.renderIntoDocument(<Selection />);
-        playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
-        playerNameInput.value = "Juan";
-        TestUtils.Simulate.change(playerNameInput);
-
-        let continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
-        TestUtils.Simulate.click(continueSelection);
-    });
-
-    it('should ask user to select second player', () => {
-        let mainText = TestUtils.findRenderedDOMComponentWithTag(selection, 'h4');
-        expect(mainText.textContent).toEqual("Select second player");
-    });
-
-    it('allows user to select player name', () => {
-        playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
-        let playerInput = playerNameInput.value;
-
-        expect(playerInput).toEqual("");
-    });
-
-    it('displays continue selection button if second player name is provided', () => {
-        playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
-        playerNameInput.value = "John";
-
-        TestUtils.Simulate.change(playerNameInput);
-
-        let continueButton = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
-        expect(continueButton).toBeDefined();
-    });
-});
-
-describe('When the two players have been provided', () => {
-    let selection;
-    beforeEach(() => {
-        selection = TestUtils.renderIntoDocument(<Selection />);
-        var playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
-        playerNameInput.value = "Juan";
-        TestUtils.Simulate.change(playerNameInput);
-
-        let continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
-        TestUtils.Simulate.click(continueSelection);
-
-        playerNameInput = TestUtils.findRenderedDOMComponentWithTag(selection, 'input');
-        playerNameInput.value = "John";
-        TestUtils.Simulate.change(playerNameInput);
-
-        continueSelection = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
-        TestUtils.Simulate.click(continueSelection);
-    });
-
-    it('asks user to select player that will start moving', () => {
-        let mainText = TestUtils.findRenderedDOMComponentWithTag(selection, 'h4');
-        expect(mainText.textContent).toEqual("Almost there! Select the player that will move first");
+        let firstPlayer = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'fa fa-5x')[0];
+        expect(firstPlayer.className).toEqual("fa fa-laptop fa-5x");
     });
 
     it('allows user to select player to start', () => {
-        let firstPlayerOption = TestUtils.findRenderedDOMComponentWithClass(selection, 'first-player');
+        let notYetSelectedPlayer = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'control')[2];
 
-        let firstPlayer = "Juan";
-        let selectedPlayer = {"textContent": firstPlayer, "childNodes": [{}, {className: "glyphicon glyphicon-user pull-right"}]};
-        TestUtils.Simulate.click(firstPlayerOption, {"target": selectedPlayer});
+        TestUtils.Simulate.click(notYetSelectedPlayer);
 
-        let playerToStartSelect = TestUtils.findRenderedDOMComponentWithClass(selection, 'dropdown-toggle');
-        expect(playerToStartSelect.textContent).toEqual(firstPlayer);
+        let playerToStart = selection.state.playerToStart;
+        expect(playerToStart).toEqual("X");
     });
 
-    it('sets type of player icon for selected player to start', () => {
-        let firstPlayerOption = TestUtils.findRenderedDOMComponentWithClass(selection, 'first-player');
-
-        let selectedPlayer = {"textContent": "Juan", "childNodes": [{}, {className: "glyphicon glyphicon-user pull-right"}]};
-        TestUtils.Simulate.click(firstPlayerOption, {"target": selectedPlayer});
-
-        let typeOfPlayerToStartIcon = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'glyphicon glyphicon-user pull-right')[2];
-        expect(typeOfPlayerToStartIcon).toBeDefined();
-    });
-
-    it('displays start game button if player to start is selected', () => {
-        let firstPlayerOption = TestUtils.findRenderedDOMComponentWithClass(selection, 'first-player');
-        let selectedPlayer = {"textContent": "Juan", "childNodes": [{}, {className: "glyphicon glyphicon-user pull-right"}]};
-        TestUtils.Simulate.click(firstPlayerOption, {"target": selectedPlayer});
-
-        let startGameButton = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
-        expect(startGameButton).toBeDefined();
-    });
-
-    it('should trigger game start if players were selected', () => {
-        let firstPlayerOption = TestUtils.findRenderedDOMComponentWithClass(selection, 'first-player');
-        let selectedPlayer = {"textContent": "Juan", "childNodes": [{}, {className: "glyphicon glyphicon-user pull-right"}]};
-        TestUtils.Simulate.click(firstPlayerOption, {"target": selectedPlayer});
-
+    it('triggers game start when check icon is selected', () => {
         let startGame = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
         TestUtils.Simulate.click(startGame);
 
         let expectedGameStartParameters = {
             players: [{
-                name: "Juan",
                 type: "human"
             },{
-                name: "John",
-                type: "human"
+                type: "computer"
             }],
-            firstPlayer: "Juan"
+            firstPlayer: "O"
         };
         expect(GameActions.start).toBeCalledWith(expectedGameStartParameters);
     });
+
 });
 

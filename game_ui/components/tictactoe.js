@@ -16,9 +16,7 @@ const TicTacToe = React.createClass({
             return false;
         }
 
-        let nextPlayerType = players
-            .filter((player) => player.name === nextPlayer)[0]
-            .type;
+        let nextPlayerType = (nextPlayer === "O") ? players[0].type : players[1].type;
 
         return nextPlayerType === "computer";
     },

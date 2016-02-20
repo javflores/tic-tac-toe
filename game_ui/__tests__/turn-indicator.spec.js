@@ -9,11 +9,9 @@ const TurnIndicator = require('../components/game-progress/turn-indicator');
 
 describe('TurnIndicator', () => {
     it('displays the name of the next player', () => {
-        let nextPlayer = "John the Champ";
+        let nextPlayer = "O";
 
-        let renderedPlayer = TestUtils.renderIntoDocument(
-            <TurnIndicator nextPlayer={nextPlayer}/>
-        );
+        let renderedPlayer = TestUtils.renderIntoDocument(<TurnIndicator nextPlayer={nextPlayer}/>);
 
         var nameNode = TestUtils.findRenderedDOMComponentWithTag(renderedPlayer, "h3");
         expect(nameNode.textContent).toContain(nextPlayer);

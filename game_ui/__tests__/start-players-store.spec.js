@@ -11,15 +11,13 @@ describe('When Game start players store is notified about an started game', () =
             game_id: "123456",
             status: "start",
             players:[{
-                name: "R2-D2",
                 type: "computer"
             },{
-                name: "C-3PO",
                 type: "computer"
             }],
             type: "computer_computer",
             board: [null, null, null, null, null, null, null, null, null],
-            nextPlayer: "R2-D2"
+            nextPlayer: "O"
         };
         GameStartPlayersStore.onStartCompleted(gameStartResponse);
 

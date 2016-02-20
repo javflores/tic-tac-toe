@@ -7,12 +7,6 @@ const CurrentMarkStore = Reflux.createStore({
         return this.data.currentMark;
     },
 
-    triggerCurrentMark(nextPlayer){
-        let currentMark = (this.data.players[0].name === nextPlayer) ? "o" : "x";
-        this.data.currentMark = currentMark;
-        this.trigger(currentMark);
-    },
-
     init(){
         this.listenToMany(GameActions);
     },
@@ -20,12 +14,12 @@ const CurrentMarkStore = Reflux.createStore({
     data: {},
 
     onStartCompleted(startup){
-        this.data.players = startup.players;
-        this.triggerCurrentMark(startup.nextPlayer);
+        this.data.currentMark = startup.nextPlayer;
+        this.trigger(startup.nextPlayer);
     },
 
     onMoveCompleted(move){
-        this.triggerCurrentMark(move.nextPlayer);
+        this.trigger(move.nextPlayer);
     }
 
 });

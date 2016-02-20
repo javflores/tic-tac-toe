@@ -16,7 +16,7 @@ const Mark = React.createClass({
     },
 
     nextPlayerMarkStyle: function () {
-        return (this.state.currentMark === "o") ? "space position-o" : "space position-x";
+        return (this.state.currentMark === "O") ? "space position-o" : "space position-x";
     },
 
     positionSelected(){
