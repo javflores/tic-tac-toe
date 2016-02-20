@@ -22,25 +22,23 @@ defmodule GameEngine.Game do
 		{:ok, state}
 	end
 
-	def handle_call({:start, %{o: %{name: o_name, type: o_type}, x: %{name: x_name, type: x_type}, first_player: first_player}}, _from, _state) do
+	def handle_call({:start, %{o: o, x: x, first_player: first_player}}, _from, _state) do
 		game_id = GameEngine.GameIdGenerator.new
+		type_of_game = get_type_of_game(o, x)
+		next_player = first_player
 
-		type_of_game = get_type_of_game(o_type, x_type)
-
-		GameEngine.Player.initialize(:o, o_name, o_type, :o, type_of_game)
-		GameEngine.Player.initialize(:x, x_name, x_type, :x, type_of_game)
-
-		next_player = get_next_player(o_name, x_name, first_player)
+		GameEngine.Player.initialize(:o, o, :o, type_of_game)
+		GameEngine.Player.initialize(:x, x, :x, type_of_game)
 
 		state = %{game_id: game_id, 
 				  status: :start,
-				  type: type_of_game, 
+				  type: type_of_game,
 				  board: %GameEngine.Board{},
-				  o: o_name,
-				  x: x_name,
+				  o: o,
+				  x: x,
 				  next_player: next_player}
 				
-		{:reply, {:ok, %{state | next_player: get_player_name(next_player, o_name, x_name)}}, state}
+		{:reply, {:ok, state}, state}
 	end
 
 	def handle_call({:move, _game_id}, _from, state) do
@@ -72,7 +70,7 @@ defmodule GameEngine.Game do
 				{_, winner} = possible_winner
 				new_state = %{new_state | status: :winner}
 				response = Map.put(response, :status, :winner)
-				response = Map.put(response, :winner, get_player_name(winner, new_state[:o], new_state[:x]))
+				response = Map.put(response, :winner, winner)
 				{:reply, {:winner, response}, new_state}
 
 			GameEngine.Board.full?(board_after_move) ->
@@ -88,26 +86,20 @@ defmodule GameEngine.Game do
 
 	defp process_move(:o, board_after_move, current_state) do
 		new_state = %{current_state | next_player: :x, board: board_after_move}
-		player = get_player_name(:o, current_state[:o], current_state[:x])
-		next_player = get_player_name(:x, current_state[:o], current_state[:x])
+		player = :o
+		next_player = :x
 
 		{new_state, %{player: player, next_player: next_player, board: board_after_move}}
 	end
 
 	defp process_move(:x, board_after_move, current_state) do
 		new_state = %{current_state | next_player: :o, board: board_after_move}
-		player = get_player_name(:x, current_state[:o], current_state[:x])
-		next_player = get_player_name(:o, current_state[:o], current_state[:x])
+		player = :x
+		next_player = :o
 
 		{new_state, %{player: player, next_player: next_player, board: board_after_move}}
 	end
 
 	defp winner?({:winner, _winner}), do: true
 	defp winner?({:no_winner}), do: false
-
-	defp get_next_player(o, _x, first_player) when first_player == o, do: :o
-	defp get_next_player(_o, x, first_player) when first_player == x, do: :x
-
-	defp get_player_name(:o, o, _x), do: o
-	defp get_player_name(:x, _o, x), do: x
 end

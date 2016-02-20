@@ -48,33 +48,35 @@ defmodule GameEngine.EngineController do
 		  o: o,
 		  x: x,
 		  board: Tuple.to_list(board.positions),
-		  next_player: next_player}
+		  next_player: parse_player(next_player)}
 	end
 
 	defp handle_response(:move, game_id, %{status: status, board: board, player: player, next_player: next_player}) do
 		%{game_id: game_id,
 		  status: status,
-		  player: player,
+		  player: parse_player(player),
 		  board: Tuple.to_list(board.positions),
-		  next_player: next_player}
+		  next_player: parse_player(next_player)}
 	end
 
 	defp handle_response(:winner, game_id, %{status: status, winner: winner, board: board, player: player, next_player: next_player}) do
 		%{game_id: game_id,
 		  status: status,
-		  winner: winner,
-		  player: player,
+		  winner: parse_player(winner),
+		  player: parse_player(player),
 		  board: Tuple.to_list(board.positions),
-		  next_player: next_player}
+		  next_player: parse_player(next_player)}
 	end
 
 	defp get_players(params) do
-		o_name = params["o_name"]
-		o_type = params["o_type"]
-		x_name = params["x_name"]
-		x_type = params["x_type"]
+		o = params["o"]
+		x = params["x"]
 		first_player = params["first_player"]
 		
-		%{o: %{name: o_name, type: String.to_atom(o_type)}, x: %{name: x_name, type: String.to_atom(x_type)}, first_player: first_player}
+		%{o: String.to_atom(o), x: String.to_atom(x), first_player: String.downcase(first_player) |> String.to_atom }
+	end
+
+	defp parse_player(player) do
+		Atom.to_string(player) |> String.capitalize
 	end
 end
