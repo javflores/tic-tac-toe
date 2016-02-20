@@ -13,15 +13,11 @@ defmodule GameEngine.Mixfile do
      deps: deps]
   end
 
-  # Configuration for the OTP application.
-  #
-  # Type `mix help compile.app` for more information.
   def application do
     [mod: {GameEngine, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext]]
   end
 
-  # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
   defp elixirc_paths(_),     do: ["lib", "web"]
 
@@ -29,9 +25,6 @@ defmodule GameEngine.Mixfile do
     [acceptance: ["white_bread.run"]]
   end
 
-  # Specifies your project dependencies.
-  #
-  # Type `mix help deps` for examples and options.
   defp deps do
     [{:phoenix, "~> 1.1.3"},
      {:phoenix_html, "~> 2.3"},
