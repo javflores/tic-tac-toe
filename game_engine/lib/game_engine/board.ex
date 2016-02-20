@@ -8,39 +8,37 @@ defmodule GameEngine.Board do
 
     def resolve_winner(%GameEngine.Board{positions: {player, player, player,
                                                       _, _, _,
-                                                      _, _, _}}) when player in @players, do: {:winner, player}
+                                                      _, _, _}}) when player in @players, do: :winner
 
     def resolve_winner(%GameEngine.Board{positions: {_, _, _,
                                                      player, player, player,
-                                                     _, _, _}}) when player in @players, do: {:winner, player}
+                                                     _, _, _}}) when player in @players, do: :winner
 
     def resolve_winner(%GameEngine.Board{positions: {_, _, _,
                                                      _, _, _,
-                                                     player, player, player}}) when player in @players, do: {:winner, player}
+                                                     player, player, player}}) when player in @players, do: :winner
 
     def resolve_winner(%GameEngine.Board{positions: {player, _, _,
                                                      player, _, _,
-                                                     player, _, _}}) when player in @players, do: {:winner, player}
+                                                     player, _, _}}) when player in @players, do: :winner
 
     def resolve_winner(%GameEngine.Board{positions: {_, player, _,
                                                      _, player, _,
-                                                     _, player, _}}) when player in @players, do: {:winner, player}
+                                                     _, player, _}}) when player in @players, do: :winner
 
     def resolve_winner(%GameEngine.Board{positions: {_, _, player,
                                                      _, _, player,
-                                                     _, _, player}}) when player in @players, do: {:winner, player}
+                                                     _, _, player}}) when player in @players, do: :winner
 
     def resolve_winner(%GameEngine.Board{positions: {_, _, player,
                                                      _, player, _,
-                                                     player, _, _}}) when player in @players, do: {:winner, player}
+                                                     player, _, _}}) when player in @players, do: :winner
 
     def resolve_winner(%GameEngine.Board{positions: {player, _, _,
                                                      _, player, _,
-                                                     _, _, player}}) when player in @players, do: {:winner, player}
+                                                     _, _, player}}) when player in @players, do: :winner
 
-    def resolve_winner(%GameEngine.Board{positions: _positions}) do
-        {:no_winner}
-    end
+    def resolve_winner(%GameEngine.Board{positions: _positions}), do: :no_winner
 
     def full?(%GameEngine.Board{positions: positions}) do
         positions

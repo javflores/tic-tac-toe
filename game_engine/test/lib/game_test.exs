@@ -114,7 +114,7 @@ defmodule GameEngine.GameTest do
     end
 
     test "check for winner upon player moves", %{game: game} do
-        with_mock GameEngine.Board, [:passthrough], [resolve_winner: fn(_board) -> {:no_winner} end] do
+        with_mock GameEngine.Board, [:passthrough], [resolve_winner: fn(_board) -> :no_winner end] do
             game_id = start_new_game(game, :o)
             {:ok, move} = GameEngine.Game.move(game, game_id)
 
@@ -123,20 +123,11 @@ defmodule GameEngine.GameTest do
     end
 
     test "game status is winner if a player wins", %{game: game} do
-        with_mock GameEngine.Board, [:passthrough], [resolve_winner: fn(_board) -> {:winner, :o} end] do
+        with_mock GameEngine.Board, [:passthrough], [resolve_winner: fn(_board) -> :winner end] do
             game_id = start_new_game(game, :o)
-            {:winner, move} = GameEngine.Game.move(game, game_id)
+            {:ok, move} = GameEngine.Game.move(game, game_id)
 
             assert move[:status] == :winner
-        end
-    end
-
-    test "we have a winner", %{game: game} do
-        with_mock GameEngine.Board, [:passthrough], [resolve_winner: fn(_board) -> {:winner, :o} end] do
-            game_id = start_new_game(game, :o)
-            {:winner, move} = GameEngine.Game.move(game, game_id)
-
-            assert move[:winner] == :o
         end
     end
 
@@ -152,8 +143,7 @@ defmodule GameEngine.GameTest do
     end
 
     test "game is in progress if no draw nor a winner", %{game: game} do
-        with_mock GameEngine.Board, [:passthrough],
-            [resolve_winner: fn(_board) -> {:no_winner} end, full?: fn(_board) -> false end] do
+        with_mock GameEngine.Board, [:passthrough], [resolve_winner: fn(_board) -> :no_winner end, full?: fn(_board) -> false end] do
 
             game_id = start_new_game(game, :o)
             {:ok, move} = GameEngine.Game.move(game, game_id)

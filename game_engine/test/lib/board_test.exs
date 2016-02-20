@@ -16,9 +16,7 @@ defmodule GameEngine.BoardTest do
                           nil, nil, nil,
                           nil, nil, nil}
 
-        {:winner, winner} = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: first_row_win})
-
-        assert winner == :o
+        assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: first_row_win}) == :winner
     end
 
     test "returns x as winner if it has completed first row" do
@@ -26,9 +24,7 @@ defmodule GameEngine.BoardTest do
                           nil, nil, nil,
                           nil, nil, nil}
 
-        {:winner, winner} = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: first_row_win})
-
-        assert winner == :x
+        assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: first_row_win}) == :winner
     end
 
     test "returns player as winner if it has completed second row" do
@@ -36,9 +32,7 @@ defmodule GameEngine.BoardTest do
                           :x, :x, :x,
                           nil, nil, nil}
 
-        {:winner, winner} = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: second_row_win})
-
-        assert winner == :x
+        assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: second_row_win}) == :winner
     end
 
     test "returns player as winner if it has completed third row" do
@@ -46,9 +40,7 @@ defmodule GameEngine.BoardTest do
                          :o, nil, nil,
                          :x, :x, :x}
 
-        {:winner, winner} = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: third_row_win})
-
-        assert winner == :x
+        assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: third_row_win}) == :winner
     end
 
     test "returns player as winner if it has completed first column" do
@@ -56,9 +48,7 @@ defmodule GameEngine.BoardTest do
                             :o, nil, nil,
                             :o, :x, :x}
 
-        {:winner, winner} = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: first_column_win})
-
-        assert winner == :o
+        assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: first_column_win}) == :winner
     end
 
     test "returns player as winner if it has completed second column" do
@@ -66,9 +56,7 @@ defmodule GameEngine.BoardTest do
                              nil, :o, nil,
                              nil, :o, :x}
 
-        {:winner, winner} = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: second_column_win})
-
-        assert winner == :o
+        assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: second_column_win}) == :winner
     end
 
     test "returns player as winner if it has completed third column" do
@@ -76,9 +64,7 @@ defmodule GameEngine.BoardTest do
                             nil, nil, :x,
                             nil, nil, :x}
 
-        {:winner, winner} = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: third_column_win})
-
-        assert winner == :x
+        assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: third_column_win}) == :winner
     end
 
     test "returns player as winner if it has completed diagonal" do
@@ -86,9 +72,7 @@ defmodule GameEngine.BoardTest do
                         nil, :o, nil,
                         :o, nil, nil}
 
-        {:winner, winner} = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: diagonal_win})
-
-        assert winner == :o
+        assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: diagonal_win}) == :winner
     end
 
     test "returns player as winner if it has completed back diagonal" do
@@ -96,9 +80,7 @@ defmodule GameEngine.BoardTest do
                              nil, :o, nil,
                              nil, nil, :o}
 
-        {:winner, winner} = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: back_diagonal_win})
-
-        assert winner == :o
+        assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: back_diagonal_win}) == :winner
     end
 
     test "returns no winner" do
@@ -106,9 +88,7 @@ defmodule GameEngine.BoardTest do
                   nil, nil, nil,
                   nil, nil, nil}
 
-        winner = GameEngine.Board.resolve_winner(%GameEngine.Board{positions: no_win})
-
-        assert winner == {:no_winner}
+        assert GameEngine.Board.resolve_winner(%GameEngine.Board{positions: no_win}) == :no_winner
     end
 
     test "board is full" do
@@ -132,9 +112,7 @@ defmodule GameEngine.BoardTest do
                      nil, nil, nil,
                      nil, nil, nil}
 
-        mark = GameEngine.Board.get_by_position(%GameEngine.Board{positions: positions}, %{row: 0, column: 0})
-
-        assert mark == :o
+        assert GameEngine.Board.get_by_position(%GameEngine.Board{positions: positions}, %{row: 0, column: 0}) == :o
     end
 
     test "put a mark in given position" do

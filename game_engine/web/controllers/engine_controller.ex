@@ -20,25 +20,17 @@ defmodule GameEngine.EngineController do
     end
 
     def move(conn, %{"game_id" => game_id, "move" => %{"row" => row, "column" => column}}) do
-        case GameEngine.Game.move(:game, game_id, %{row: row, column: column}) do
-            {:winner, result} ->
-                conn
-                |> json(handle_response(:winner, game_id, result))
-            {_, result} ->
-                conn
-                |> json(handle_response(:move, game_id, result))
-        end
+      {:ok, move} = GameEngine.Game.move(:game, game_id, %{row: row, column: column})
+
+      conn
+      |> json(handle_response(:move, game_id, move))
     end
 
     def move(conn, %{"game_id" => game_id}) do
-        case GameEngine.Game.move(:game, game_id) do
-            {:winner, result} ->
-                conn
-                |> json(handle_response(:winner, game_id, result))
-            {_, result} ->
-                conn
-                |> json(handle_response(:move, game_id, result))
-        end
+        {:ok, move} = GameEngine.Game.move(:game, game_id)
+
+        conn
+        |> json(handle_response(:move, game_id, move))
     end
 
     defp handle_response(:start, %{game_id: game_id, board: board, o: o, x: x, type: type, next_player: next_player}) do
@@ -59,15 +51,6 @@ defmodule GameEngine.EngineController do
           next_player: parse_player(next_player)}
     end
 
-    defp handle_response(:winner, game_id, %{status: status, winner: winner, board: board, player: player, next_player: next_player}) do
-        %{game_id: game_id,
-          status: status,
-          winner: parse_player(winner),
-          player: parse_player(player),
-          board: Tuple.to_list(board.positions),
-          next_player: parse_player(next_player)}
-    end
-
     defp get_players(params) do
         o = params["o"]
         x = params["x"]
@@ -76,7 +59,5 @@ defmodule GameEngine.EngineController do
         %{o: String.to_atom(o), x: String.to_atom(x), first_player: String.downcase(first_player) |> String.to_atom }
     end
 
-    defp parse_player(player) do
-        Atom.to_string(player) |> String.capitalize
-    end
+    defp parse_player(player), do: Atom.to_string(player) |> String.capitalize
 end
