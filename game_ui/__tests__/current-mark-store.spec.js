@@ -12,15 +12,13 @@ describe('Current Mark Store', () => {
             game_id: "123456",
             status: "start",
             players:[{
-                name: "R2-D2",
                 type: "computer"
             },{
-                name: "C-3PO",
                 type: "computer"
             }],
             type: "computer_computer",
             board: [null, null, null, null, null, null, null, null, null],
-            nextPlayer: "R2-D2"
+            nextPlayer: "O"
         };
     });
 
@@ -29,23 +27,23 @@ describe('Current Mark Store', () => {
 
         let initialMark = CurrentMarkStore.getInitialState();
 
-        let markFirstPlayer = "o";
+        let markFirstPlayer = "O";
         expect(initialMark).toEqual(markFirstPlayer);
     });
 
     it('sends listeners the starting mark upon game started', () => {
         CurrentMarkStore.onStartCompleted(gameStartResponse);
 
-        let markFirstPlayer = "o";
+        let markFirstPlayer = "O";
         expect(CurrentMarkStore.trigger).toBeCalledWith(markFirstPlayer);
     });
 
     it('sends listeners the next mark upon movement performed', () => {
         CurrentMarkStore.onStartCompleted(gameStartResponse);
 
-        CurrentMarkStore.onMoveCompleted({nextPlayer: "C-3PO"});
+        CurrentMarkStore.onMoveCompleted({nextPlayer: "X"});
 
-        let markNextPlayer = "x";
+        let markNextPlayer = "X";
         expect(CurrentMarkStore.trigger).toBeCalledWith(markNextPlayer);
     });
 });
