@@ -14,5 +14,5 @@ defmodule GameEngine.Router do
     post "/move/:game_id", EngineController, :move
     options "/move/:game_id", EngineController, :preflight
   end
-  
+
 end
