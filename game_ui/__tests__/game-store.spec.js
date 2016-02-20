@@ -11,13 +11,11 @@ describe('Game store', () => {
     beforeEach(() => {
         gameStartParameters = {
             players: [{
-                name: "R2-D2",
                 type: "computer"
             },{
-                name: "C-3PO",
                 type: "computer"
             }],
-            firstPlayer: "R2-D2"
+            firstPlayer: "O"
         };
     });
 
@@ -31,11 +29,9 @@ describe('Game store', () => {
         GameStartupStore.onStart(gameStartParameters);
 
         let parsedGameParameters = {
-            o_name: "R2-D2",
-            o_type: "computer",
-            x_name: "C-3PO",
-            x_type: "computer",
-            first_player: "R2-D2"
+            o: "computer",
+            x: "computer",
+            first_player: "O"
         };
         expect(EngineRequest.send).toBeCalledWith(parsedGameParameters);
     });
@@ -47,15 +43,13 @@ describe('Game store', () => {
             game_id: "123456",
             status: "start",
             players:[{
-                name: "R2-D2",
                 type: "computer"
             },{
-                name: "C-3PO",
                 type: "computer"
             }],
             type: "computer_computer",
             board: [null, null, null, null, null, null, null, null, null],
-            nextPlayer: "R2-D2"
+            nextPlayer: "O"
         };
         expect(GameActions.start.completed).toBeCalledWith(expectedGameEngineStart);
     });

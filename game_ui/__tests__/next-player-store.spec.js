@@ -13,10 +13,8 @@ describe('Next Player Store', () => {
 
             type = "computer_computer";
             players = [{
-                name: "R2-D2",
                 type: "computer"
             },{
-                name: "C-3PO",
                 type: "computer"
             }];
 
@@ -26,14 +24,14 @@ describe('Next Player Store', () => {
                 players: players,
                 type: type,
                 board: [null, null, null, null, null, null, null, null, null],
-                nextPlayer: "R2-D2"
+                nextPlayer: "O"
             };
         });
 
         it('sends listeners next player', () => {
             NextPlayerStore.onStartCompleted(gameStartResponse);
 
-            let nextPlayer = "R2-D2";
+            let nextPlayer = "O";
             expect(NextPlayerStore.trigger).toBeCalledWith(nextPlayer);
         });
     });
@@ -41,10 +39,8 @@ describe('Next Player Store', () => {
     describe('when performing a move', () => {
         beforeEach(() => {
             players = [{
-                name: "John",
                 type: "human"
             },{
-                name: "C-3PO",
                 type: "computer"
             }];
 
@@ -54,23 +50,23 @@ describe('Next Player Store', () => {
                 players: players,
                 type: "human_computer",
                 board: [null, null, null, null, null, null, null, null, null],
-                nextPlayer: "John"
+                nextPlayer: "O"
             };
 
             NextPlayerStore.onStartCompleted(gameStartResponse);
         });
 
         it('sends listeners next player upon movement performed', () => {
-            NextPlayerStore.onMoveCompleted({nextPlayer: "C-3PO"});
+            NextPlayerStore.onMoveCompleted({nextPlayer: "X"});
 
-            let nextPlayer = "C-3PO";
+            let nextPlayer = "X";
             expect(NextPlayerStore.trigger).toBeCalledWith(nextPlayer);
         });
 
         it('does not send listeners next player if game is a draw', () => {
             NextPlayerStore.trigger = jest.genMockFunction();
 
-            NextPlayerStore.onMoveCompleted({nextPlayer: "C-3PO", status: "draw"});
+            NextPlayerStore.onMoveCompleted({nextPlayer: "X", status: "draw"});
 
             expect(NextPlayerStore.trigger).not.toBeCalled();
         });
@@ -78,7 +74,7 @@ describe('Next Player Store', () => {
         it('does not send listeners next player if game is a win', () => {
             NextPlayerStore.trigger = jest.genMockFunction();
 
-            NextPlayerStore.onMoveCompleted({nextPlayer: "C-3PO", status: "win"});
+            NextPlayerStore.onMoveCompleted({nextPlayer: "X", status: "win"});
 
             expect(NextPlayerStore.trigger).not.toBeCalled();
         });

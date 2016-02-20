@@ -7,7 +7,7 @@ let GameActions = require('../game-requests/game-actions');
 
 const Player = React.createClass({
     isCurrentPlayer(){
-        return this.props.player.name === this.props.nextPlayer
+        return this.props.mark === this.props.nextPlayer
     },
 
     playerClicked(){
@@ -40,7 +40,6 @@ const Player = React.createClass({
             <div className={playerContainerStyle} onClick={this.playerClicked}>
                 <a className={this.props.player.type}>
                     <i className={typeIcon}/>
-                    <p>{this.props.player.name}</p>
                 </a>
             </div>
         );

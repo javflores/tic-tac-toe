@@ -30,7 +30,7 @@ describe('When game has a winner', () => {
     let gameOver;
     beforeEach(() => {
         gameOver = TestUtils.renderIntoDocument(<GameOver />);
-        gameOver.setState({winner: "John"});
+        gameOver.setState({winner: "O"});
     });
 
     it('it renders a winner', () => {

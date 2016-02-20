@@ -45,16 +45,14 @@ describe('When game starts', () => {
 
         type = "human_computer";
         players = [{
-            name: "John",
             type: "human"
         }, {
-            name: "C-3PO",
             type: "computer"
         }];
     });
 
     it('triggers a computer move if first player is computer', () => {
-        nextPlayer = "C-3PO";
+        nextPlayer = "X";
 
         tictactoe.onStartCompleted({type: type, players: players, nextPlayer: nextPlayer});
 
@@ -62,7 +60,7 @@ describe('When game starts', () => {
     });
 
     it('does not trigger a computer move if first player is human', () => {
-        nextPlayer = "John";
+        nextPlayer = "O";
 
         tictactoe.onStartCompleted({type: type, players: players, nextPlayer: nextPlayer});
 
@@ -79,10 +77,8 @@ describe('When move is completed', () => {
 
         type = "human_computer";
         players = [{
-            name: "John",
             type: "human"
         }, {
-            name: "C-3PO",
             type: "computer"
         }];
     });
@@ -90,7 +86,7 @@ describe('When move is completed', () => {
     it('triggers a computer move if next player is computer', () => {
         tictactoe.setState({type: type, players: players});
 
-        tictactoe.onMoveCompleted({nextPlayer: "C-3PO"});
+        tictactoe.onMoveCompleted({nextPlayer: "X"});
 
         expect(GameActions.computerMove).toBeCalled();
     });
@@ -98,7 +94,7 @@ describe('When move is completed', () => {
     it('does not trigger a computer move if next player is human', () => {
         tictactoe.setState({type: type, players: players});
 
-        tictactoe.onMoveCompleted({nextPlayer: "John"});
+        tictactoe.onMoveCompleted({nextPlayer: "O"});
 
         expect(GameActions.computerMove).not.toBeCalled();
     });

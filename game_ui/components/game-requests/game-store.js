@@ -5,13 +5,9 @@ let GameEngine = require('superagent');
 
 const GameStore = Reflux.createStore({
     parseGameStartParameters(startGameParameters){
-        let firstPlayer = startGameParameters.players[0];
-        let secondPlayer = startGameParameters.players[1];
         return {
-            o_name: firstPlayer.name,
-            o_type: firstPlayer.type,
-            x_name: secondPlayer.name,
-            x_type: secondPlayer.type,
+            o: startGameParameters.players[0].type,
+            x: startGameParameters.players[1].type,
             first_player: startGameParameters.firstPlayer
         };
     },
