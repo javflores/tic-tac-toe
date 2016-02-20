@@ -28,7 +28,7 @@ const GameProgress = React.createClass({
     render() {
         return (
             <div className="row">
-                <Message />
+                <Message message={"The Game has started!"}/>
                 <Player player={this.state.players[0]} nextPlayer={this.state.nextPlayer}/>
                 <TurnIndicator nextPlayer={this.state.nextPlayer}/>
                 <Player player={this.state.players[1]} nextPlayer={this.state.nextPlayer}/>

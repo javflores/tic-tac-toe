@@ -3,7 +3,6 @@ import React from 'react';
 import { render } from 'react-dom';
 import Reflux from 'reflux';
 
-let NextPlayerStore = require("../game-requests/next-player-store");
 let GameActions = require('../game-requests/game-actions');
 
 const Player = React.createClass({

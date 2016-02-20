@@ -7,7 +7,7 @@ const Message = React.createClass({
         return (
             <div className="row">
                 <div className="col-lg-12 title">
-                    <h4 className="game-control subheader">The Game has started!</h4>
+                    <h4 className="game-control subheader">{this.props.message}</h4>
                 </div>
             </div>
         );
