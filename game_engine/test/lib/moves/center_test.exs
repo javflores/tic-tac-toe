@@ -6,9 +6,9 @@ defmodule GameEngine.PlayStrategies.Moves.CenterTest do
     @opponent :x
 
     test "play center if available" do
-        board = %GameEngine.Board{positions: {nil, nil, nil,
-                                              nil, nil, nil,
-                                              nil, nil, nil}}
+        board = {nil, nil, nil,
+                 nil, nil, nil,
+                 nil, nil, nil}
 
         move = Center.find(board, @player)
 
@@ -16,9 +16,9 @@ defmodule GameEngine.PlayStrategies.Moves.CenterTest do
     end
 
     test "cannot take center when taken" do
-        board = %GameEngine.Board{positions: {nil, nil, nil,
-                                              nil, @opponent, nil,
-                                              nil, nil, nil}}
+        board = {nil, nil, nil,
+                 nil, @opponent, nil,
+                 nil, nil, nil}
 
         move = Center.find(board, @player)
 

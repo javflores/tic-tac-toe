@@ -33,7 +33,7 @@ defmodule GameEngine.Game do
         state = %{game_id: game_id,
                   status: :start,
                   type: type_of_game,
-                  board: %GameEngine.Board{},
+                  board: GameEngine.Board.get_empty,
                   o: o,
                   x: x,
                   next_player: next_player,

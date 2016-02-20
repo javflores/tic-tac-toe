@@ -6,9 +6,9 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
     @opponent :x
 
     test "take empty top side" do
-        board = %GameEngine.Board{positions: {@opponent, nil, @player,
-                                              nil, @opponent, nil,
-                                              @player, nil, @player}}
+        board = {@opponent, nil, @player,
+                 nil, @opponent, nil,
+                 @player, nil, @player}
 
         move = EmptySide.find(board, @player)
 
@@ -16,9 +16,9 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
     end
 
     test "take empty left side" do
-        board = %GameEngine.Board{positions: {@player, @player, @opponent,
-                                              nil, @opponent, nil,
-                                              @opponent, nil, @opponent}}
+        board = {@player, @player, @opponent,
+                 nil, @opponent, nil,
+                 @opponent, nil, @opponent}
 
         move = EmptySide.find(board, @player)
 
@@ -26,9 +26,9 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
     end
 
     test "take empty right side" do
-        board = %GameEngine.Board{positions: {@player, @player, @opponent,
-                                              @player, @opponent, nil,
-                                              @player, nil, @player}}
+        board = {@player, @player, @opponent,
+                 @player, @opponent, nil,
+                 @player, nil, @player}
 
         move = EmptySide.find(board, @player)
 
@@ -36,9 +36,9 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
     end
 
     test "take empty bottom side" do
-        board = %GameEngine.Board{positions: {@player, @player, @opponent,
-                                              @player, @opponent, @opponent,
-                                              @player, nil, @player}}
+        board = {@player, @player, @opponent,
+                 @player, @opponent, @opponent,
+                 @player, nil, @player}
 
         move = EmptySide.find(board, @player)
 
@@ -46,9 +46,9 @@ defmodule GameEngine.PlayStrategies.Moves.EmptySideTest do
     end
 
     test "no sides available" do
-        board = %GameEngine.Board{positions: {@opponent, @player, @player,
-                                              @player, @opponent, @opponent,
-                                              @player, @opponent, @player}}
+        board = {@opponent, @player, @player,
+                 @player, @opponent, @opponent,
+                 @player, @opponent, @player}
 
         move = EmptySide.find(board, @player)
 

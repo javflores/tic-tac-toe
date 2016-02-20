@@ -3,6 +3,8 @@ defmodule GameEngine.PlayerTest do
 
     import Mock
 
+    @empty_board {nil, nil, nil, nil, nil, nil, nil, nil, nil}
+
     setup do
         {:ok, player} = GameEngine.Player.start_link
         {:ok, player: player}
@@ -32,7 +34,7 @@ defmodule GameEngine.PlayerTest do
         assert player_initialization[:strategy] == :kickass
     end
 
-    test "human player has a human behaviour", %{player: player} do
+    test "human player has a human behavior", %{player: player} do
         {:ok, player_initialization} = GameEngine.Player.initialize(player, :human, :o, :human_computer)
 
         assert player_initialization[:strategy] == :human
@@ -44,7 +46,7 @@ defmodule GameEngine.PlayerTest do
 
             GameEngine.Player.initialize(player, :computer, :o, :computer_computer)
 
-            {:ok, board} = GameEngine.Player.move(player, %GameEngine.Board{})
+            {:ok, board} = GameEngine.Player.move(player, @empty_board)
 
             assert GameEngine.Board.get_by_position(board, simple_move) == :o
         end
@@ -53,7 +55,7 @@ defmodule GameEngine.PlayerTest do
     test "human player places received move in the board", %{player: player} do
         GameEngine.Player.initialize(player, :human, :o, :human_computer)
 
-        {:ok, board} = GameEngine.Player.move(player, %GameEngine.Board{}, %{row: 0, column: 0})
+        {:ok, board} = GameEngine.Player.move(player, @empty_board, %{row: 0, column: 0})
 
         assert GameEngine.Board.get_by_position(board, %{row: 0, column: 0}) == :o
     end
@@ -64,7 +66,7 @@ defmodule GameEngine.PlayerTest do
 
             GameEngine.Player.initialize(player, :computer, :o, :human_computer)
 
-            {:ok, board} = GameEngine.Player.move(player, %GameEngine.Board{})
+            {:ok, board} = GameEngine.Player.move(player, @empty_board)
 
             assert GameEngine.Board.get_by_position(board, kickass_move) == :o
         end
@@ -73,9 +75,9 @@ defmodule GameEngine.PlayerTest do
     test "player returns same board when no moves available", %{player: player} do
         GameEngine.Player.initialize(player, :computer, :o, :human_computer)
 
-        full_board = %GameEngine.Board{positions: {:x, :o, :o,
-                                                    :o, :x, :x,
-                                                    :o, :x, :o}}
+        full_board = {:x, :o, :o,
+                      :o, :x, :x,
+                      :o, :x, :o}
 
         {:ok, board} = GameEngine.Player.move(player, full_board)
 

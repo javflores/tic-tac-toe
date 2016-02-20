@@ -10,7 +10,7 @@ defmodule GameEngine.PlayStrategies.Moves.ForkTest do
                                 nil, @player, nil,
                                 nil, nil, @opponent}
 
-        fork = Fork.find(%GameEngine.Board{positions: positions_with_fork}, @player)
+        fork = Fork.find(positions_with_fork, @player)
 
         expected_fork = %{row: 1, column: 0}
         assert fork == expected_fork
@@ -21,7 +21,7 @@ defmodule GameEngine.PlayStrategies.Moves.ForkTest do
                                         nil, @player, nil,
                                         nil, nil, @player}
 
-        forks = Fork.find_all(%GameEngine.Board{positions: position_with_several_forks}, @player)
+        forks = Fork.find_all(position_with_several_forks, @player)
 
         all_forks = [%{column: 2, row: 1}, %{column: 2, row: 0}, %{column: 0, row: 2}]
         assert forks == all_forks
@@ -32,7 +32,7 @@ defmodule GameEngine.PlayStrategies.Moves.ForkTest do
                       nil, @player, nil,
                       nil, @opponent, @player}
 
-        move = Fork.find(%GameEngine.Board{positions: early_fork}, @player)
+        move = Fork.find(early_fork, @player)
 
         expected_fork = %{row: 1, column: 2}
         assert move == expected_fork

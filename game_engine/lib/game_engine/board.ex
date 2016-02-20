@@ -2,64 +2,62 @@ defmodule GameEngine.Board do
 
     @players [:o, :x]
 
-    defstruct positions: {nil, nil, nil,
+    def get_empty(), do: {nil, nil, nil,
                           nil, nil, nil,
                           nil, nil, nil}
 
-    def resolve_winner(%GameEngine.Board{positions: {player, player, player,
-                                                      _, _, _,
-                                                      _, _, _}}) when player in @players, do: :winner
+    def resolve_winner({player, player, player,
+                        _, _, _,
+                        _, _, _}) when player in @players, do: :winner
 
-    def resolve_winner(%GameEngine.Board{positions: {_, _, _,
-                                                     player, player, player,
-                                                     _, _, _}}) when player in @players, do: :winner
+    def resolve_winner({_, _, _,
+                       player, player, player,
+                       _, _, _}) when player in @players, do: :winner
 
-    def resolve_winner(%GameEngine.Board{positions: {_, _, _,
-                                                     _, _, _,
-                                                     player, player, player}}) when player in @players, do: :winner
+    def resolve_winner({_, _, _,
+                        _, _, _,
+                        player, player, player}) when player in @players, do: :winner
 
-    def resolve_winner(%GameEngine.Board{positions: {player, _, _,
-                                                     player, _, _,
-                                                     player, _, _}}) when player in @players, do: :winner
+    def resolve_winner({player, _, _,
+                        player, _, _,
+                        player, _, _}) when player in @players, do: :winner
 
-    def resolve_winner(%GameEngine.Board{positions: {_, player, _,
-                                                     _, player, _,
-                                                     _, player, _}}) when player in @players, do: :winner
+    def resolve_winner({_, player, _,
+                        _, player, _,
+                        _, player, _}) when player in @players, do: :winner
 
-    def resolve_winner(%GameEngine.Board{positions: {_, _, player,
-                                                     _, _, player,
-                                                     _, _, player}}) when player in @players, do: :winner
+    def resolve_winner({_, _, player,
+                        _, _, player,
+                        _, _, player}) when player in @players, do: :winner
 
-    def resolve_winner(%GameEngine.Board{positions: {_, _, player,
-                                                     _, player, _,
-                                                     player, _, _}}) when player in @players, do: :winner
+    def resolve_winner({_, _, player,
+                        _, player, _,
+                        player, _, _}) when player in @players, do: :winner
 
-    def resolve_winner(%GameEngine.Board{positions: {player, _, _,
-                                                     _, player, _,
-                                                     _, _, player}}) when player in @players, do: :winner
+    def resolve_winner({player, _, _,
+                        _, player, _,
+                        _, _, player}) when player in @players, do: :winner
 
-    def resolve_winner(%GameEngine.Board{positions: _positions}), do: :no_winner
+    def resolve_winner(_positions), do: :no_winner
 
-    def full?(%GameEngine.Board{positions: positions}) do
+    def full?(positions) do
         positions
         |> Tuple.to_list
         |> Enum.all?(fn(position) -> position_occupied?(position) end)
     end
 
-    def get_by_position(%GameEngine.Board{positions: positions}, %{row: row, column: column}) do
+    def get_by_position(positions, %{row: row, column: column}) do
         positions
         |> Tuple.to_list
         |> Enum.at(get_index(row, column))
     end
 
-    def put_mark(%GameEngine.Board{positions: positions}, %{row: row, column: column}, mark) do
-        new_positions = positions
+    def put_mark(positions, %{row: row, column: column}, mark) do
+        positions
         |> put_elem(get_index(row, column), mark)
-
-        %GameEngine.Board{positions: new_positions}
     end
 
-    def available_positions(%GameEngine.Board{positions: positions}) do
+    def available_positions(positions) do
         for position <- decompound_positions(positions),
         {mark, index} = position,
         !position_occupied?(mark) do
@@ -67,13 +65,13 @@ defmodule GameEngine.Board do
         end
     end
 
-    def get_rows(%GameEngine.Board{positions: positions}) do
+    def get_rows(positions) do
         positions
         |> Tuple.to_list
         |> Enum.chunk(3)
     end
 
-    def get_columns(%GameEngine.Board{positions: positions}) do
+    def get_columns(positions) do
         {first_column, tail} = group_first_column(positions)
 
         {second_column, third_column} = group_second_third(tail)
@@ -81,20 +79,20 @@ defmodule GameEngine.Board do
         chunk_columns(first_column, second_column, third_column)
     end
 
-    def get_diagonals(%GameEngine.Board{positions: {c1, _, c2,
-                                                    _, c3, _,
-                                                    c4, _, c5}}), do: [[c1, c3, c5], [c2, c3, c4]]
+    def get_diagonals({c1, _, c2,
+                       _, c3, _,
+                       c4, _, c5}), do: [[c1, c3, c5], [c2, c3, c4]]
 
-    def find_triples(%GameEngine.Board{positions: positions}) do
-        rows = GameEngine.Board.get_rows(%GameEngine.Board{positions: positions})
-        columns = GameEngine.Board.get_columns(%GameEngine.Board{positions: positions})
-        diagonals = GameEngine.Board.get_diagonals(%GameEngine.Board{positions: positions})
+    def find_triples(positions) do
+        rows = GameEngine.Board.get_rows(positions)
+        columns = GameEngine.Board.get_columns(positions)
+        diagonals = GameEngine.Board.get_diagonals(positions)
 
         %{rows: rows, columns: columns, diagonals: diagonals}
     end
 
-    def two_empty_spaces_triples_in_board(%GameEngine.Board{positions: positions}, player) do
-        %{rows: rows, columns: columns, diagonals: diagonals} = GameEngine.Board.find_triples(%GameEngine.Board{positions: positions})
+    def two_empty_spaces_triples_in_board(positions, player) do
+        %{rows: rows, columns: columns, diagonals: diagonals} = GameEngine.Board.find_triples(positions)
         %{rows: two_empty_spaces(rows, player), columns: two_empty_spaces(columns, player), diagonals: two_empty_spaces(diagonals, player)}
     end
 

@@ -7,9 +7,9 @@ defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
     @opponent :x
 
     test "play bottom right corner opposite to opponents corner" do
-        board = %GameEngine.Board{positions: {@opponent, nil, nil,
-                                              nil, @player, nil,
-                                              nil, nil, nil}}
+        board = {@opponent, nil, nil,
+                 nil, @player, nil,
+                 nil, nil, nil}
 
         opposite_corner = OpponentsOppositeCorner.find(board, @player)
 
@@ -17,9 +17,9 @@ defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
     end
 
     test "play bottom left corner opposite to opponents corner" do
-        board = %GameEngine.Board{positions: {nil, nil, @opponent,
-                                              nil, @player, nil,
-                                              nil, nil, nil}}
+        board = {nil, nil, @opponent,
+                 nil, @player, nil,
+                 nil, nil, nil}
 
         opposite_corner = OpponentsOppositeCorner.find(board, @player)
 
@@ -27,9 +27,9 @@ defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
     end
 
     test "play top right corner opposite to opponents corner" do
-        board = %GameEngine.Board{positions: {nil, nil, nil,
-                                              nil, @player, nil,
-                                              @opponent, nil, nil}}
+        board = {nil, nil, nil,
+                 nil, @player, nil,
+                 @opponent, nil, nil}
 
         opposite_corner = OpponentsOppositeCorner.find(board, @player)
 
@@ -37,9 +37,9 @@ defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
     end
 
     test "play top left corner opposite to opponents corner" do
-        board = %GameEngine.Board{positions: {nil, nil, nil,
-                                              nil, @player, nil,
-                                              nil, nil, @opponent}}
+        board = {nil, nil, nil,
+                 nil, @player, nil,
+                 nil, nil, @opponent}
 
         opposite_corner = OpponentsOppositeCorner.find(board, @player)
 
@@ -47,9 +47,9 @@ defmodule GameEngine.PlayStrategies.Moves.OpponentsOppositeCornerTest do
     end
 
     test "no corner available" do
-        board = %GameEngine.Board{positions: {@player, nil, @player,
-                                              nil, @player, nil,
-                                              @opponent, nil, @opponent}}
+        board = {@player, nil, @player,
+                 nil, @player, nil,
+                 @opponent, nil, @opponent}
 
         move = OpponentsOppositeCorner.find(board, @player)
 

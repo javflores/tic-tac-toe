@@ -39,7 +39,7 @@ defmodule GameEngine.EngineController do
           type: type,
           o: o,
           x: x,
-          board: Tuple.to_list(board.positions),
+          board: Tuple.to_list(board),
           next_player: parse_player(next_player)}
     end
 
@@ -47,7 +47,7 @@ defmodule GameEngine.EngineController do
         %{game_id: game_id,
           status: status,
           player: parse_player(player),
-          board: Tuple.to_list(board.positions),
+          board: Tuple.to_list(board),
           next_player: parse_player(next_player)}
     end
 

@@ -6,7 +6,7 @@ defmodule GameEngine.SimpleStrategyTest do
 
     test "find available positions in the board" do
         with_mock GameEngine.Board, [available_positions: fn(_board) -> [%{row: 0, column: 0}] end] do
-            board = %GameEngine.Board{}
+            board = {}
 
             GameEngine.PlayStrategies.SimpleStrategy.calculate_move(board)
 
@@ -20,7 +20,7 @@ defmodule GameEngine.SimpleStrategyTest do
                                                   :x, :o, :o,
                                                   :x, :o, nil}
 
-            GameEngine.PlayStrategies.SimpleStrategy.calculate_move(%GameEngine.Board{positions: board_with_two_available_positions})
+            GameEngine.PlayStrategies.SimpleStrategy.calculate_move(board_with_two_available_positions)
 
             assert called GameEngine.PlayStrategies.Moves.RandomPositions.find([%{row: 0, column: 0}, %{row: 2, column: 2}])
         end

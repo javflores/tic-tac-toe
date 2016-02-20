@@ -5,9 +5,9 @@ defmodule GameEngine.KickAssStrategyTest do
     @opponent :x
 
     test "kickass strategy finds immediate victory" do
-        board = %GameEngine.Board{positions: {@player, @player, nil,
-                                              nil, nil, nil,
-                                              @opponent, @opponent, nil}}
+        board = {@player, @player, nil,
+                 nil, nil, nil,
+                 @opponent, @opponent, nil}
 
         victory = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 
@@ -15,9 +15,9 @@ defmodule GameEngine.KickAssStrategyTest do
     end
 
     test "kickass strategy tells to block immediate victory of opponent" do
-        board = %GameEngine.Board{positions: {@opponent, @opponent, nil,
-                                              nil, nil, nil,
-                                              nil, @player, nil}}
+        board = {@opponent, @opponent, nil,
+                 nil, nil, nil,
+                 nil, @player, nil}
 
         block = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 
@@ -25,9 +25,9 @@ defmodule GameEngine.KickAssStrategyTest do
     end
 
     test "kickass strategy finds a fork in order have two threats to win" do
-        board = %GameEngine.Board{positions: {@player, @opponent, nil,
-                                              nil, @player, nil,
-                                              nil, nil, @opponent}}
+        board = {@player, @opponent, nil,
+                 nil, @player, nil,
+                 nil, nil, @opponent}
 
         fork = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 
@@ -35,9 +35,9 @@ defmodule GameEngine.KickAssStrategyTest do
     end
 
     test "kickass strategy attacks fork by opponent" do
-        board = %GameEngine.Board{positions: {@player, nil, nil,
-                                              nil, @opponent, nil,
-                                              nil, nil, @opponent}}
+        board = {@player, nil, nil,
+                 nil, @opponent, nil,
+                 nil, nil, @opponent}
 
         prevent_fork = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 
@@ -45,9 +45,9 @@ defmodule GameEngine.KickAssStrategyTest do
     end
 
     test "kickass strategy attacks opponent in response to a fork" do
-        board = %GameEngine.Board{positions: {@opponent, @player, @opponent,
-                                              nil, nil, @opponent,
-                                              nil, nil, @player}}
+        board = {@opponent, @player, @opponent,
+                 nil, nil, @opponent,
+                 nil, nil, @player}
 
         prevent_fork = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 
@@ -55,9 +55,9 @@ defmodule GameEngine.KickAssStrategyTest do
     end
 
     test "kickass strategy tells to block a possible fork by opponent" do
-        board = %GameEngine.Board{positions: {@opponent, @player, nil,
-                                              nil, @opponent, nil,
-                                              nil, nil, @player}}
+        board = {@opponent, @player, nil,
+                 nil, @opponent, nil,
+                 nil, nil, @player}
 
         block_opponents_fork = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 
@@ -65,9 +65,9 @@ defmodule GameEngine.KickAssStrategyTest do
     end
 
     test "kickass strategy finds a position to force opponent into defending to create a later fork" do
-        board = %GameEngine.Board{positions: {nil, @opponent, nil,
-                                              nil, @player, nil,
-                                              nil, nil, nil}}
+        board = {nil, @opponent, nil,
+                 nil, @player, nil,
+                 nil, nil, nil}
 
         force_defending = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 
@@ -75,9 +75,9 @@ defmodule GameEngine.KickAssStrategyTest do
     end
 
     test "kickass strategy finds center as next move" do
-        board = %GameEngine.Board{positions: {nil, nil, nil,
-                                              nil, nil, nil,
-                                              nil, nil, nil}}
+        board = {nil, nil, nil,
+                 nil, nil, nil,
+                 nil, nil, nil}
 
         move = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 
@@ -85,9 +85,9 @@ defmodule GameEngine.KickAssStrategyTest do
     end
 
     test "kickass strategy finds corner opposite to opponents corner" do
-        board = %GameEngine.Board{positions: {nil, @opponent, @player,
-                                              nil, @player, nil,
-                                              @opponent, @player, @opponent}}
+        board = {nil, @opponent, @player,
+                 nil, @player, nil,
+                 @opponent, @player, @opponent}
 
         move = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 
@@ -95,9 +95,9 @@ defmodule GameEngine.KickAssStrategyTest do
     end
 
     test "kickass strategy finds empty corner" do
-        board = %GameEngine.Board{positions: {nil, @opponent, @player,
-                                              nil, @player, @opponent,
-                                              @opponent, @player, @opponent}}
+        board = {nil, @opponent, @player,
+                 nil, @player, @opponent,
+                 @opponent, @player, @opponent}
 
         move = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 
@@ -105,9 +105,9 @@ defmodule GameEngine.KickAssStrategyTest do
     end
 
     test "kickass strategy finds empty side" do
-        board = %GameEngine.Board{positions: {@opponent, @opponent, @player,
-                                              nil, @player, @opponent,
-                                              @opponent, @player, @opponent}}
+        board = {@opponent, @opponent, @player,
+                 nil, @player, @opponent,
+                 @opponent, @player, @opponent}
 
         move = GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, @player)
 

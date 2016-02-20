@@ -2,9 +2,9 @@ defmodule GameEngine.PlayStrategies.Moves.Win do
 
     @behaviour GameEngine.PlayStrategies.Move
 
-    def find(%GameEngine.Board{positions: positions}, player) do
-        rows = GameEngine.Board.get_rows(%GameEngine.Board{positions: positions})
-        columns = GameEngine.Board.get_columns(%GameEngine.Board{positions: positions})
+    def find(board, player) do
+        rows = GameEngine.Board.get_rows(board)
+        columns = GameEngine.Board.get_columns(board)
 
         cond do
             horizontal_win = horizontal_win(rows, player) ->
@@ -13,7 +13,7 @@ defmodule GameEngine.PlayStrategies.Moves.Win do
             vertical_win = vertical_win(columns, player) ->
                 vertical_win
 
-            diagonal_win = diagonal_win(positions, player) ->
+            diagonal_win = diagonal_win(board, player) ->
                 diagonal_win
 
             true ->

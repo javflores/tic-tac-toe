@@ -6,9 +6,9 @@ defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
     @opponent :x
 
     test "take empty top left corner" do
-        board = %GameEngine.Board{positions: {nil, nil, nil,
-                                              nil, @opponent, nil,
-                                              nil, nil, nil}}
+        board = {nil, nil, nil,
+                 nil, @opponent, nil,
+                 nil, nil, nil}
 
         move = EmptyCorner.find(board, @player)
 
@@ -16,9 +16,9 @@ defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
     end
 
     test "take empty top right corner" do
-        board = %GameEngine.Board{positions: {@player, nil, nil,
-                                              nil, @opponent, nil,
-                                              nil, nil, nil}}
+        board = {@player, nil, nil,
+                 nil, @opponent, nil,
+                 nil, nil, nil}
 
         move = EmptyCorner.find(board, @player)
 
@@ -26,9 +26,9 @@ defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
     end
 
     test "take empty bottom left corner" do
-        board = %GameEngine.Board{positions: {@player, nil, @opponent,
-                                              nil, @opponent, nil,
-                                              nil, nil, nil}}
+        board = {@player, nil, @opponent,
+                 nil, @opponent, nil,
+                 nil, nil, nil}
 
         move = EmptyCorner.find(board, @player)
 
@@ -36,9 +36,9 @@ defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
     end
 
     test "take empty bottom right corner" do
-        board = %GameEngine.Board{positions: {@player, nil, @opponent,
-                                              nil, @opponent, nil,
-                                              @player, nil, nil}}
+        board = {@player, nil, @opponent,
+                 nil, @opponent, nil,
+                 @player, nil, nil}
 
         move = EmptyCorner.find(board, @player)
 
@@ -46,9 +46,9 @@ defmodule GameEngine.PlayStrategies.Moves.EmptyCornerTest do
     end
 
     test "no empty corner to take" do
-        board = %GameEngine.Board{positions: {@player, nil, @opponent,
-                                              nil, @opponent, nil,
-                                              @player, nil, @player}}
+        board = {@player, nil, @opponent,
+                 nil, @opponent, nil,
+                 @player, nil, @player}
 
         move = EmptyCorner.find(board, @player)
 

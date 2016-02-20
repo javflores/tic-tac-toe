@@ -17,8 +17,7 @@ defmodule GameEngine.BoardCutterTest do
 
     test "find non-duplicated triples with two empty spaces and one position played by player" do
         triples = %{rows: [{[nil, nil, @player], 0}, {[nil, nil, @player], 1}],
-                    columns: [{[nil, nil, @player], 0}],
-                    diagonals: []}
+                    columns: [{[nil, nil, @player], 0}], diagonals: []}
 
         %{non_duplicates: non_duplicated, all: _empty_spaces} = BoardCutter.triples_with_two_empty_spaces(triples)
 
