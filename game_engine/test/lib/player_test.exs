@@ -4,95 +4,40 @@ defmodule GameEngine.PlayerTest do
     import Mock
 
     @empty_board {nil, nil, nil, nil, nil, nil, nil, nil, nil}
+    @player :o
+    @opponent :x
 
-    setup do
-        {:ok, player} = GameEngine.Player.start_link
-        {:ok, player: player}
+    test "player plays received position in the board" do
+        position = %{row: 0, column: 0}
+
+        board = GameEngine.Player.move(@empty_board, position, @player)
+
+        assert GameEngine.Board.get_by_position(board, position) == @player
     end
 
-    test "player assigns his type", %{player: player} do
-        {:ok, player_initialization} = GameEngine.Player.initialize(player, :computer, :o, :computer_computer)
-
-        assert player_initialization[:type] == :computer
-    end
-
-    test "player assigns his mark", %{player: player} do
-        {:ok, player_initialization} = GameEngine.Player.initialize(player, :computer, :o, :computer_computer)
-
-        assert player_initialization[:mark] == :o
-    end
-
-    test "player will play simple if two computers are going to play", %{player: player} do
-        {:ok, player_initialization} = GameEngine.Player.initialize(player, :computer, :o, :computer_computer)
-
-        assert player_initialization[:strategy] == :simple
-    end
-
-    test "computer will play a kickass strategy if playing with a human", %{player: player} do
-        {:ok, player_initialization} = GameEngine.Player.initialize(player, :computer, :o, :human_computer)
-
-        assert player_initialization[:strategy] == :kickass
-    end
-
-    test "human player has a human behavior", %{player: player} do
-        {:ok, player_initialization} = GameEngine.Player.initialize(player, :human, :o, :human_computer)
-
-        assert player_initialization[:strategy] == :human
-    end
-
-    test "computer player plays simple against another computer", %{player: player} do
-        simple_move = %{row: 1, column: 2}
-        with_mock GameEngine.PlayStrategies.SimpleStrategy, [calculate_move: fn(_board) -> simple_move end] do
-
-            GameEngine.Player.initialize(player, :computer, :o, :computer_computer)
-
-            {:ok, board} = GameEngine.Player.move(player, @empty_board)
-
-            assert GameEngine.Board.get_by_position(board, simple_move) == :o
-        end
-    end
-
-    test "human player places received move in the board", %{player: player} do
-        GameEngine.Player.initialize(player, :human, :o, :human_computer)
-
-        {:ok, board} = GameEngine.Player.move(player, @empty_board, %{row: 0, column: 0})
-
-        assert GameEngine.Board.get_by_position(board, %{row: 0, column: 0}) == :o
-    end
-
-    test "computer plays a kickass move against a human", %{player: player} do
+    test "player plays a kickass move" do
         kickass_move = %{row: 1, column: 1}
         with_mock GameEngine.PlayStrategies.KickAssStrategy, [calculate_move: fn(_board, _player) -> kickass_move end] do
 
-            GameEngine.Player.initialize(player, :computer, :o, :human_computer)
+            board = GameEngine.Player.move(@empty_board, @player)
 
-            {:ok, board} = GameEngine.Player.move(player, @empty_board)
-
-            assert GameEngine.Board.get_by_position(board, kickass_move) == :o
+            assert GameEngine.Board.get_by_position(board, kickass_move) == @player
         end
     end
 
-    test "player returns same board when no moves available", %{player: player} do
-        GameEngine.Player.initialize(player, :computer, :o, :human_computer)
+    test "player returns same board when no moves available" do
+        full_board = {@opponent, @player, @player,
+                      @player, @opponent, @opponent,
+                      @player, @opponent, @player}
 
-        full_board = {:x, :o, :o,
-                      :o, :x, :x,
-                      :o, :x, :o}
-
-        {:ok, board} = GameEngine.Player.move(player, full_board)
-
-        assert board == full_board
+        assert GameEngine.Player.move(full_board, @player) == full_board
     end
 
-    test "o is able to identify that x is the opponent" do
-        opponent = GameEngine.Player.know_your_enemy(:o)
-
-        assert opponent == :x
+    test "O is able to identify X as the opponent" do
+        assert GameEngine.Player.know_your_enemy(@player) == @opponent
     end
 
-    test "x is able to identify that o is the opponent" do
-        opponent = GameEngine.Player.know_your_enemy(:x)
-
-        assert opponent == :o
+    test "X is able to identify O as the opponent" do
+        assert GameEngine.Player.know_your_enemy(@opponent) == @player
     end
 end

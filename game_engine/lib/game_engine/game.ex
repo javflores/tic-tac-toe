@@ -27,9 +27,6 @@ defmodule GameEngine.Game do
         type_of_game = get_type_of_game(o, x)
         next_player = first_player
 
-        GameEngine.Player.initialize(:o, o, :o, type_of_game)
-        GameEngine.Player.initialize(:x, x, :x, type_of_game)
-
         state = %{game_id: game_id,
                   status: :start,
                   type: type_of_game,
@@ -43,34 +40,33 @@ defmodule GameEngine.Game do
     end
 
     def handle_call({:move, _game_id}, _from, state) do
-        {:ok, board_after_move} = GameEngine.Player.move(state[:next_player], state[:board])
+        board = GameEngine.Player.move(state[:board], state[:next_player])
 
-        new_state = handle_move(state, board_after_move)
-
-        {:reply, {:ok, new_state}, new_state}
-    end
-
-    def handle_call({:move, _game_id, move}, _from, state) do
-        {:ok, board_after_move} = GameEngine.Player.move(state[:next_player], state[:board], move)
-
-        new_state = handle_move(state, board_after_move)
-
-        {:reply, {:ok, new_state}, new_state}
-    end
-
-    defp handle_move(state, board_after_move) do
-        new_status = get_status(board_after_move)
+        game_status = get_status(board)
         {player, next_player} = swap_players(state[:next_player])
 
-        %{state | status: new_status, board: board_after_move, player: player, next_player: next_player}
+        state = %{state | status: game_status, board: board, player: player, next_player: next_player}
+
+        {:reply, {:ok, state}, state}
     end
 
-    def get_status(board_after_move) do
+    def handle_call({:move, _game_id, position}, _from, state) do
+        board = GameEngine.Player.move(state[:board], position, state[:next_player])
+
+        game_status = get_status(board)
+        {player, next_player} = swap_players(state[:next_player])
+
+        state = %{state | status: game_status, board: board, player: player, next_player: next_player}
+
+        {:reply, {:ok, state}, state}
+    end
+
+    def get_status(board) do
         cond do
-            GameEngine.Board.resolve_winner(board_after_move) == :winner ->
+            GameEngine.Board.resolve_winner(board) == :winner ->
                 :winner
 
-            GameEngine.Board.full?(board_after_move) ->
+            GameEngine.Board.full?(board) ->
                 :draw
 
             true ->
