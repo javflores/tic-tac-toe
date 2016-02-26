@@ -62,17 +62,13 @@ defmodule GameEngine.Game do
     end
 
     def get_status(board) do
-        cond do
-            GameEngine.Board.resolve_winner(board) == :winner ->
-                :winner
-
-            GameEngine.Board.full?(board) ->
-                :draw
-
-            true ->
-                :in_progress
-        end
+        GameEngine.Board.resolve_winner(board)
+        |> status
     end
+
+    defp status(:draw), do: :draw
+    defp status(:winner), do: :winner
+    defp status(:no_result), do: :in_progress
 
     def swap_players(:o), do: {:o, :x}
     def swap_players(:x), do: {:x, :o}

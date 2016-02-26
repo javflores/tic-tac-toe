@@ -1,8 +1,13 @@
 defmodule GameEngine.Player do
 
     def move(board, mark) do
-        GameEngine.PlayStrategies.KickAssStrategy.calculate_move(board, mark)
-        |> put_mark(board, mark)
+        cond do
+            GameEngine.Board.full?(board) ->
+                board
+            true ->
+                GameEngine.Minimax.calculate_move(board, mark)
+                |> put_mark(board, mark)
+        end
     end
 
     def move(board, position, mark) do

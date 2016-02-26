@@ -38,10 +38,17 @@ defmodule GameEngine.Board do
                         _, player, _,
                         _, _, player}) when player in @players, do: :winner
 
-    def resolve_winner(_positions), do: :no_winner
+    def resolve_winner(board) do
+        cond do
+            full?(board) ->
+                :draw
+            true ->
+                :no_result
+        end
+    end
 
-    def full?(positions) do
-        positions
+    def full?(board) do
+        board
         |> Tuple.to_list
         |> Enum.all?(fn(position) -> position_occupied?(position) end)
     end

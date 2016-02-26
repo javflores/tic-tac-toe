@@ -15,13 +15,13 @@ defmodule GameEngine.PlayerTest do
         assert GameEngine.Board.get_by_position(board, position) == @player
     end
 
-    test "player plays a kickass move" do
-        kickass_move = %{row: 1, column: 1}
-        with_mock GameEngine.PlayStrategies.KickAssStrategy, [calculate_move: fn(_board, _player) -> kickass_move end] do
+    test "player plays a perfect move by using minimax" do
+        minimax_move = %{row: 1, column: 1}
+        with_mock GameEngine.Minimax, [calculate_move: fn(_board, _player) -> minimax_move end] do
 
             board = GameEngine.Player.move(@empty_board, @player)
 
-            assert GameEngine.Board.get_by_position(board, kickass_move) == @player
+            assert GameEngine.Board.get_by_position(board, minimax_move) == @player
         end
     end
 
