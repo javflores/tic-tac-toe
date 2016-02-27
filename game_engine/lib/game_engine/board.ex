@@ -72,66 +72,6 @@ defmodule GameEngine.Board do
         end
     end
 
-    def get_rows(positions) do
-        positions
-        |> Tuple.to_list
-        |> Enum.chunk(3)
-    end
-
-    def get_columns(positions) do
-        {first_column, tail} = group_first_column(positions)
-
-        {second_column, third_column} = group_second_third(tail)
-
-        chunk_columns(first_column, second_column, third_column)
-    end
-
-    def get_diagonals({c1, _, c2,
-                       _, c3, _,
-                       c4, _, c5}), do: [[c1, c3, c5], [c2, c3, c4]]
-
-    def find_triples(positions) do
-        rows = GameEngine.Board.get_rows(positions)
-        columns = GameEngine.Board.get_columns(positions)
-        diagonals = GameEngine.Board.get_diagonals(positions)
-
-        %{rows: rows, columns: columns, diagonals: diagonals}
-    end
-
-    def two_empty_spaces_triples_in_board(positions, player) do
-        %{rows: rows, columns: columns, diagonals: diagonals} = GameEngine.Board.find_triples(positions)
-        %{rows: two_empty_spaces(rows, player), columns: two_empty_spaces(columns, player), diagonals: two_empty_spaces(diagonals, player)}
-    end
-
-    def two_empty_spaces(triples, player) do
-        triples
-        |> Enum.with_index
-        |> Enum.filter(&two_empty_spaces?(&1, player))
-    end
-
-    def two_empty_spaces?({[mark, nil, nil], _}, player), do: mark == player
-    def two_empty_spaces?({[nil, mark, nil], _}, player), do: mark == player
-    def two_empty_spaces?({[nil, nil, mark], _}, player), do: mark == player
-    def two_empty_spaces?({[_, _, _], _}, _), do: false
-
-    defp group_first_column(positions) do
-        positions
-        |> Tuple.to_list
-        |> Enum.with_index
-        |> Enum.partition(fn({_mark, index}) -> rem(index, 3) == 0 end)
-    end
-
-    defp group_second_third(second_third) do
-        second_third
-        |> Enum.partition(fn({_mark, index}) -> rem(index, 3) == 1 end)
-    end
-
-    defp chunk_columns(first_column, second_column, third_column) do
-        first_column ++ second_column ++ third_column
-        |> Enum.map(fn({mark, _index}) -> mark end)
-        |> Enum.chunk(3)
-    end
-
     defp position_occupied?(mark), do: mark != nil
 
     defp get_index(row, column), do: row * 3 + column
