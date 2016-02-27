@@ -2,9 +2,9 @@ defmodule GameEngine.BoardTest do
     use ExUnit.Case
 
     test "get empty board" do
-      assert GameEngine.Board.get_empty == {nil, nil, nil,
+      assert GameEngine.Board.get_empty == [nil, nil, nil,
                                             nil, nil, nil,
-                                            nil, nil, nil}
+                                            nil, nil, nil]
     end
 
     test "returns o as winner if it has completed first row" do

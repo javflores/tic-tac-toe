@@ -1,10 +1,9 @@
 defmodule GameEngine.Board do
 
     @players [:o, :x]
+    @dimension 3
 
-    def get_empty(), do: {nil, nil, nil,
-                          nil, nil, nil,
-                          nil, nil, nil}
+    def get_empty(), do: for position <- 1..@dimension*@dimension, do: nil
 
     def resolve_winner({player, player, player,
                         _, _, _,

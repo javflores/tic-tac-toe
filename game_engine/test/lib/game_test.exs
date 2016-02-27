@@ -3,7 +3,7 @@ defmodule GameEngine.GameTest do
 
     import Mock
 
-    @empty_board {nil, nil, nil, nil, nil, nil, nil, nil, nil}
+    @empty_board [nil, nil, nil, nil, nil, nil, nil, nil, nil]
 
     setup do
         {:ok, game} = GameEngine.Game.start_link
