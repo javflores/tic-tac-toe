@@ -53,17 +53,21 @@ defmodule GameEngine.Board do
     end
 
     def first_diagonal(board) do
-        first_diagonal_indexes = Stream.iterate(0, &(&1 + @board_dimension + 1))
+        first_diagonal_indexes = Stream.iterate(0, fn(index) -> index + @board_dimension + 1 end)
         |> Enum.take(@board_dimension)
 
-        for diagonal_index <- first_diagonal_indexes, do: Enum.at(board, diagonal_index)
+        get_diagonal(first_diagonal_indexes, board)
     end
 
     def second_diagonal(board) do
-        second_diagonal_indexes = Stream.iterate(@board_dimension-1, &(&1 + @board_dimension - 1))
+        second_diagonal_indexes = Stream.iterate(@board_dimension-1, fn(index) -> index + @board_dimension - 1 end)
         |> Enum.take(@board_dimension)
 
-        for diagonal_index <- second_diagonal_indexes, do: Enum.at(board, diagonal_index)
+        get_diagonal(second_diagonal_indexes, board)
+    end
+
+    def get_diagonal(diagonal_indexes, board) do
+        for diagonal_index <- diagonal_indexes, do: Enum.at(board, diagonal_index)
     end
 
     def get_by_position(board, %{row: row, column: column}) do
