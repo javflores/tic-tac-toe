@@ -7,116 +7,118 @@ defmodule GameEngine.BoardTest do
                                             nil, nil, nil]
     end
 
-    test "returns o as winner if it has completed first row" do
-        first_row_win = {:o, :o, :o,
-                          nil, nil, nil,
-                          nil, nil, nil}
+    test "get rows in board" do
+      board = [:o, :o, :o,
+               nil, nil, nil,
+               :x, :x, :x]
 
-        assert GameEngine.Board.resolve_winner(first_row_win) == :winner
+      assert GameEngine.Board.get_rows(board) == [[:o, :o, :o], [nil, nil, nil], [:x, :x, :x]]
     end
 
-    test "returns x as winner if it has completed first row" do
-        first_row_win = {:x, :x, :x,
-                          nil, nil, nil,
-                          nil, nil, nil}
+    test "get first column in board" do
+      board = [:o, :o, :o,
+               nil, nil, nil,
+               :x, :x, :x]
 
-        assert GameEngine.Board.resolve_winner(first_row_win) == :winner
+      assert GameEngine.Board.get_column(0, board) == [:o, nil, :x]
     end
 
-    test "returns player as winner if it has completed second row" do
-        second_row_win = {:o, nil, nil,
-                          :x, :x, :x,
-                          nil, nil, nil}
+    test "get columns in board" do
+      board = [:o, :o, :o,
+               nil, nil, nil,
+               :x, :x, :x]
 
-        assert GameEngine.Board.resolve_winner(second_row_win) == :winner
+      assert GameEngine.Board.get_columns(board) == [[:o, nil, :x], [:o, nil, :x], [:o, nil, :x]]
     end
 
-    test "returns player as winner if it has completed third row" do
-        third_row_win = {:o, nil, nil,
-                         :o, nil, nil,
-                         :x, :x, :x}
+    test "get first diagonal" do
+      board = [:o, nil, nil,
+               nil, :o, nil,
+               nil, nil, :o]
 
-        assert GameEngine.Board.resolve_winner(third_row_win) == :winner
+      assert GameEngine.Board.first_diagonal(board) == [:o, :o, :o]
     end
 
-    test "returns player as winner if it has completed first column" do
-        first_column_win = {:o, nil, nil,
-                            :o, nil, nil,
-                            :o, :x, :x}
+    test "get second diagonal" do
+      board = [nil, nil, :x,
+               nil, :x, nil,
+               :x, nil, nil]
 
-        assert GameEngine.Board.resolve_winner(first_column_win) == :winner
+      assert GameEngine.Board.second_diagonal(board) == [:x, :x, :x]
     end
 
-    test "returns player as winner if it has completed second column" do
-        second_column_win = {nil, :o, nil,
-                             nil, :o, nil,
-                             nil, :o, :x}
+    test "get diagonals" do
+      board = [nil, nil, :x,
+               nil, :x, nil,
+               :x, nil, nil]
 
-        assert GameEngine.Board.resolve_winner(second_column_win) == :winner
+      assert GameEngine.Board.get_diagonals(board) == [[nil, :x, nil], [:x, :x, :x]]
     end
 
-    test "returns player as winner if it has completed third column" do
-        third_column_win = {nil, nil, :x,
-                            nil, nil, :x,
-                            nil, nil, :x}
+    test "get groups" do
+      board = [nil, nil, :x,
+               nil, :x, nil,
+               :x, nil, nil]
 
-        assert GameEngine.Board.resolve_winner(third_column_win) == :winner
+      assert GameEngine.Board.get_groups(board) == [[nil, nil, :x], [nil, :x, nil], [:x, nil, nil],
+                                                    [nil, nil, :x], [nil, :x, nil], [:x, nil, nil],
+                                                    [nil, :x, nil], [:x, :x, :x]]
     end
 
-    test "returns player as winner if it has completed diagonal" do
-        diagonal_win = {nil, nil, :o,
-                        nil, :o, nil,
-                        :o, nil, nil}
+    test "winner when O has completed first diagonal" do
+        first_diagonal_win = [:o, :x, :x,
+                              nil, :o, nil,
+                              nil, nil, :o]
 
-        assert GameEngine.Board.resolve_winner(diagonal_win) == :winner
+        assert GameEngine.Board.winner(first_diagonal_win) == :winner
     end
 
-    test "returns player as winner if it has completed back diagonal" do
-        back_diagonal_win = {:o, nil, nil,
-                             nil, :o, nil,
-                             nil, nil, :o}
+    test "returns winner when O has completed first diagonal" do
+        first_diagonal = [:o, :x, :x,
+                          nil, :o, nil,
+                          nil, nil, :o]
 
-        assert GameEngine.Board.resolve_winner(back_diagonal_win) == :winner
+        assert GameEngine.Board.resolve_winner(first_diagonal) == :winner
     end
 
     test "returns draw when all positions are occupied" do
-        full_board = {:o, :o, :x,
+        full_board = [:o, :o, :x,
                       :x, :x, :o,
-                      :o, :x, :x}
+                      :o, :x, :x]
 
         assert GameEngine.Board.resolve_winner(full_board) == :draw
     end
 
     test "no result when board has spare positions" do
-        board_with_spare_positions = {:o, :o, :x,
+        board_with_spare_positions = [:o, :o, :x,
                                       :x, nil, :o,
-                                      :o, :x, :x}
+                                      :o, :x, :x]
 
         assert GameEngine.Board.resolve_winner(board_with_spare_positions) == :no_result
     end
 
     test "get a mark by given position" do
-        positions = {:o, nil, nil,
+        positions = [:o, nil, nil,
                      nil, nil, nil,
-                     nil, nil, nil}
+                     nil, nil, nil]
 
         assert GameEngine.Board.get_by_position(positions, %{row: 0, column: 0}) == :o
     end
 
     test "put a mark in given position" do
-        positions = {nil, nil, nil,
+        board = [nil, nil, nil,
                      nil, nil, nil,
-                     nil, nil, nil}
+                     nil, nil, nil]
         position = %{row: 0, column: 0}
-        board = GameEngine.Board.put_mark(positions, position, :o)
+        board = GameEngine.Board.put_mark(board, position, :o)
 
         assert GameEngine.Board.get_by_position(board, position) == :o
     end
 
     test "find two available positions in the board" do
-        board_with_two_available_positions = {nil, nil, :o,
+        board_with_two_available_positions = [nil, nil, :o,
                                               :x, :o, :o,
-                                              :x, :o, :x}
+                                              :x, :o, :x]
 
         available_positions = GameEngine.Board.available_positions(board_with_two_available_positions)
 
@@ -124,9 +126,9 @@ defmodule GameEngine.BoardTest do
     end
 
     test "find four available positions in the board" do
-        board_with_four_available_positions = {nil, nil, :o,
+        board_with_four_available_positions = [nil, nil, :o,
                                               :x, :o, nil,
-                                              nil, :o, :x}
+                                              nil, :o, :x]
 
         available_positions = GameEngine.Board.available_positions(board_with_four_available_positions)
 
