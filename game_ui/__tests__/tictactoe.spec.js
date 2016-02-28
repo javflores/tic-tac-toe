@@ -99,3 +99,47 @@ describe('When move is completed', () => {
         expect(GameActions.computerMove).not.toBeCalled();
     });
 });
+
+describe('When user selects to start a new game', () => {
+
+    it('starts game with default initial values', () => {
+        let tictactoe = TestUtils.renderIntoDocument(<TicTacToe />);
+
+        tictactoe.startNewGame();
+
+        let newGame = tictactoe.newGameState();
+        expect(tictactoe.state).toEqual(newGame);
+    });
+});
+
+describe('When user selects to repeat the same game', () => {
+    let tictactoe, players;
+    beforeEach(() => {
+        GameActions.start = jest.genMockFunction();
+        tictactoe = TestUtils.renderIntoDocument(<TicTacToe />);
+
+        players = [{
+            type: "human"
+        }, {
+            type: "computer"
+        }];
+    });
+
+    it('starts new game with same players', () => {
+        tictactoe.repeatGame();
+
+        expect(GameActions.start).toBeCalledWith({players: players, firstPlayer: "O"});
+    });
+
+    it('blanks winner', () => {
+        tictactoe.repeatGame();
+
+        expect(tictactoe.state.winner).toEqual("");
+    });
+
+    it('is not a draw yet', () => {
+        tictactoe.repeatGame();
+
+        expect(tictactoe.state.draw).toBeFalsy();
+    });
+});

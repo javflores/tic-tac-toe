@@ -11,6 +11,23 @@ let Heading = require('./heading'),
     GameOver = require('./game-progress/game-over');
 
 const TicTacToe = React.createClass({
+    newGameState(){
+        return {
+            status: "not_started",
+                type: "human_computer",
+            players: [{
+                type: "human"
+            },{
+                type: "computer"
+            }],
+            playerToStart: "O",
+            nextPlayer: "O",
+            board: [],
+            winner: "",
+            draw: false
+        };
+    },
+
     shouldTriggerComputerMove(nextPlayer, type, players){
         if (type !== "human_computer") {
             return false;
@@ -31,6 +48,22 @@ const TicTacToe = React.createClass({
         player.type = type;
         this.setState({
             players: players
+        });
+    },
+
+    startNewGame(){
+        this.setState(this.newGameState());
+    },
+
+    repeatGame(){
+        this.setState({
+            winner: "",
+            draw: false
+        });
+
+        GameActions.start({
+            players: this.state.players,
+            firstPlayer: this.state.playerToStart
         });
     },
 
@@ -74,20 +107,7 @@ const TicTacToe = React.createClass({
     },
 
     getInitialState: function() {
-        return {
-            status: "not_started",
-            type: "human_computer",
-            players: [{
-                type: "human"
-            },{
-                type: "computer"
-            }],
-            playerToStart: "O",
-            nextPlayer: "O",
-            board: [],
-            winner: "",
-            draw: false
-        };
+        return this.newGameState();
     },
 
     mixins: [Reflux.listenToMany(GameActions)],
@@ -96,7 +116,9 @@ const TicTacToe = React.createClass({
         return (
             <div>
                 <GameOver winner={this.state.winner}
-                          draw={this.state.draw}/>
+                          draw={this.state.draw}
+                          repeatGame={this.repeatGame}
+                          startNewGame={this.startNewGame}/>
 
                 <Heading />
 

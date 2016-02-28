@@ -4,6 +4,10 @@ import { render } from 'react-dom';
 import Modal from 'react-modal';
 
 const Winner = React.createClass({
+    restartGame(option){
+        this.props.restartGame(option);
+    },
+
     getStyle(){
         return {
             overlay : {
@@ -15,8 +19,8 @@ const Winner = React.createClass({
                 backgroundColor   : 'rgba(20, 20, 20, 0.802)'
             },
             content : {
-                width: '300px',
-                height: '250px',
+                width: '315px',
+                height: '300px',
                 padding: '10px 30px 30px 30px',
                 top: '67%',
                 left: '50%',
@@ -42,7 +46,8 @@ const Winner = React.createClass({
                             <h2 className="subheader">{this.props.winner}</h2>
                         </div>
                     </div>
-                    <button className="btn btn-primary" onClick={this.props.restartGame}>Start new game</button>
+                    <button className="btn btn-primary" onClick={this.restartGame.bind(this, "repeat")}>Start new game with same selection</button>
+                    <button className="btn btn-primary" onClick={this.restartGame.bind(this, "new")}>Start new game</button>
                 </Modal>
             </div>
         );

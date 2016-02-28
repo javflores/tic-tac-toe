@@ -14,8 +14,8 @@ const GameOver = React.createClass({
         return this.props.draw === true;
     },
 
-    restartGame(){
-        window.location.reload();
+    restartGame(option){
+        (option === "repeat") ? this.props.repeatGame() : this.props.startNewGame();
     },
 
     render() {

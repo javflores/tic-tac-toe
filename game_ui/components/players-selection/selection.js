@@ -30,7 +30,7 @@ const Selection = React.createClass({
                     <div className="col-lg-4 col-sm-4 control">
                         <h5 className="subheader prompt">{"Select players type"}</h5>
                         <h5 className="subheader prompt">{"Click player going first"}</h5>
-                        <h5 className="subheader prompt">{"Check to start game"}</h5>
+                        <h2 className="subheader prompt">{"Start!"}</h2>
 
                         <PlayerSelectionControl controlClicked={this.props.startGame} />
                     </div>

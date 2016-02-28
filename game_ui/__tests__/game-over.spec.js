@@ -54,17 +54,33 @@ describe('When game is a draw', () => {
 });
 
 describe('When user wants to start a new game', () => {
-    let gameOver;
+    let gameOver, repeatGame, startNewGame;
     beforeEach(() => {
-        gameOver = TestUtils.renderIntoDocument(<GameOver draw={false} winner={""}/>);
+        repeatGame = jest.genMockFunction();
+        startNewGame = jest.genMockFunction();
+        gameOver = TestUtils.renderIntoDocument(<GameOver draw={false} winner={""} repeatGame={repeatGame} startNewGame={startNewGame}/>);
         gameOver.setState({winner: "", draw: true});
     });
 
-    it('the game is reloaded', () => {
-        window.location.reload = jest.genMockFunction();
+    it('starts new game', () => {
+        gameOver.restartGame("new");
 
-        gameOver.restartGame();
+        expect(startNewGame).toBeCalled();
+    });
+});
 
-        expect(window.location.reload).toBeCalled();
+describe('When user wants to start new game with same selection', () => {
+    let gameOver, repeatGame, startNewGame;
+    beforeEach(() => {
+        repeatGame = jest.genMockFunction();
+        startNewGame = jest.genMockFunction();
+        gameOver = TestUtils.renderIntoDocument(<GameOver draw={false} winner={""} repeatGame={repeatGame} startNewGame={startNewGame}/>);
+        gameOver.setState({winner: "", draw: true});
+    });
+
+    it('calls repeat game', () => {
+        gameOver.restartGame("repeat");
+
+        expect(repeatGame).toBeCalled();
     });
 });

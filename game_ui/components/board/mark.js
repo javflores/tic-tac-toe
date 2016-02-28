@@ -10,7 +10,7 @@ const Mark = React.createClass({
     },
 
     areControlsDisabled(){
-        return !this.isAvailable() || this.props.gameType === "computer_computer";
+        return !this.isAvailable() || (this.props.gameType === "computer_computer");
     },
 
     nextPlayerMarkStyle: function () {
