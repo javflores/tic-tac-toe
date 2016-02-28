@@ -1,8 +1,10 @@
 defmodule GameEngine.Minimax do
 
     @fake_position %{}
-    @win {@fake_position, -1}
-    @loose {@fake_position, 1}
+    @win_score 1
+    @loose_score -1
+    @win {@fake_position, -@win_score}
+    @loose {@fake_position, -@loose_score}
     @draw {@fake_position, 0}
     @initial_best_for_player {@fake_position, -2}
     @initial_best_for_opponent {@fake_position, 2}
@@ -27,11 +29,12 @@ defmodule GameEngine.Minimax do
         {player, is_opponent} = tagged_player
 
         GameEngine.Board.available_positions(board)
-        |> Enum.reduce(initial_best(is_opponent), fn(position, best) ->
+        |> Enum.reduce_while(initial_best(is_opponent), fn(position, best) ->
             {_previous, score} = GameEngine.Board.put_mark(board, position, player)
             |> minimax(swap_player(tagged_player))
 
-            min_or_max(is_opponent, {position, score}, best)
+            best = min_or_max(is_opponent, {position, score}, best)
+            pruning(is_opponent, best)
         end)
     end
 
@@ -50,6 +53,10 @@ defmodule GameEngine.Minimax do
                 best
         end
     end
+
+    def pruning(false, {best_position, best_score}) when best_score == @win_score, do: {:halt, {best_position, best_score}}
+    def pruning(true, {best_position, best_score}) when best_score == @loose_score, do: {:halt, {best_position, best_score}}
+    def pruning(_is_opponent, best), do: {:cont, best}
 
     def swap_player({player, is_opponent}), do: {GameEngine.Player.know_your_enemy(player), !is_opponent}
 end

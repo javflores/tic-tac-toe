@@ -132,4 +132,24 @@ defmodule GameEngine.MinimaxTest do
         assert GameEngine.Minimax.swap_player(@tagged_player) == @tagged_opponent
     end
 
+    test "it prunes minimax search by halting when best score possible is found for player" do
+        is_opponent = false
+        best_possible_for_player = 1
+        best = {%{row: 0, column: 0}, best_possible_for_player}
+        assert GameEngine.Minimax.pruning(is_opponent, best) == {:halt, best}
+    end
+
+    test "it prunes minimax search by halting when best score possible is found for opponent" do
+        is_opponent = true
+        best_possible_for_opponent = -1
+        best = {%{row: 0, column: 0}, best_possible_for_opponent}
+        assert GameEngine.Minimax.pruning(is_opponent, best) == {:halt, best}
+    end
+
+    test "continue minimax search when best score found so far is not best possible" do
+        is_opponent = false
+        best = {%{row: 0, column: 0}, 0}
+        assert GameEngine.Minimax.pruning(is_opponent, best) == {:cont, best}
+    end
+
 end
