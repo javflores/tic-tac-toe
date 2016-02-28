@@ -3,7 +3,7 @@ defmodule GameEngine.PlayerTest do
 
     import Mock
 
-    @empty_board {nil, nil, nil, nil, nil, nil, nil, nil, nil}
+    @empty_board [nil, nil, nil, nil, nil, nil, nil, nil, nil]
     @player :o
     @opponent :x
 
@@ -26,9 +26,9 @@ defmodule GameEngine.PlayerTest do
     end
 
     test "player returns same board when no moves available" do
-        full_board = {@opponent, @player, @player,
+        full_board = [@opponent, @player, @player,
                       @player, @opponent, @opponent,
-                      @player, @opponent, @player}
+                      @player, @opponent, @player]
 
         assert GameEngine.Player.move(full_board, @player) == full_board
     end

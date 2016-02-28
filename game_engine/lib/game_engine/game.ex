@@ -40,23 +40,22 @@ defmodule GameEngine.Game do
     end
 
     def handle_call({:move, _game_id}, _from, state) do
-        board = GameEngine.Player.move(state[:board], state[:next_player])
+        new_board = GameEngine.Player.move(state[:board], state[:next_player])
 
-        game_status = get_status(board)
-        {player, next_player} = swap_players(state[:next_player])
-
-        state = %{state | status: game_status, board: board, player: player, next_player: next_player}
-
-        {:reply, {:ok, state}, state}
+        apply_move(new_board, state)
     end
 
     def handle_call({:move, _game_id, position}, _from, state) do
-        board = GameEngine.Player.move(state[:board], position, state[:next_player])
+        new_board = GameEngine.Player.move(state[:board], position, state[:next_player])
 
-        game_status = get_status(board)
+        apply_move(new_board, state)
+    end
+
+    def apply_move(new_board, state) do
+        game_status = get_status(new_board)
         {player, next_player} = swap_players(state[:next_player])
 
-        state = %{state | status: game_status, board: board, player: player, next_player: next_player}
+        state = %{state | status: game_status, board: new_board, player: player, next_player: next_player}
 
         {:reply, {:ok, state}, state}
     end
