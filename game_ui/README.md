@@ -38,12 +38,10 @@ Despite the many implementations of Flux available, Reflux turns to be the easie
 
 ## How to play
 
-### Player selection
+### Players selection
 
-- The first thing in order to play is to select your players. Please provide a name for each of your players and select the type of player you want, either *computer* or *human*. Click in the continue button when you are set.
-- Select from the dropdown the player that will start first.
-
-For next versions we will try to simplify this process. But we want to wait for you, user of our app, to have your important feedback before we do any further changes.
+When the game is loaded, you need to select your players. You need to select the type of player you want by clicking in the dropdown, either *computer* or *human*.
+You also can select the player that goes first by clicking in X or O players.
 
 ### Human versus Human.
 
@@ -53,44 +51,18 @@ If two human players have been selected, you just need to click in a position in
 
 If you want to see two computers playing, just select two computers in the player's selection step. Each computer will play in turns. In order to let the next player to move you simply need to click in the highlighted player in players panel.
 
-Note: if a computer finds that it is playing against another computer, it can be really lazy, and probably you will see really lame distracted moves.
+Note: a computer will always be a perfect player.
 
 ### Human versus Computer.
-
-This changes things a lot. If you want to challenge the computer you will have to use all your [TicTacToe knowledge](https://en.wikipedia.org/wiki/Tic-tac-toe). The computer will play perfectly, it doesn't want to be defeated by a human.
 
 If it is your turn, just click in the position you want to play in the board. After that the computer will perform its move. If you have selected the computer to start first, you will see its move straight away.
 
 ### Game over:
 
-Once the game has a winner or there is a draw, you will see a dialog informing about the result. You can start a new game by clicking in the button in the dialog.
+Once the game has a winner or there is a draw, you will see a dialog informing about the result. From here you can:
 
-For next versions we are planning to improve this experience by allowing you to start the same game again so you don't have to the set up all over again.
-
-## Code structure:
-
-The app is composed by the following:
-
-- **Gulpfile and gulp folder** define our automation tasks to build up the application. We found an issue when running Jest unit tests using gulp (gulp jest package is out of date and running npm with gulp-exec is not possible anymore with the latest version of Node).
-Therefore you will see that unit tests are run using pure npm commands.
-
-- **Server.js** is our main file, it is responsible for starting the app and listen to incoming requests.
-
-- **__tests__** folder is where all our tests live. We are using Jest and by default this folder is where it searches for tests.
-
-- **components folder** includes our React components and also our Flux actions and stores (game-requests folder). Additionally we have used some plugins including Bootstrap and Fontawesome.
- 
- - **index.js** is all about managing the index route of our app. It renders our main component TicTacToe.
- 
- - **tictactoe.js** contains our main component, responsible for rendering the main parts of our app, the **board**, the **players selections** and the **game over dialog**.
- 
- - components will listen to relevant stores. For example, the **Board component** is connected to **Board store**, so that any time there is a change in the board, it will update its state.
- Any component can also raise an action. **Mark** component triggers a Move when it is clicked under certain conditions.
- 
- - **Stores:** we have a main **GameStore** responsible for interacting with the **Game engine** by using super agent. We then have a bunch of sub stores that listen to GameStore. They provide a nice separation for components to listen to changes that are relevant for them.
- For example when a move is triggered and processed by **GameStore**, **ResultStore** is notified, it takes the result and notifies **GameOver** component with just that information.
-
-- **Lib** is a folder created by our bundling process. This is where the transpiled code gets delivered and the code that the browser runs.
+- Repeat the game with the same players selection.
+- Start a new game.
 
 ## Feedback and issues:
 
@@ -104,7 +76,6 @@ This is our MVP version of the GameUI. We wanted to follow **Start small** and *
 
 We have considered:
 
-* Simplifying players selection process and other User Interface improvements.
 * Using [Relay](https://facebook.github.io/relay/) will probably be a nice improvement for the application flow. Relay takes care of breaking down the different substores and notifying the relevant component.
 * Using Mocha and JSDom seems to be the way to go for testing React. Jest mocks everything for you but that didn't necessarily means that things are easier to mock. We have had a not very easy time mocking Flux and Superagent.
 * Some components could be broken down even further.
