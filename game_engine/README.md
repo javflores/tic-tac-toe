@@ -11,7 +11,7 @@ Welcome to the TicTacToe Game Engine, an Elixir Phoenix API that manages a TicTa
 ## Getting up and running:
 
 * Install Elixir  from the [Elixir downloads page](http://elixir-lang.org/install.html).
- 
+
 * In a command line, run `mix deps.get` in order to install all required dependencies.
 
 * Run ```npm install``` to get required dependecies for Brunch.
@@ -36,10 +36,10 @@ Including players and player to start moving (in the Payload of the request as J
 
 ```
 {
-  "o_name": "Juan", 
-  "o_type": "human", 
-  "x_name": "R2-D2", 
-  "x_type": "computer", 
+  "o_name": "Juan",
+  "o_type": "human",
+  "x_name": "R2-D2",
+  "x_type": "computer",
   "first_player": "Juan"
 }
 ```
@@ -53,7 +53,7 @@ An example response will be in the form:
 	"o": "Juan"
 	"x": "R2-D2"
 	"type": "human_computer"
-	"status": "start"	
+	"status": "start"
 	"next_player": "Juan"
 	"game_id": "3d3e6d80-d403-11e5-998f-00059a3c7a00"
 	"board":
@@ -124,34 +124,6 @@ We get from the Game Engine:
 * Next player to move.
 * Status of the game. If the game is a draw we will get **status = draw** after a move. If a player has won the game we'll get **status = win** and the winner will be the player that performed the move.
 
-## Code structure:
-
-Game Engine is a traditional Phoenix application.
-
-- Under **features** we have our Acceptance tests. We have choosen [WhiteBread](https://github.com/meadsteve/white-bread) as our Gherkin-syntax acceptance tests framework. Due to the framework being a bit young, we found some issues when developing this app. We have covered the happy paths, as edge cases are covered by unit tests.
-
-- **test** contains our unit tests. In functional programming developers don't tend to mock things out since the code is inmutable, there won't be any side effects in other components that the given component uses. In our case since we have used [Mock](https://github.com/jjh42/mock) library to fake some components and helping designing the application while doing Test Driven Development.
-
-- In **web** we have the routes defining the api and also the main MVC controller, *Engine Controller*. It receives any requests and process parameters, that get sent to the *Game* module. After the Game module process the request, the controller is responsible for building up the response for the request.
-
-- **lib** is the core part of the application. It is mainly composed by:
-
- - *GameEngine* is the main Supervisor module of the application. It is responsible for starting a Game worker and also starting the Players Supervisor. If one of the child processes stops it will try to restart them.
-
- - *Game* is a GenServer module that stores the state of our game. It handles the requests from the controller to start a new game and performing moves. It does so by initializing a couple of Player processes that perform the moves.
-
- - *Player* is responsible for perfoming moves when there is an incoming request to move. When initializing a player it gets a **Play Strategy** that will mandate how it is going to play. This way the player is decoupled from how it actually will play the game. If we add new strategies for players we won't have to change the Player, making our code meet the  **Open-Closed** principle. We could even change the strategy at run time if the player finds that the opponent is playing smarter that it expected.
-
- - **PlayStrategies**: so far we support:
-
- 	- *Simple Strategy* involving a player to make random moves.
-
- 	- *KickAss* is our perfect-player strategy. It takes place once a computer is playing against a human. **Kickass** uses the Chain of Responsibility pattern, obtaining a list of Commands and executing them until it gets a move from one of the Move strategies. We have used Elixir Behaviours so that Kickass doesn't need to worry about the concrete implementation of the different moves but rather the common interface for all of them. Relying in interfaces not in concrete implementations makes for an easier-to-maintain code.
-
- 	-In *Moves* we have the different moves that comprise an intelligent player (taken from the Wikipedia).
-
- - **Board** module is the main referee of the game. It put marks given a players move and also informs about a winner.
-
 ## Feedback and issues:
 
 We really appreciate your feedback. If you want to see some improvements in the app I'll be really grateful if you can drop me an email to *javicaria@ingenieros.com*.
@@ -165,5 +137,4 @@ This is our MVP version of the GameEngine. We wanted to follow **Start small** a
 In spite of that we have considered:
 
 * Improve managing of error in the application and edge cases. So far we have pretty much cover the happy path and some simple edge cases.
-* Having concurrent games. It'd be great if this Engine could manage several games happening at the same time. Imagine even a computer player able to play agains several human players.
-* Further refactoring an improvements. Like implementing the Chain of Responsibility pattern by having moves as Command object, delegating to the next command if they can not process the requests.
+* Having concurrent games. It'd be great if this Engine could manage several games happening at the same time. Imagine even a computer player able to play against several human players.
