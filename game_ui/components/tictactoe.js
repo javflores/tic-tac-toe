@@ -11,32 +11,83 @@ let Heading = require('./heading'),
     GameOver = require('./game-progress/game-over');
 
 const TicTacToe = React.createClass({
-    shouldTriggerMove(nextPlayer, type, players){
+    shouldTriggerComputerMove(nextPlayer, type, players){
         if (type !== "human_computer") {
             return false;
         }
-
         let nextPlayerType = (nextPlayer === "O") ? players[0].type : players[1].type;
-
         return nextPlayerType === "computer";
     },
 
+    playerToStartSelected(player){
+        this.setState({
+            playerToStart: player
+        });
+    },
+
+    typeSelected(playerNumber, type){
+        let players = this.state.players;
+        let player = players[playerNumber];
+        player.type = type;
+        this.setState({
+            players: players
+        });
+    },
+
+    startGame(){
+        GameActions.start({
+            players: this.state.players,
+            firstPlayer: this.state.playerToStart
+        });
+    },
+
     onStartCompleted(startup){
-        if(this.shouldTriggerMove(startup.nextPlayer, startup.type, startup.players)){
+        this.setState({
+            status: startup.status,
+            type: startup.type,
+            players: startup.players,
+            nextPlayer: startup.nextPlayer,
+            board: startup.board
+        });
+
+        if(this.shouldTriggerComputerMove(startup.nextPlayer, startup.type, startup.players)){
             GameActions.computerMove();
         }
-        this.setState({
-            players: startup.players,
-            type: startup.type
-        });
     },
 
     onMoveCompleted(move){
         let nextPlayer = move.nextPlayer;
+        let draw = move.status === "draw";
+        let winner = (move.status === "winner") ? (move.player) : "";
 
-        if(this.shouldTriggerMove(nextPlayer, this.state.type, this.state.players)){
+        this.setState({
+            status: move.status,
+            nextPlayer: move.nextPlayer,
+            board: move.board,
+            draw: draw,
+            winner: winner
+        });
+
+        if(this.shouldTriggerComputerMove(nextPlayer, this.state.type, this.state.players)){
             GameActions.computerMove();
         }
+    },
+
+    getInitialState: function() {
+        return {
+            status: "not_started",
+            type: "human_computer",
+            players: [{
+                type: "human"
+            },{
+                type: "computer"
+            }],
+            playerToStart: "O",
+            nextPlayer: "O",
+            board: [],
+            winner: "",
+            draw: false
+        };
     },
 
     mixins: [Reflux.listenToMany(GameActions)],
@@ -44,10 +95,22 @@ const TicTacToe = React.createClass({
     render() {
         return (
             <div>
-                <GameOver />
+                <GameOver winner={this.state.winner}
+                          draw={this.state.draw}/>
+
                 <Heading />
-                <Board />
-                <GameControl />
+
+                <Board board={this.state.board}
+                       gameType={this.state.type}
+                       nextPlayer={this.state.nextPlayer}/>
+
+                <GameControl status={this.state.status}
+                             players={this.state.players}
+                             nextPlayer={this.state.nextPlayer}
+                             playerToStart={this.state.playerToStart}
+                             playerToStartSelected={this.playerToStartSelected}
+                             typeSelected={this.typeSelected}
+                             startGame={this.startGame}/>
             </div>
         );
     }

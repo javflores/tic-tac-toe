@@ -13,7 +13,8 @@ const TurnIndicator = require('../components/game-progress/turn-indicator');
 describe('Game progress', () => {
     let gameProgress;
     beforeEach(() => {
-        gameProgress = TestUtils.renderIntoDocument(<GameProgress />);
+        let players = [{type: "user"}, {type: "computer"}];
+        gameProgress = TestUtils.renderIntoDocument(<GameProgress nextPlayer={"O"} players={players}/>);
     });
 
     it('displays current players', () => {

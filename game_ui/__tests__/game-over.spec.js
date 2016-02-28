@@ -10,7 +10,7 @@ const GameOver = require('../components/game-progress/game-over');
 describe('When game is not over', () => {
     let gameOver;
     beforeEach(() => {
-        gameOver = TestUtils.renderIntoDocument(<GameOver />);
+        gameOver = TestUtils.renderIntoDocument(<GameOver draw={false} winner={""}/>);
     });
 
     it('should not render winner', () => {
@@ -29,8 +29,7 @@ describe('When game is not over', () => {
 describe('When game has a winner', () => {
     let gameOver;
     beforeEach(() => {
-        gameOver = TestUtils.renderIntoDocument(<GameOver />);
-        gameOver.setState({winner: "O"});
+        gameOver = TestUtils.renderIntoDocument(<GameOver draw={false} winner={"O"}/>);
     });
 
     it('it renders a winner', () => {
@@ -43,7 +42,7 @@ describe('When game has a winner', () => {
 describe('When game is a draw', () => {
     let gameOver;
     beforeEach(() => {
-        gameOver = TestUtils.renderIntoDocument(<GameOver />);
+        gameOver = TestUtils.renderIntoDocument(<GameOver draw={true} winner={""}/>);
         gameOver.setState({winner: "", draw: true});
     });
 
@@ -57,7 +56,7 @@ describe('When game is a draw', () => {
 describe('When user wants to start a new game', () => {
     let gameOver;
     beforeEach(() => {
-        gameOver = TestUtils.renderIntoDocument(<GameOver />);
+        gameOver = TestUtils.renderIntoDocument(<GameOver draw={false} winner={""}/>);
         gameOver.setState({winner: "", draw: true});
     });
 

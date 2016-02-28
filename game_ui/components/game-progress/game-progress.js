@@ -1,35 +1,19 @@
 'use strict';
 import React from 'react';
 import { render } from 'react-dom';
-import Reflux from 'reflux';
 
 let Player = require("./player");
 let Message = require("./message");
 let TurnIndicator = require("./turn-indicator");
-let GameStartPlayersStore = require("../game-requests/start-players-store");
-let NextPlayerStore = require("../game-requests/next-player-store");
 
 const GameProgress = React.createClass({
-    getInitialState(){
-        return {
-            players: [{
-                type: ""
-            },{
-                type: ""
-            }],
-            nextPlayer: ""
-        };
-    },
-
-    mixins: [Reflux.connect(GameStartPlayersStore, "players"), Reflux.connect(NextPlayerStore, "nextPlayer")],
-
     render() {
         return (
             <div className="row">
                 <Message message={"The Game has started!"}/>
-                <Player mark={"O"} player={this.state.players[0]} nextPlayer={this.state.nextPlayer}/>
-                <TurnIndicator nextPlayer={this.state.nextPlayer}/>
-                <Player mark={"X"} player={this.state.players[1]} nextPlayer={this.state.nextPlayer}/>
+                <Player mark={"O"} player={this.props.players[0]} nextPlayer={this.props.nextPlayer}/>
+                <TurnIndicator nextPlayer={this.props.nextPlayer}/>
+                <Player mark={"X"} player={this.props.players[1]} nextPlayer={this.props.nextPlayer}/>
             </div>
         );
     }

@@ -1,30 +1,24 @@
 'use strict';
 import React from 'react';
 import { render } from 'react-dom';
-import Reflux from 'reflux';
 
-let StatusStore = require('./game-requests/status-store'),
-    Selection = require('./players-selection/selection'),
+let Selection = require('./players-selection/selection'),
     GameProgress = require('./game-progress/game-progress');
-
-const GameNotStarted = "not_started";
 
 const GameControl = React.createClass({
     getControlBasedOnStatus(){
-        if(this.state.status === GameNotStarted){
-            return <Selection />;
+        if(this.props.status === "not_started"){
+            return <Selection players={this.props.players}
+                              nextPlayer={this.props.nextPlayer}
+                              playerToStart={this.props.playerToStart}
+                              playerToStartSelected={this.props.playerToStartSelected}
+                              typeSelected={this.props.typeSelected}
+                              startGame={this.props.startGame}/>;
         }
 
-        return <GameProgress />;
+        return <GameProgress players={this.props.players}
+                             nextPlayer={this.props.nextPlayer}/>;
     },
-
-    getInitialState(){
-        return {
-            status: GameNotStarted
-        };
-    },
-
-    mixins: [Reflux.connect(StatusStore, 'status')],
 
     render() {
         return (

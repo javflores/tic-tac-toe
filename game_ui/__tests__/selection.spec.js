@@ -9,12 +9,23 @@ import ReactDOM from 'react-dom';
 import TestUtils from 'react-addons-test-utils';
 
 const Selection = require('../components/players-selection/selection');
-const GameActions = require('../components/game-requests/game-actions');
 
 describe('When starting TicTacToe', () => {
-    let selection;
+    let selection,
+        playerToStartSelected,
+        typeSelected,
+        gameStartClicked;
+
     beforeEach(() => {
-        selection = TestUtils.renderIntoDocument(<Selection />);
+        playerToStartSelected = jest.genMockFunction();
+        typeSelected = jest.genMockFunction();
+        gameStartClicked = jest.genMockFunction();
+        let players = [{type: "human"}, {type: "computer"}];
+        selection = TestUtils.renderIntoDocument(<Selection players={players}
+                                                            playerToStart={"O"}
+                                                            typeSelected={typeSelected}
+                                                            playerToStartSelected={playerToStartSelected}
+                                                            startGame={gameStartClicked}/>);
     });
 
     it('renders selection message', () => {
@@ -29,31 +40,20 @@ describe('When starting TicTacToe', () => {
         expect(players[1].className).toEqual("fa fa-laptop fa-5x");
     });
 
-    it('allows user to select computer type for player', () => {
+    it('allows user to select first player type', () => {
         let computerTypeSelect = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'computer-type')[0];
 
         TestUtils.Simulate.click(computerTypeSelect, {"target": {"textContent": "computer"}});
 
-        let playerTypeSelect = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'dropdown-toggle')[0];
-        expect(playerTypeSelect.textContent).toEqual("computer");
+        expect(typeSelected).toBeCalledWith(0, "computer");
     });
 
-    it('allows user to select human type for player', () => {
+    it('allows user to select second player type', () => {
         let humanTypeSelect = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'human-type')[1];
 
         TestUtils.Simulate.click(humanTypeSelect, {"target": {"textContent": "human"}});
 
-        let playerTypeSelect = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'dropdown-toggle')[1];
-        expect(playerTypeSelect.textContent).toEqual("human");
-    });
-
-    it('sets computer type of player icon when selecting computer type', () => {
-        let humanTypeSelect = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'computer-type')[0];
-
-        TestUtils.Simulate.click(humanTypeSelect, {"target": {"textContent": "computer"}});
-
-        let firstPlayer = TestUtils.scryRenderedDOMComponentsWithClass(selection, 'fa fa-5x')[0];
-        expect(firstPlayer.className).toEqual("fa fa-laptop fa-5x");
+        expect(typeSelected).toBeCalledWith(1, "human");
     });
 
     it('allows user to select player to start', () => {
@@ -61,23 +61,14 @@ describe('When starting TicTacToe', () => {
 
         TestUtils.Simulate.click(notYetSelectedPlayer);
 
-        let playerToStart = selection.state.playerToStart;
-        expect(playerToStart).toEqual("X");
+        expect(playerToStartSelected).toBeCalled("X");
     });
 
     it('triggers game start when check icon is selected', () => {
         let startGame = TestUtils.findRenderedDOMComponentWithClass(selection, 'btn-primary');
         TestUtils.Simulate.click(startGame);
 
-        let expectedGameStartParameters = {
-            players: [{
-                type: "human"
-            },{
-                type: "computer"
-            }],
-            firstPlayer: "O"
-        };
-        expect(GameActions.start).toBeCalledWith(expectedGameStartParameters);
+        expect(gameStartClicked).toBeCalled();
     });
 
 });

@@ -36,7 +36,6 @@ const GameStore = Reflux.createStore({
                 if(response && response.ok) {
                     me.data.gameId = response.body.game_id;
                     GameActions.start.completed({
-                        game_id: response.body.game_id,
                         type: response.body.type,
                         players: startGameParameters.players,
                         nextPlayer: startGameParameters.firstPlayer,
@@ -57,7 +56,6 @@ const GameStore = Reflux.createStore({
             .end((err, response) => {
                 if(response && response.ok) {
                     GameActions.move.completed({
-                        game_id: response.body.game_id,
                         nextPlayer: response.body.next_player,
                         player: response.body.player,
                         board: response.body.board,
@@ -76,7 +74,6 @@ const GameStore = Reflux.createStore({
             .end((err, response) => {
                 if(response && response.ok) {
                     GameActions.move.completed({
-                        game_id: response.body.game_id,
                         nextPlayer: response.body.next_player,
                         player: response.body.player,
                         board: response.body.board,

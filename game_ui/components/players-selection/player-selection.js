@@ -14,21 +14,26 @@ const PlayerSelection = React.createClass({
         return playerStyle.concat(playerStatusStyle)
     },
 
+    getPlayerTypeIcon(){
+        return (this.props.player.type === "human") ? "fa-user" : "fa-laptop";
+    },
+
     render() {
         let playerContainerStyle = this.getPlayerStyle();
+        let playerTypeIcon = this.getPlayerTypeIcon();
 
         return (
             <div className="col-lg-4 col-sm-4">
                 <div className={playerContainerStyle} onClick={this.props.playerToStartSelected}>
                     <a className={this.props.player.type}>
-                        <i className={"fa ".concat(this.props.player.typeIcon, " fa-5x")}/>
+                        <i className={"fa ".concat(playerTypeIcon, " fa-5x")}/>
                     </a>
                 </div>
                 <div className="row">
                     <ul className="nav navbar-nav">
                         <li className="dropdown">
                             <a className="dropdown-toggle" data-toggle="dropdown">{this.props.player.type}
-                                <span className={"fa ".concat(this.props.player.typeIcon, " fa-2x pull-right")}/>
+                                <span className={"fa ".concat(playerTypeIcon, " fa-2x pull-right")}/>
                             </a>
                             <ul className="dropdown-menu">
                                 <li><a className="human-type" onClick={this.typeSelected}>human<span className="glyphicon glyphicon-user pull-right"/></a></li><li className="divider"/>

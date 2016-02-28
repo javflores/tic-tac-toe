@@ -40,7 +40,6 @@ describe('Game store', () => {
         GameStartupStore.onStart(gameStartParameters);
 
         let expectedGameEngineStart = {
-            game_id: "123456",
             status: "start",
             players:[{
                 type: "computer"
