@@ -36,22 +36,20 @@ Including players and player to start moving (in the Payload of the request as J
 
 ```
 {
-  "o_name": "Juan",
-  "o_type": "human",
-  "x_name": "R2-D2",
-  "x_type": "computer",
-  "first_player": "Juan"
+  "o": "human",
+  "x": "computer",
+  "first_player": "O"
 }
 ```
 
-In that example we have provided the player that will play with *O* and *X* and its type (*human* or *computer*).
+In that example we have provided the type of the player that will play with *O* and *X* (*human* or *computer*) and the player going first.
 
 An example response will be in the form:
 
 ```
 {
-	"o": "Juan"
-	"x": "R2-D2"
+	"o": "human"
+	"x": "computer"
 	"type": "human_computer"
 	"status": "start"
 	"next_player": "Juan"
@@ -84,7 +82,9 @@ http://localhost:4000/move/{game_id}
 
 You need to provide the Id of a game that has already been started.
 
-If the next player is a computer, GameEngine will calculate a move. **Bear in mind that if a computer finds that it is playing against a human it will try to be a perfect player (aka as Kickass). So it should win or at least, don't lose.**
+If the next player is a computer, GameEngine will calculate a move. 
+
+**Computer player will be a perfect player using the minimax algorithm. So it should win or at least, don't lose.**
 
 If the next player is a human, you need to provide a move (in the Payload of the Request as JSON format) in the form:
 
@@ -102,8 +102,8 @@ The response will be in the form:
 ```
 {
 	"status": "in_progress"
-	"player": "R2-D2"
-	"next_player": "Juan"
+	"player": "X"
+	"next_player": "O"
 	"game_id": "3a412ee0-d40a-11e5-b407-00059a3c7a00"
 	"board":
 		0:  null
