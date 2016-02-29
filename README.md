@@ -5,7 +5,7 @@ Welcome to TicTacToe.
 This TicTacToe allows us to play against a computer, or have two human players playing, or two computers playing against each other.
 You can choose what player goes first. 
 If a computer plays against a human, it will never lose and will win when playing against a not-perfect player.
-To implement the intelligent player I have followed the algorithm described in [Wikipedia](https://en.wikipedia.org/wiki/Tic-tac-toe).
+To implement the intelligent player I have followed the [Minimax algorithm](https://en.wikipedia.org/wiki/Minimax).
 
 I have divided the solution in two parts: Game UI (client side) and GameEngine (server side).
 
